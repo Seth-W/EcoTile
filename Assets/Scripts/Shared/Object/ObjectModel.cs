@@ -26,6 +26,7 @@ public abstract class ObjectModel : MonoBehaviour, IObjectModel
     protected virtual void Start()
     {
         assign_MVC_components();
+        _active = true;
     }
 
     /**
@@ -37,7 +38,7 @@ public abstract class ObjectModel : MonoBehaviour, IObjectModel
     */
     private void setActive(bool b)
     {
-        if (_active = b)
+        if (_active == b)
             return;
         _active = b;
         if (b)

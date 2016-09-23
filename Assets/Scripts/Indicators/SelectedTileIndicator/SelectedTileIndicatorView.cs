@@ -1,27 +1,14 @@
 ﻿namespace EcoTile
 {
-    using System;
     using UnityEngine;
-    using UnityEngine.UI;
+    using System.Collections;
+    using System;
 
-    class ActiveNodeDisplayView : MonoBehaviour, IObjectView 
+    class SelectedTileIndicatorView : MonoBehaviour, IObjectView 
     {
-        [SerializeField]
-        Text activeNodeLabel;
-        [SerializeField]
-        Text[] activeNodeCreatureNumbers;
-        
+        [SerializeField, Range(-1, -2f)]
+        float indicatorHeight;
 
-        void OnEnable()
-        {
-            NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
-            SlidersControl.SliderValueUpdateEvent += OnSliderValueUpdateEvent;
-        }
-        void OnDisable()
-        {
-            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
-            SlidersControl.SliderValueUpdateEvent -= OnSliderValueUpdateEvent;
-        }
 
         /**
         *<summary>
@@ -97,62 +84,24 @@
 
         /**
         *<summary>
-        *Responds to <see cref="NodeManager"/> active node update events
-        *Updates the ActiveNodeLabel
-        *Updates the 
+        *Sets the position of the attached GameObject to a given position on the XZ plane w/ an offset on the Y-Axis
+        *The y-offset is given by the exposed inspector property <see cref="indicatorHeight"/>
         *</summary>
         */
-        void OnActiveNodeUpdateEvent(NodePosition newActiveNode)
+        public void setIndicatorPosition(Vector3 newPos)
         {
-            updateActiveNodeLabel(newActiveNode);
-
-            NodeModel activeNodeModel = NodeManager.getNode(newActiveNode);
-
-            updateStatsLabel(activeNodeModel.creatureAmounts);
+            transform.position = new Vector3(newPos.x, indicatorHeight, newPos.z);
         }
 
         /**
         *<summary>
-        *Responds to <see cref="SlidersControl"/> OnSliderValueUpdateEvent to update the stats label 
+        *Sets the position of the attached GameObject from a given <see cref="NodePosition"/> on the XZ plane w/ an offset on the Y-Axis
+        *The y-offset is given by the exposed inspector property <see cref="indicatorHeight"/>
         *</summary>
         */
-        private void OnSliderValueUpdateEvent(int index, int value)
+        public void setIndicatorPosition(NodePosition nodePos)
         {
-            updateStatsLabel(index, value);
-        }
-
-        /**
-        *<summary>
-        *Updates the stats label to reflect the active node's current creature amounts at a given index
-        *</summary>
-        */
-        public void updateStatsLabel(int index, int newValue)
-        {
-            activeNodeCreatureNumbers[index].text = newValue.ToString();
-        }
-
-        /**
-        *<summary>
-        *Updates the stats label to reflect the active node's current creature amounts at a given index
-        *</summary>
-        */
-        public void updateStatsLabel(int[] newValues)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                activeNodeCreatureNumbers[i].text = newValues[i].ToString();
-            }
-        }
-
-
-        /**
-        *<summary>
-        *Updates the ActiveNode label to reflect the active node
-        *</summary>
-        */
-        public void updateActiveNodeLabel(NodePosition newActiveNode)
-        {
-            activeNodeLabel.text = newActiveNode.ToString();
+            transform.position = new Vector3(nodePos.position.x, indicatorHeight, nodePos.position.z);
         }
     }
 }

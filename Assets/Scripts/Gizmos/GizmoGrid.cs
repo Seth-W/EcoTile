@@ -35,8 +35,8 @@
 
         void Update()
         {
-            mouseIndicator.transform.position = Input.mousePosition.MousePickToXZPlane();
-            tileIndicator.transform.position = Input.mousePosition.MousePickToXZPlaneStepWise();
+            //mouseIndicator.transform.position = Input.mousePosition.MousePickToXZPlane();
+            //tileIndicator.transform.position = Input.mousePosition.MousePickToXZPlaneStepWise();
         }
 
     }

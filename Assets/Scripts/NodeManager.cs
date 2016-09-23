@@ -47,7 +47,7 @@
         */
         void OnInputEvent(InputEventData inputData)
         {
-            NodePosition nodePos = new NodePosition(inputData.mousePosition.MousePickToXZPlaneStepWise());
+            NodePosition nodePos = inputData.nodePos;
 
             //On left clicks spawns a node
             if (inputData.mouseInput.mouse0)
