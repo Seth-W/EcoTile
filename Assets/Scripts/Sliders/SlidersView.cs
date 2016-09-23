@@ -6,6 +6,32 @@
 
     class SlidersView : MonoBehaviour, IObjectView 
     {
+        SlidersModel model;
+
+        void OnEnable()
+        {
+            //Initial GetComponent
+            model = GetComponent<SlidersModel>();
+
+            NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+        }
+        void OnDisable()
+        {
+            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+        }
+
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager"/> active node update events
+        *Sets the value of the attached slider component to the corresponding value on the new node
+        *</summary>
+        */
+        private void OnActiveNodeUpdateEvent(NodePosition nodePos)
+        {
+            model.setSliderValue(NodeManager.getNode(nodePos).creatureAmounts[model.statIndex]);
+        }
+
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true

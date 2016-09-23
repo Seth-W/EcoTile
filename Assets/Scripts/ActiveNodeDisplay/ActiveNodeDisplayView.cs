@@ -1,13 +1,28 @@
 ﻿namespace EcoTile
 {
+    using System;
     using UnityEngine;
     using UnityEngine.UI;
 
     class ActiveNodeDisplayView : MonoBehaviour, IObjectView 
     {
+        [SerializeField]
         Text activeNodeLabel;
+        [SerializeField]
         Text[] activeNodeCreatureNumbers;
         
+
+        void OnEnable()
+        {
+            NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+            SlidersControl.SliderValueUpdateEvent += OnSliderValueUpdateEvent;
+        }
+        void OnDisable()
+        {
+            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+            SlidersControl.SliderValueUpdateEvent -= OnSliderValueUpdateEvent;
+        }
+
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true
@@ -78,6 +93,67 @@
         public void OnPrimaryMouseUp()
         {
             Debug.LogError("The requested method is not implemented");
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager"/> active node update events
+        *Updates the ActiveNodeLabel
+        *Updates the 
+        *</summary>
+        */
+        void OnActiveNodeUpdateEvent(NodePosition newActiveNode)
+        {
+            updateActiveNodeLabel(newActiveNode);
+
+            NodeModel activeNodeModel = NodeManager.getNode(newActiveNode);
+
+            updateStatsLabel(activeNodeModel.creatureAmounts);
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="SlidersControl"/> OnSliderValueUpdateEvent to update the stats label 
+        *</summary>
+        */
+        private void OnSliderValueUpdateEvent(int index, int value)
+        {
+            updateStatsLabel(index, value);
+        }
+
+        /**
+        *<summary>
+        *Updates the stats label to reflect the active node's current creature amounts at a given index
+        *</summary>
+        */
+        public void updateStatsLabel(int index, int newValue)
+        {
+            activeNodeCreatureNumbers[index].text = newValue.ToString();
+        }
+
+        /**
+        *<summary>
+        *Updates the stats label to reflect the active node's current creature amounts at a given index
+        *</summary>
+        */
+        public void updateStatsLabel(int[] newValues)
+        {
+            Debug.Log(newValues[0]);
+            for (int i = 0; i < 10; i++)
+            {
+                activeNodeCreatureNumbers[i].text = newValues[i].ToString();
+            }
+        }
+
+
+        /**
+        *<summary>
+        *Updates the ActiveNode label to reflect the active node
+        *</summary>
+        */
+        public void updateActiveNodeLabel(NodePosition newActiveNode)
+        {
+            activeNodeLabel.text = newActiveNode.ToString();
         }
     }
 }

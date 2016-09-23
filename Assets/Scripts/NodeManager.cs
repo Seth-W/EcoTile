@@ -25,10 +25,12 @@
         void OnEnable()
         {
             InputManager.FrameInputEvent += OnInputEvent;
+            SlidersControl.SliderValueUpdateEvent += OnSliderValueUpdateEvent;
         }
         void OnDisable()
         {
             InputManager.FrameInputEvent -= OnInputEvent;
+            SlidersControl.SliderValueUpdateEvent -= OnSliderValueUpdateEvent;
         }
 
 
@@ -61,9 +63,25 @@
             //Update the activeNode on RightClicks
             if(inputData.mouseInput.mouse1up && !inputData.mouseInput.mouse0)
             {
-                activeNode = nodePos;
-                activeNodeUpdateEvent(activeNode);
+                //If there is a node at the given position update the active node
+                if (getNode(nodePos) != null)
+                {
+                    activeNode = nodePos;
+                    activeNodeUpdateEvent(activeNode);
+                }
             }
+        }
+
+        /**
+        *<summary>
+        *Responds To User Input on UI sliders
+        *Changes the values on the ActiveNode
+        *</summary>
+        */
+        void OnSliderValueUpdateEvent(int index, int value)
+        {
+            NodeModel activeNodeModel = getNode(activeNode);
+            activeNodeModel.updateCreatureAmount(index, value);
         }
 
         /**

@@ -64,13 +64,34 @@
 
         }
 
+
+        /**
+        *<summary>
+        *Returns a creature amount at a given index
+        *</summary>
+        */
+        public int getCreatureAmount(int index)
+        {
+            return _creatureAmounts[index];
+        }
+
+        /**
+        *<summary>
+        *Updates a the creatur amount at a given index
+        *</summary>
+        */
         public void updateCreatureAmount(int index, int n)
         {
             _creatureAmounts[index] = n;
             NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
         }
 
-        public void updateCreaturAmount(int[] newAmounts)
+        /**
+        *<summary>
+        *Takes an array of integers and updates the whole creature index
+        *</summary>
+        */
+        public void updateCreatureAmount(int[] newAmounts)
         {
             _creatureAmounts = newAmounts;
             NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);

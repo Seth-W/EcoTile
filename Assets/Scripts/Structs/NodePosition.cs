@@ -10,7 +10,7 @@
 
         public NodePosition(Vector3 pos)
         {
-            Debug.Log("Position is: " + pos);
+            //Debug.Log("Position is: " + pos);
 
             xIndex = Mathf.FloorToInt(pos.x) + NodeManager.MapWidth / 2;
             zIndex = Mathf.FloorToInt(pos.z) + NodeManager.MapLength / 2;
@@ -21,9 +21,9 @@
             position.y = -0.03f;
             position.z = Mathf.Floor(pos.z) + 0.5f;
             
-            Debug.Log("Coordinates are: (" + xIndex + "," + zIndex + ")");
-            Debug.Log("NodePosition is: " + position);
-            Debug.Log(inRange.ToString());
+            //Debug.Log("Coordinates are: (" + xIndex + "," + zIndex + ")");
+            //Debug.Log("NodePosition is: " + position);
+            //Debug.Log(inRange.ToString());
         }
 
         public override string ToString()

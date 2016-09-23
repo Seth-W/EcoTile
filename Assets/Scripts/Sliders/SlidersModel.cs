@@ -44,11 +44,25 @@
             Debug.LogError("The requested method is not implemented");
         }
 
+        /**
+        *<summary>
+        *Returns the value for the attached slider as an integer (Truncates)
+        *</summary>
+        */
         public int getSliderValue()
         {
             return (int)sliderComponent.value;
         }
 
+        /**
+        *<summary>
+        *Sets the value of the attached slider component to a given new value
+        *</summary>
+        */
+        public void setSliderValue(int newValue)
+        {
+            sliderComponent.value = newValue;
+        }
 
         protected override void Start()
         {
@@ -60,6 +74,13 @@
 
         }
 
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager"/> active node update events
+        *Updates the active node <see cref="NodePosition"/>
+        *</summary>
+        */
         void OnActiveNodeUpdate(NodePosition nodePos)
         {
             activeNode = nodePos;
