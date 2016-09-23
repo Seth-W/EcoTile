@@ -1,34 +1,13 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using System.Collections;
-    using System;
+    using UnityEngine.UI;
 
-    class NodeView : MonoBehaviour, IObjectView
+    class ActiveNodeDisplayView : MonoBehaviour, IObjectView 
     {
-        NodeModel model;
-
-        void Start()
-        {
-
-        }
-
-        public void OnEnable()
-        {
-            //Debug.Log("The NodeView OnEnable was called");
-            //Init the properties
-            model = GetComponent<NodeModel>();
-
-            //Subscribe to corresponding NodeModel events
-            model.NodeModelCreatureAmountsUpdateEvent += OnNodeModelCreatureAmountsUpdate;
-        }
-
-        void OnDisable()
-        {
-            //Unsubscribe to corresponding NodeModel events
-            model.NodeModelCreatureAmountsUpdateEvent -= OnNodeModelCreatureAmountsUpdate;
-        }
-
+        Text activeNodeLabel;
+        Text[] activeNodeCreatureNumbers;
+        
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true
@@ -99,17 +78,6 @@
         public void OnPrimaryMouseUp()
         {
             Debug.LogError("The requested method is not implemented");
-        }
-
-        /**
-        *<summary>
-        *Called by NodeModel when the creature amounts array is updated
-        *Updates the visual feedback of the node 
-        *</summary>
-        */
-        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
-        {
-            Debug.LogWarning("The requested method is a stub");
         }
     }
 }

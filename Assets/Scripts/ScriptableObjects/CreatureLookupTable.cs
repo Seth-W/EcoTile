@@ -6,8 +6,7 @@
     class CreatureLookupTable : ScriptableObject
     {
         [SerializeField, Range(0, 1)]
-        float creature0, creature1, creature2, creature3, creature4, creature5,
-            creature6, creature7, creature8, creature9;
+        float[] creature1, creature2;
 
     }
 }

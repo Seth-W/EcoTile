@@ -25,5 +25,10 @@
             Debug.Log("NodePosition is: " + position);
             Debug.Log(inRange.ToString());
         }
+
+        public override string ToString()
+        {
+            return "Node " + xIndex + "," + zIndex;
+        }
     }
 }

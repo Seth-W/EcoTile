@@ -1,19 +1,26 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using System.Collections;
-    using System;
+    using UnityEngine.UI;
 
     class SlidersModel : ObjectModel 
     {
         public NodePosition activeNode;
+        Slider sliderComponent;
+
+        public int statIndex;          //The stat this slider controls
 
         void OnEnable()
         {
+            //Initial GetComponent Calls
+            sliderComponent = GetComponent<Slider>();
+            
+            //Subscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdate;
         }
         void OnDisable()
         {
+            //Unsubscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdate;
         }
         
@@ -36,6 +43,12 @@
         {
             Debug.LogError("The requested method is not implemented");
         }
+
+        public int getSliderValue()
+        {
+            return (int)sliderComponent.value;
+        }
+
 
         protected override void Start()
         {

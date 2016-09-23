@@ -1,33 +1,11 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using UnityEngine.UI;
+    using System.Collections;
     using System;
 
-    class SlidersControl : MonoBehaviour, IObjectControl
+    class ActiveNodeDisplayControl :  MonoBehaviour, IObjectControl
     {
-        public delegate void SliderValueUpdate(int index, int newValue);
-
-        public static SliderValueUpdate SliderValueUpdateEvent;
-
-        SlidersModel model;
-        SlidersView view;
-
-        void OnEnable()
-        {
-            model = GetComponent<SlidersModel>();
-            view = GetComponent<SlidersView>();
-        }
-        void OnDisable()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
-
         /**
         *<summary>
         *Called on the first frame that a ray cast from the mouse's position on the screen no longer collides with this object
@@ -80,15 +58,14 @@
             Debug.LogError("The requested method is not implemented");
         }
 
-
-        /**
-        *<summary>
-        *Called by the attached <see cref="Slider"/> component when the Slider Value Changes
-        *</summary>
-        */
-        public void OnValueChanged()
+        void Start()
         {
-            SliderValueUpdateEvent(model.statIndex, model.getSliderValue());
+
+        }
+
+        void Update()
+        {
+
         }
     }
 }

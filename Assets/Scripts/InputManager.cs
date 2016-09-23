@@ -2,11 +2,12 @@
 {
     using UnityEngine;
     using EcoTile.ExtensionMethods;
+    using UnityEngine.UI;
 
     class InputManager : MonoBehaviour
     {
-        public delegate void InputRelease(Vector3 fireWorldPosition);
-        public static InputRelease InputReleaseEvent;
+        public delegate void InputEvent(InputEventData inputData);
+        public static InputEvent FrameInputEvent;
 
 
         void Start()
@@ -16,10 +17,12 @@
 
         void Update()
         {
-            if (Input.GetMouseButtonUp(0))
-            {
-                InputReleaseEvent(Camera.main.MousePickToXZPlane());
-            }
+            FrameInputEvent(getFrameInputData());
+        }
+
+        InputEventData getFrameInputData()
+        {
+            return new InputEventData("This doesn't do anything");
         }
     }
 }

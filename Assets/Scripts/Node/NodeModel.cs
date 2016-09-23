@@ -6,7 +6,18 @@
 
     class NodeModel : ObjectModel 
     {
-        public int[] creatureAmounts;
+        public delegate void creatureAmountsUpdate(int[] updatedAmounts);
+
+        public creatureAmountsUpdate NodeModelCreatureAmountsUpdateEvent;
+
+
+        [SerializeField]
+        int[] _creatureAmounts;
+
+        public int[] creatureAmounts
+        {
+            get { return _creatureAmounts.Clone() as int[]; }
+        }
         
         
         /**
@@ -32,7 +43,7 @@
         protected override void Start()
         {
             base.Start();
-            creatureAmounts = new int[10];
+            _creatureAmounts = new int[10];
         }
 
         void Update()
@@ -48,14 +59,21 @@
                 return;
             }else
             {
-                creatureAmounts = initCreatureAmounts;
+                _creatureAmounts = initCreatureAmounts;
             }
 
         }
 
         public void updateCreatureAmount(int index, int n)
         {
-            creatureAmounts[index] = n;
+            _creatureAmounts[index] = n;
+            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+        }
+
+        public void updateCreaturAmount(int[] newAmounts)
+        {
+            _creatureAmounts = newAmounts;
+            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
         }
     }
 }

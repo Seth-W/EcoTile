@@ -24,60 +24,48 @@
 
         void OnEnable()
         {
-            InputManager.InputReleaseEvent += OnInputReleaseEvent;
+            InputManager.FrameInputEvent += OnInputEvent;
         }
         void OnDisable()
         {
-            InputManager.InputReleaseEvent -= OnInputReleaseEvent;
+            InputManager.FrameInputEvent -= OnInputEvent;
         }
 
 
         void Start()
         {
-            if(nodeMaster != null)
-            {
-                Destroy(this);
-            }
-
-            nodeMaster = this;
-
-            MapWidth = _mapWidth % 2 == 0 ? _mapWidth : _mapWidth + 1;
-            MapLength = _mapLength % 2 == 0 ? _mapLength : _mapLength + 1;
-            _mapLength = MapLength;
-            _mapWidth = MapWidth;
-
-            nodes = new NodeModel[_mapWidth, _mapLength];
+            init();
         }
 
         /**
         *<summary>
-        *On a mouseUp/fingerUp creates an instance of the nodePrefab at the given index if one doesn't already exist
+        *Handles the frame's <see cref="InputEventData"/>
+        *Called once per frame
         *</summary>
         */
-        void OnInputReleaseEvent(Vector3 pos)
+        void OnInputEvent(InputEventData inputData)
         {
-            //Debug.Log("OnInputReleaseEvent called");
+            NodePosition nodePos = new NodePosition(inputData.mousePosition.MousePickToXZPlaneStepWise());
 
-            NodePosition nodePos = pos.ToNodePosition();
-            if(nodePos.inRange)
+            //On left clicks spawns a node
+            if (inputData.mouseInput.mouse0)
             {
-                if (nodes[nodePos.xIndex, nodePos.zIndex] != null)
+                //Early dev measure to Stopgap not having a Fire State Machine
+                if (!Input.GetKey(KeyCode.LeftControl))
                 {
+                    Debug.LogWarning("This should be removed in place of a Fire State machine");
                     return;
                 }
-                GameObject newNode = Instantiate(nodePrefab, nodePos.position, Quaternion.identity) as GameObject;
-                NodeModel newNodeModel = newNode.GetComponent<NodeModel>();
-                if(newNodeModel == null)
-                {
-                    Debug.LogError("The nodePrefab does not have a nodeModel component");
-                    Destroy(newNode);
-                    return;
-                }
-                nodes[nodePos.xIndex, nodePos.zIndex] = newNodeModel;
+                spawnNode(nodePos);
+            }
+            //Update the activeNode on RightClicks
+            if(inputData.mouseInput.mouse1up && !inputData.mouseInput.mouse0)
+            {
                 activeNode = nodePos;
                 activeNodeUpdateEvent(activeNode);
             }
         }
+
         /**
         *<summary>
         *Returns a <see cref="NodeModel"/> from a given set of indeces from the Nodes list
@@ -107,8 +95,65 @@
             return nodeMaster.nodes[nodePos.xIndex, nodePos.zIndex];
         }
 
+        /**
+        *<summary>
+        *Takes a <see cref="NodePosition"/> and, if the position is in range and unoccupied, instantiates a node prefab
+        *at that position and inserts it into the Nodes array
+        *</summary>
+        */
+        void spawnNode(NodePosition nodePos)
+        {
+            if (nodePos.inRange)
+            {
+                //Exit if there is already a Node at the given input position
+                if (nodes[nodePos.xIndex, nodePos.zIndex] != null)
+                {
+                    return;
+                }
 
+                GameObject newNode = Instantiate(nodePrefab, nodePos.position, Quaternion.identity) as GameObject;
+                NodeModel newNodeModel = newNode.GetComponent<NodeModel>();
 
+                //Null test
+                //Should only pop if the Prefabs get messed up
+                if (newNodeModel == null)
+                {
+                    Debug.LogError("The nodePrefab does not have a nodeModel component");
+                    Destroy(newNode);
+                    return;
+                }
+                //Puts the new node's NodeModel in the node array
+                //and updates activeNode
+                nodes[nodePos.xIndex, nodePos.zIndex] = newNodeModel;
+                activeNode = nodePos;
+                activeNodeUpdateEvent(activeNode);
+            }
+        }
+
+        /**
+        *<summary>
+        *Sets static NodeManager fields based on EditorExposed object values
+        *</summary>
+        */
+        void init()
+        {
+            //If two or more NodeManagers exist in the scene destroys the secondary instances
+            if (nodeMaster != null)
+            {
+                Destroy(this);
+            }
+            //Updates the static reference to a NodeManager
+            nodeMaster = this;
+
+            //Ensures that MapWidth and MadLength are even values regardless of Inspector assigned values
+            MapWidth = _mapWidth % 2 == 0 ? _mapWidth : _mapWidth + 1;
+            MapLength = _mapLength % 2 == 0 ? _mapLength : _mapLength + 1;
+            //Updates local properties off just defined static properties
+            _mapLength = MapLength;
+            _mapWidth = MapWidth;
+
+            nodes = new NodeModel[_mapWidth, _mapLength];
+        }
 
     }
 }
