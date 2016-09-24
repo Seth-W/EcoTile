@@ -6,6 +6,9 @@
 
     class SelectedTileIndicatorModel : ObjectModel 
     {
+        [SerializeField]
+        GameObject TileGlow;
+
         void OnEnable()
         {
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
@@ -38,6 +41,7 @@
         {
             Debug.Log("Activate called for " + this);
             GetComponent<Renderer>().enabled = true;
+            TileGlow.SetActive(true);
         }
 
         /**
@@ -49,6 +53,7 @@
         {
             Debug.Log("Deactivate called for " + this);
             GetComponent<Renderer>().enabled = false;
+            TileGlow.SetActive(false);
         }
 
         protected override void Start()
