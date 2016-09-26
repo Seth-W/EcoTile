@@ -8,28 +8,50 @@
     {
         [SerializeField]
         GameObject TileGlow;
+        Renderer rend;
 
         void OnEnable()
         {
+            rend = GetComponent<Renderer>();
+
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+            NodeManager.nodeDeleteEvent += OnNodeDeleteEvent;
         }
         void OnDisable()
         {
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+            NodeManager.nodeDeleteEvent -= OnNodeDeleteEvent;
         }
 
         /**
         *<summary>
         *Responds to <see cref="NodeManager.activeNodeUpdateEvent"/>. 
-        *If this is the first time an active node update event is called, enables the SelectedTileIndicator
-        *and unsubscribes from <see cref="NodeManager.activeNodeUpdateEvent"/>
+        *If the passed node is not null enables the SelectedTileIndicator
+        *otherwise disables the indicator
         *</summary>
         */
         void OnActiveNodeUpdateEvent(NodePosition nodePos)
         {
-            Debug.Log("Enabling the Selected Tile Idicator with " + this);
-            active = true;
-            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+            if (NodeManager.getNode(nodePos) == null)
+            {
+                active = false;
+            }
+            //If there's a node in the array, active == true
+            else
+            {
+                active = true;
+            }
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager.nodeDeleteEvent"/>. 
+        *Deactivates the active tile indicator
+        *</summary>
+        */
+        void OnNodeDeleteEvent(NodePosition nodePos)
+        {
+            active = false;
         }
 
         /**
@@ -39,8 +61,8 @@
         */
         public override void Activate()
         {
-            Debug.Log("Activate called for " + this);
-            GetComponent<Renderer>().enabled = true;
+            //Debug.Log("Activate called for " + this);
+            rend.enabled = true;
             TileGlow.SetActive(true);
         }
 
@@ -51,8 +73,8 @@
         */
         public override void Deactivate()
         {
-            Debug.Log("Deactivate called for " + this);
-            GetComponent<Renderer>().enabled = false;
+            //Debug.Log("Deactivate called for " + this);
+            rend.enabled = false;
             TileGlow.SetActive(false);
         }
 

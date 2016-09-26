@@ -13,6 +13,8 @@
         SlidersModel model;
         SlidersView view;
 
+        public bool controlEnabled;
+
         void OnEnable()
         {
             model = GetComponent<SlidersModel>();
@@ -88,7 +90,10 @@
         */
         public void OnValueChanged()
         {
-            SliderValueUpdateEvent(model.statIndex, model.getSliderValue());
+            if (controlEnabled)
+            {
+                SliderValueUpdateEvent(model.statIndex, model.getSliderValue());
+            }
         }
     }
 }

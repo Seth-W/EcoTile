@@ -15,11 +15,13 @@
         void OnEnable()
         {
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+            NodeManager.nodeDeleteEvent += OnNodeDeleteEvent;
             SlidersControl.SliderValueUpdateEvent += OnSliderValueUpdateEvent;
         }
         void OnDisable()
         {
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+            NodeManager.nodeDeleteEvent -= OnNodeDeleteEvent;
             SlidersControl.SliderValueUpdateEvent -= OnSliderValueUpdateEvent;
         }
 
@@ -97,7 +99,7 @@
 
         /**
         *<summary>
-        *Responds to <see cref="NodeManager"/> active node update events
+        *Responds to <see cref="NodeManager.activeNodeUpdateEvent"/>
         *Updates the ActiveNodeLabel
         *Updates the 
         *</summary>
@@ -109,6 +111,13 @@
             NodeModel activeNodeModel = NodeManager.getNode(newActiveNode);
 
             updateStatsLabel(activeNodeModel.creatureAmounts);
+        }
+
+        void OnNodeDeleteEvent(NodePosition nodePos)
+        {
+            int[] newValues = new int[10];
+            updateStatsLabel(newValues);
+            activeNodeLabel.text = "--";
         }
 
         /**
@@ -154,5 +163,6 @@
         {
             activeNodeLabel.text = newActiveNode.ToString();
         }
+
     }
 }

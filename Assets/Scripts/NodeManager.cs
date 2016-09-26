@@ -6,8 +6,10 @@
     class NodeManager : MonoBehaviour
     {
         public delegate void activeNodeUpdate(NodePosition nodePos);
+        public delegate void nodeDelete(NodePosition nodePos);
 
         public static activeNodeUpdate activeNodeUpdateEvent;
+        public static nodeDelete nodeDeleteEvent;
 
         [SerializeField]
         int _mapWidth, _mapLength;
@@ -58,6 +60,7 @@
                     Debug.LogWarning("This should be removed in place of a Fire State machine");
                     return;
                 }
+                Debug.LogWarning("This should be removed in place of a Fire State machine");
                 spawnNode(nodePos);
             }
             //Update the activeNode on RightClicks
@@ -69,6 +72,10 @@
                     activeNode = nodePos;
                     activeNodeUpdateEvent(activeNode);
                 }
+            }
+            if(Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace))
+            {
+                deleteNode(activeNode);
             }
         }
 
@@ -124,7 +131,7 @@
             if (nodePos.inRange)
             {
                 //Exit if there is already a Node at the given input position
-                if (nodes[nodePos.xIndex, nodePos.zIndex] != null)
+                if (getNode(nodePos) != null)
                 {
                     return;
                 }
@@ -146,6 +153,24 @@
                 activeNode = nodePos;
                 activeNodeUpdateEvent(activeNode);
             }
+        }
+        /**
+        *<summary>
+        *Takes a <see cref="NodePosition"/> and, if the position is in range and occupied, removes the node
+        *at that position and removes it from the Nodes array
+        *</summary>
+        */
+        void deleteNode(NodePosition nodePos)
+        {
+            //Exit if there is no node at the given index
+            if(getNode(nodePos) == null)
+            {
+                return;
+            }
+
+            getNode(nodePos).deleteNode();
+            nodeDeleteEvent(nodePos);
+            nodes[nodePos.xIndex, nodePos.zIndex] = null;
         }
 
         /**

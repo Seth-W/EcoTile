@@ -96,5 +96,11 @@
             _creatureAmounts = newAmounts;
             NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
         }
+
+        public void deleteNode()
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

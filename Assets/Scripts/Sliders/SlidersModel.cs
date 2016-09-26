@@ -8,20 +8,27 @@
         public NodePosition activeNode;
         Slider sliderComponent;
 
+        SlidersControl control;
+        SlidersView view;
+
         public int statIndex;          //The stat this slider controls
 
         void OnEnable()
         {
             //Initial GetComponent Calls
             sliderComponent = GetComponent<Slider>();
+            control = GetComponent<SlidersControl>();
+            view = GetComponent<SlidersView>();
             
             //Subscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdate;
+            NodeManager.nodeDeleteEvent += OnNodeDelete;
         }
         void OnDisable()
         {
             //Unsubscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdate;
+            NodeManager.nodeDeleteEvent -= OnNodeDelete;
         }
         
         /**
@@ -77,13 +84,27 @@
 
         /**
         *<summary>
-        *Responds to <see cref="NodeManager"/> active node update events
+        *Responds to <see cref="NodeManager.activeNodeUpdateEvent"/> 
         *Updates the active node <see cref="NodePosition"/>
         *</summary>
         */
         void OnActiveNodeUpdate(NodePosition nodePos)
         {
             activeNode = nodePos;
+            control.controlEnabled = true;
+            setSliderValue(NodeManager.getNode(nodePos).creatureAmounts[statIndex]);
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager.nodeDeleteEvent"/>
+        *Updates the active node <see cref="NodePosition"/>
+        *</summary>
+        */
+        void OnNodeDelete(NodePosition nodePos)
+        {
+            control.controlEnabled = false;
+            setSliderValue(0);
         }
     }
 }
