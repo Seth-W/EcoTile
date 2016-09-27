@@ -6,7 +6,7 @@
 
     class SelectedTileIndicatorView : MonoBehaviour, IObjectView 
     {
-        [SerializeField, Range(-1, -2f)]
+        [SerializeField, Range(-1, -4f)]
         float indicatorHeight;
 
 

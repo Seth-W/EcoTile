@@ -12,15 +12,21 @@
         {
             //Debug.Log("Position is: " + pos);
 
-            xIndex = Mathf.FloorToInt(pos.x) + NodeManager.MapWidth / 2;
-            zIndex = Mathf.FloorToInt(pos.z) + NodeManager.MapLength / 2;
+            int xFloor = Mathf.FloorToInt(pos.x);
+            int zFloor = Mathf.FloorToInt(pos.z);
+
+            xIndex = xFloor % 2 == 0 ? xFloor : xFloor - 1;
+            zIndex = zFloor % 2 == 0 ? zFloor : zFloor - 1;
+
+            xIndex += NodeManager.MapWidth / 2;
+            zIndex += NodeManager.MapLength / 2;
 
             inRange = (xIndex > -1 && xIndex < NodeManager.MapWidth) && (zIndex > -1 && zIndex < NodeManager.MapLength);
 
-            position.x = Mathf.Floor(pos.x) + 0.5f;
+            position.x = xFloor % 2 == 0 ? xFloor + 1 : xFloor;
             position.y = -0.03f;
-            position.z = Mathf.Floor(pos.z) + 0.5f;
-            
+            position.z = zFloor % 2 == 0 ? zFloor  + 1: zFloor;
+
             //Debug.Log("Coordinates are: (" + xIndex + "," + zIndex + ")");
             //Debug.Log("NodePosition is: " + position);
             //Debug.Log(inRange.ToString());

@@ -32,8 +32,11 @@
             float vectorAmplitude = -ray.origin.y / ray.direction.y;
 
             Vector3 retValue = ray.origin + vectorAmplitude * ray.direction;
-            retValue.x = Mathf.Floor(retValue.x) + 0.5f;
-            retValue.z = Mathf.Floor(retValue.z) + 0.5f;
+            int xFloor = Mathf.FloorToInt(retValue.x);
+            int zFloor = Mathf.FloorToInt(retValue.z);
+
+            retValue.x = xFloor % 2 == 0 ? xFloor + 1: xFloor;
+            retValue.z = zFloor % 2 == 0 ? zFloor + 1 : zFloor;
 
             return retValue;
         }

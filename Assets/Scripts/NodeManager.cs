@@ -100,16 +100,7 @@
         {
             return nodeMaster.nodes[xIndex, zIndex];
         }
-        /**
-        *<summary>
-        *Returns a <see cref="NodeModel"/> from a given Vector3 from the Nodes list
-        *</summary>
-        */
-        public static NodeModel getNode(Vector3 vec)
-        {
-            NodePosition nodePos = new NodePosition(vec);
-            return nodeMaster.nodes[nodePos.xIndex, nodePos.zIndex];
-        }
+
         /**
         *<summary>
         *Returns a <see cref="NodeModel"/> from a given nodePos from the Nodes list
