@@ -24,7 +24,7 @@
             inRange = (xIndex > -1 && xIndex < NodeManager.MapWidth) && (zIndex > -1 && zIndex < NodeManager.MapLength);
 
             position.x = xFloor % 2 == 0 ? xFloor + 1 : xFloor;
-            position.y = -0.03f;
+            position.y = -0.62f;
             position.z = zFloor % 2 == 0 ? zFloor  + 1: zFloor;
 
             //Debug.Log("Coordinates are: (" + xIndex + "," + zIndex + ")");

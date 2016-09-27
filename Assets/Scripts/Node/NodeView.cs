@@ -8,6 +8,9 @@
     {
         NodeModel model;
 
+        [SerializeField]
+        TileRoadLookupTable roadLookupTable;
+
         void Start()
         {
 

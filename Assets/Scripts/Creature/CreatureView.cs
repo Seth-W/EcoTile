@@ -1,11 +1,21 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using System.Collections;
-    using System;
 
     class CreatureView : MonoBehaviour, IObjectView 
     {
+        Renderer rend;
+
+        void OnEnable()
+        {
+            rend = GetComponent<Renderer>();
+        }
+
+        void OnDisable()
+        {
+
+        }
+
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true
@@ -76,6 +86,35 @@
         public void OnPrimaryMouseUp()
         {
             Debug.LogError("The requested method is not implemented");
+        }
+
+        /**
+        *<summary>
+        *Sets the outline color to a given <see cref="Color"/>
+        *</summary>
+        */
+        public void setOutlineColor(Color newColor)
+        {
+            rend.material.SetColor("_OutlineColor", newColor);
+        }
+        /**
+        *<summary>
+        *Sets the outline color to a given <see cref="Vector4"/>
+        *</summary>
+        */
+        public void setOutlineColor(Vector4 newColor)
+        {
+            rend.material.SetColor("_OutlineColor", newColor);
+        }
+
+        /**
+        *<summary>
+        *Sets the outline width to a given <see cref="float"/>
+        *</summary>
+        */
+        public void setOutlineThickness(float newThickness)
+        {
+            rend.material.SetFloat("_Outline", Mathf.Clamp(newThickness, 0, 10));
         }
     }
 }

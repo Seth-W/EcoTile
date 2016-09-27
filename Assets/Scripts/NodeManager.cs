@@ -141,6 +141,7 @@
                 //Puts the new node's NodeModel in the node array
                 //and updates activeNode
                 nodes[nodePos.xIndex, nodePos.zIndex] = newNodeModel;
+                newNodeModel.init(nodePos, new int[10]);
                 activeNode = nodePos;
                 activeNodeUpdateEvent(activeNode);
             }

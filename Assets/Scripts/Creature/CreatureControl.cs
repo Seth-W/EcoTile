@@ -6,6 +6,18 @@
 
     class CreatureControl :  MonoBehaviour, IObjectControl
     {
+        CreatureView view;
+
+
+        void OnEnable()
+        {
+            view = GetComponent<CreatureView>();
+        }
+        void OnDisable()
+        {
+
+        }
+        
         /**
         *<summary>
         *Called on the first frame that a ray cast from the mouse's position on the screen no longer collides with this object
