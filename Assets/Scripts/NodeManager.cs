@@ -55,13 +55,11 @@
             if (inputData.mouseInput.mouse0)
             {
                 //Early dev measure to Stopgap not having a Fire State Machine
-                if (!Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKey(KeyCode.LeftControl) && ! Input.GetKey(KeyCode.LeftAlt))
                 {
                     Debug.LogWarning("This should be removed in place of a Fire State machine");
-                    return;
+                    spawnNode(nodePos);
                 }
-                Debug.LogWarning("This should be removed in place of a Fire State machine");
-                spawnNode(nodePos);
             }
             //Update the activeNode on RightClicks
             if(inputData.mouseInput.mouse1up && !inputData.mouseInput.mouse0)
@@ -73,6 +71,16 @@
                     activeNodeUpdateEvent(activeNode);
                 }
             }
+            //
+            if(inputData.mouseInput.mouse0down)
+            {
+                if(Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.LeftControl))
+                {
+                    Debug.LogWarning("This should be removed in place of a Fire State machine");
+                    getNode(nodePos).toggleRoadEnabled();
+                }
+            }
+
             if(Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace))
             {
                 deleteNode(activeNode);

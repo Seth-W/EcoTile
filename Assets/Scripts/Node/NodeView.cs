@@ -10,6 +10,10 @@
 
         [SerializeField]
         TileRoadLookupTable roadLookupTable;
+        [SerializeField]
+        TileRoadType type;
+        [SerializeField]
+        GameObject tile;
 
         void Start()
         {
@@ -113,6 +117,229 @@
         private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
         {
             Debug.LogWarning("The requested method is a stub");
+        }
+
+        /**
+        *<summary>
+        *Changes the tile Gameobject to the appropriate one and sets the rotation based on its neighbors 
+        *</summary>
+        */
+        public void redrawRoads(NodePosition nodePos)
+        {
+            Debug.Log("Redraw Roads is called for " + nodePos);
+            bool nNeighborEnabled = false, sNeighborEnabled = false, eNeighborEnabled = false, wNeighborEnabled = false;
+            int newNeighborWithRoadCount = 0;
+
+            NodeModel temp = NodeManager.getNode(nodePos.xIndex + 1, nodePos.zIndex);
+
+            if (temp != null)
+            {
+                if (temp.roadEnabled)
+                {
+                    eNeighborEnabled = true;
+                    newNeighborWithRoadCount += 1;
+                    Debug.Log("Got here");
+                }
+            }
+
+            temp = NodeManager.getNode(nodePos.xIndex - 1, nodePos.zIndex);
+            if (temp != null)
+            {
+                if (temp.roadEnabled)
+                {
+                    wNeighborEnabled = true;
+                    newNeighborWithRoadCount += 1;
+                    Debug.Log("Got here");
+                }
+            }
+
+            temp = NodeManager.getNode(nodePos.xIndex, nodePos.zIndex + 1);
+            if (temp != null)
+            {
+                if (temp.roadEnabled)
+                {
+                    nNeighborEnabled = true;
+                    newNeighborWithRoadCount += 1;
+                    Debug.Log("Got here");
+                }
+            }
+
+            temp = NodeManager.getNode(nodePos.xIndex, nodePos.zIndex - 1);
+            if (temp != null)
+            {
+                if (temp.roadEnabled)
+                {
+                    sNeighborEnabled = true;
+                    newNeighborWithRoadCount += 1;
+                    Debug.Log("Got here");
+                }
+            }
+
+            Debug.Log(newNeighborWithRoadCount);
+
+            type = assignTileRoadType(newNeighborWithRoadCount, nNeighborEnabled, sNeighborEnabled, eNeighborEnabled, wNeighborEnabled);
+            updateTile(type);
+            correctRoadRotation(type, nNeighborEnabled, sNeighborEnabled, eNeighborEnabled, wNeighborEnabled);
+        }
+
+        /**
+        *<summary>
+        *Used to change the tile shown by this node to one of the given <see cref="TileRoadType"/>
+        *</summary>
+        */
+        void updateTile(TileRoadType type)
+        {
+            Destroy(tile);
+            tile = Instantiate(roadLookupTable.getTile(type)) as GameObject;
+            tile.transform.SetParent(transform);
+            tile.transform.localPosition = new Vector3(0, 0.5f, 0);
+        }
+
+        /**
+        *<summary>
+        *Used to rotate a tile of arbitrary configuration to the correct rotation 
+        *</summary>
+        */
+        void correctRoadRotation(TileRoadType type, bool nNeighbor, bool sNeighbor, bool eNeighbor, bool wNeighbor)
+        {
+            if (type == TileRoadType.N_S)
+            {
+                correctNS_RoadRotation(nNeighbor, sNeighbor, eNeighbor, wNeighbor);
+            }
+            else if (type == TileRoadType.N_E)
+            {
+                correctNE_RoadRotation(nNeighbor, sNeighbor, eNeighbor, wNeighbor);
+            }
+            else if (type == TileRoadType.N_S_W)
+            {
+                correctNSW_RoadRotation(nNeighbor, sNeighbor, eNeighbor, wNeighbor);
+            }
+        }
+
+        /**
+        *<summary>
+        *Used to rotate a North-South configured tile to the correct rotation 
+        *</summary>
+        */
+        void correctNS_RoadRotation(bool nNeighbor, bool sNeighbor, bool eNeighbor, bool wNeighbor)
+        {
+            if (nNeighbor || sNeighbor)
+            {
+                tile.transform.eulerAngles = Vector3.zero;
+            }
+            else
+            {
+                tile.transform.eulerAngles = new Vector3(0, 90, 0);
+            }
+        }
+
+        /**
+        *<summary>
+        *Used to rotate a North-East configured tile to the correct rotation 
+        *</summary>
+        */
+        void correctNE_RoadRotation(bool nNeighbor, bool sNeighbor, bool eNeighbor, bool wNeighbor)
+        {
+            if (nNeighbor)
+            {
+                if (eNeighbor)
+                {
+                    tile.transform.eulerAngles = new Vector3(0, 90, 0);
+                }
+                if (wNeighbor)
+                {
+                    tile.transform.eulerAngles = Vector3.zero;
+                }
+                Debug.LogError("Neighbor values don't fit with a North-East road");
+            }
+            else if (sNeighbor)
+            {
+                if (eNeighbor)
+                {
+                    tile.transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                if (wNeighbor)
+                {
+                    tile.transform.eulerAngles = new Vector3(0, 270, 0);
+                }
+                Debug.LogError("Neighbor values don't fit with a North-East road");
+            }
+        }
+
+        /**
+        *<summary>
+        *Used to rotate a North-South-West configured tile to the correct rotation 
+        *</summary>
+        */
+        void correctNSW_RoadRotation(bool nNeighbor, bool sNeighbor, bool eNeighbor, bool wNeighbor)
+        {
+            if (nNeighbor)
+            {
+                if (sNeighbor)
+                {
+                    if (eNeighbor)
+                    {
+                        tile.transform.eulerAngles = Vector3.zero;
+                    }
+                    if (wNeighbor)
+                    {
+                        tile.transform.eulerAngles = new Vector3(0, 180, 0);
+                    }
+                }//End N-S case
+
+                //Test if not E-W case
+                else if (!(eNeighbor && wNeighbor))
+                {
+                    Debug.LogError("Neighbor values don't fit with a N_S_w road");
+                }
+                else
+                {
+                    tile.transform.eulerAngles = new Vector3(0, 270, 0);
+                }
+            }
+            else
+            {
+                tile.transform.eulerAngles = new Vector3(0, 90, 0);
+            }
+        }
+
+        /**
+        *<summary>
+        *Sets a TileRoadType enum based on the number of Neighbors
+        *</summary>
+        */
+        TileRoadType assignTileRoadType(int neighborRoadNumbers, bool nNeighbor, bool sNeighbor, bool eNeighbor, bool wNeighbor)
+        {
+            TileRoadType type;
+
+            if (neighborRoadNumbers == 0)
+            {
+                type = TileRoadType.NO_NEIGHBOR;
+            }
+            else if (neighborRoadNumbers == 1)
+            {
+                type = TileRoadType.N_S;
+            }
+            else if (neighborRoadNumbers == 2)
+            {
+                if ((nNeighbor && sNeighbor) || (eNeighbor && wNeighbor))
+                    type = TileRoadType.N_S;
+                else
+                    type = TileRoadType.N_E;
+            }
+            else if (neighborRoadNumbers == 3)
+            {
+                type = TileRoadType.N_S_W;
+            }
+            else
+            {
+                type = TileRoadType.N_S_E_W;
+            }
+            if (!model.roadEnabled)
+            {
+                type = TileRoadType.NO_ROAD;
+            }
+            return type;
         }
     }
 }

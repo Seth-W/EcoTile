@@ -18,6 +18,9 @@
             xIndex = xFloor % 2 == 0 ? xFloor : xFloor - 1;
             zIndex = zFloor % 2 == 0 ? zFloor : zFloor - 1;
 
+            xIndex /= 2;
+            zIndex /= 2;
+
             xIndex += NodeManager.MapWidth / 2;
             zIndex += NodeManager.MapLength / 2;
 
