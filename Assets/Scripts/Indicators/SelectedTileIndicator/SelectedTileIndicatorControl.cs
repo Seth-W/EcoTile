@@ -6,32 +6,6 @@
 
     class SelectedTileIndicatorControl :  MonoBehaviour, IObjectControl
     {
-        SelectedTileIndicatorView view;
-
-
-        void OnEnable()
-        {
-            view = GetComponent<SelectedTileIndicatorView>();
-
-            NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
-        }
-        void OnDisable()
-        {
-            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
-        }
-
-        /**
-        *<summary>
-        *Responds to <see cref="NodeManager.activeNodeUpdateEvent"/>. Called (at most once per frame)periodically based on user input
-        *Updates the position of the game object based on active node location
-        *</summary>
-        */
-        void OnActiveNodeUpdateEvent(NodePosition nodePos)
-        {
-            view.setIndicatorPosition(nodePos.position);
-        }
-
-
         /**
         *<summary>
         *Called on the first frame that a ray cast from the mouse's position on the screen no longer collides with this object

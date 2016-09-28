@@ -9,6 +9,25 @@
         [SerializeField, Range(0, 0.05f)]
         float indicatorHeight;
 
+        void OnEnable()
+        {
+            InputManager.FrameInputEvent += OnFrameInputEvent;
+        }
+        void OnDisable()
+        {
+            InputManager.FrameInputEvent -= OnFrameInputEvent;
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="InputManager.FrameInputEvent"/>. Called once per frame
+        *Updates the position of the game object based on frame input data
+        *</summary>
+        */
+        void OnFrameInputEvent(InputEventData data)
+        {
+            setIndicatorPosition(data.mouseXZProjectionStepwise);
+        }
 
         /**
         *<summary>

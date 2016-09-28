@@ -9,6 +9,25 @@
         [SerializeField, Range(-1, -4f)]
         float indicatorHeight;
 
+        void OnEnable()
+        {
+            NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+        }
+        void OnDisable()
+        {
+            NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+        }
+
+        /**
+        *<summary>
+        *Responds to <see cref="NodeManager.activeNodeUpdateEvent"/>. Called (at most once per frame)periodically based on user input
+        *Updates the position of the game object based on active node location
+        *</summary>
+        */
+        void OnActiveNodeUpdateEvent(NodePosition nodePos)
+        {
+            setIndicatorPosition(nodePos.position);
+        }
 
         /**
         *<summary>

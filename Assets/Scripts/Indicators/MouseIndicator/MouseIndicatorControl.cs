@@ -6,31 +6,6 @@
 
     class MouseIndicatorControl :  MonoBehaviour, IObjectControl
     {
-        MouseIndicatorView view;
-
-        void OnEnable()
-        {
-            view = GetComponent<MouseIndicatorView>();
-
-            InputManager.FrameInputEvent += OnFrameInputEvent;
-        }
-        void OnDisable()
-        {
-            InputManager.FrameInputEvent -= OnFrameInputEvent;
-        }
-
-        /**
-        *<summary>
-        *Responds to <see cref="InputManager.FrameInputEvent"/>. Called once per frame
-        *Updates the position of the game object based on frame input data
-        *</summary>
-        */
-        void OnFrameInputEvent(InputEventData data)
-        {
-            view.setIndicatorPosition(data.mouseXZProjection);
-        }
-
-
         /**
         *<summary>
         *Called on the first frame that a ray cast from the mouse's position on the screen no longer collides with this object
