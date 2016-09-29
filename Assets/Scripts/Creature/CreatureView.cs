@@ -9,12 +9,28 @@
         void OnEnable()
         {
             rend = GetComponent<Renderer>();
+
+            CameraView.cameraInZoomEvent += OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
         }
 
         void OnDisable()
         {
-
+            CameraView.cameraInZoomEvent -= OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent -= OnZoomEndEvent;
         }
+
+        void OnZoomBeginEvent(bool zoomIn)
+        {
+            setOutlineThickness(0);
+        }
+
+        void OnZoomEndEvent(bool zoomIn)
+        {
+            setOutlineThickness(.001f);
+            Debug.Log("Settomg outline thickness");
+        }
+
 
         /**
         *<summary>

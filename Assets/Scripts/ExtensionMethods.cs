@@ -51,5 +51,21 @@
         {
             return new NodePosition(pos);
         }
+
+        /**
+        *<summary>
+        *Extension method to <see cref="Matrix4x4"/> types.
+        *Linearly interpolates between every value in two 4x4 Matrices 
+        *</summary>
+        */
+        public static Matrix4x4 MatrixLerp(this Matrix4x4 start, Matrix4x4 end, float t)
+        {
+            Matrix4x4 retValue = new Matrix4x4();
+            for (int i = 0; i < 16; i++)
+            {
+                retValue[i] = Mathf.Lerp(start[i], end[i], t);
+            }
+            return  retValue;
+        }
     }
 }
