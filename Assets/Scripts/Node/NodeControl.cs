@@ -13,7 +13,7 @@
         */
         public void HoverOff()
         {
-            Debug.LogError("The requested method is not implemented");
+            Debug.LogWarning("The requested method is not implemented");
         }
 
         /**
@@ -23,7 +23,7 @@
         */
         public void HoverOn()
         {
-            Debug.LogError("The requested method is not implemented");
+            Debug.LogWarning("The requested method is not implemented");
         }
 
         /**
@@ -34,7 +34,7 @@
         */
         public void PrimaryMouseDown()
         {
-            Debug.LogError("The requested method is not implemented");
+            Debug.LogWarning("The requested method is not implemented");
         }
 
         /**
@@ -45,7 +45,7 @@
         */
         public void PrimaryMouseDownRevert()
         {
-            Debug.LogError("The requested method is not implemented");
+            Debug.LogWarning("The requested method is not implemented");
         }
 
         /**
@@ -55,7 +55,7 @@
         */
         public void PriamryMouseUp()
         {
-            Debug.LogError("The requested method is not implemented");
+            Debug.LogWarning("The requested method is not implemented");
         }
 
         void Start()

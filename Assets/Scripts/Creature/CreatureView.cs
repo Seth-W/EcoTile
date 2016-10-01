@@ -28,7 +28,6 @@
         void OnZoomEndEvent(bool zoomIn)
         {
             setOutlineThickness(.001f);
-            Debug.Log("Settomg outline thickness");
         }
 
 
@@ -59,7 +58,8 @@
         */
         public void OnHoverOff()
         {
-            Debug.LogError("The requested method is not implemented");
+            setOutlineColor(Color.black);
+            //Debug.LogError("The requested method is not implemented");
         }
 
         /**
@@ -69,7 +69,9 @@
         */
         public void OnHoverOn()
         {
-            Debug.LogError("The requested method is not implemented");
+            setOutlineColor(Color.green);
+            //Debug.Log("Calling onHoverOn for: " + this);
+            //Debug.LogError("The requested method is not implemented");
         }
 
         /**
@@ -79,7 +81,8 @@
         */
         public void OnPrimaryMouseDown()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            setOutlineColor(Color.cyan);
         }
 
         /**
@@ -91,7 +94,8 @@
         */
         public void OnPrimaryMouseDownRevert()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            setOutlineColor(Color.black);
         }
 
         /**
@@ -101,7 +105,8 @@
         */
         public void OnPrimaryMouseUp()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            setOutlineColor(Color.green);
         }
 
         /**

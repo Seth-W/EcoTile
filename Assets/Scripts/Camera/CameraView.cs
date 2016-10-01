@@ -38,6 +38,10 @@
             {
                 changeZoomState();
             }
+            if(Input.GetKeyUp(KeyCode.R))
+            {
+                mainCamera.ResetProjectionMatrix();
+            }
         }
 
         /**
@@ -247,6 +251,7 @@
             mainCamera.projectionMatrix = projectionBlender.perspective;
             _inTransition = false;
             CameraZoomFinishEvent(_zoomedIn);
+            setProjectionMatrix();
         }
 
         /**
@@ -277,6 +282,31 @@
             mainCamera.projectionMatrix = projectionBlender.ortho;
             _inTransition = false;
             CameraZoomFinishEvent(_zoomedIn);
+            setProjectionMatrix();
         }
+
+        /**
+        *<summary>
+        *Sets the appropriate properties in the <see cref="mainCamera"/> object
+        *Then calls Unity's <see cref="Camera.ResetProjectionMatrix"/> so <see cref="Camera.ScreenPointToRay(Vector3)"/> plays nice
+        *</summary>
+        */
+        private void setProjectionMatrix()
+        {
+            if (_zoomedIn)
+            {
+                mainCamera.orthographic = false;
+                mainCamera.fieldOfView = fov;
+            }
+            else
+            {
+                mainCamera.orthographic = true;
+                mainCamera.orthographicSize = orthoSize;
+            }
+            mainCamera.farClipPlane = far;
+            mainCamera.nearClipPlane = near;
+            mainCamera.ResetProjectionMatrix();
+        }
+
     }
 }

@@ -67,5 +67,15 @@
             }
             return  retValue;
         }
+
+        /**
+        *<summary>
+        *Takes a vector3 in pixel coordinates and normalizes it to [0,1] range
+        *</summary>
+        */
+        public static Vector3 ToNormalizeScreenSpace(this Vector3 pos)
+        {
+            return new Vector3(pos.x / Screen.width, 0, pos.y / Screen.height);
+        }
     }
 }

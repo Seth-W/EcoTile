@@ -7,11 +7,13 @@
     class CreatureControl :  MonoBehaviour, IObjectControl
     {
         CreatureView view;
+        CreatureModel model;
 
 
         void OnEnable()
         {
             view = GetComponent<CreatureView>();
+            model = GetComponent<CreatureModel>();
         }
         void OnDisable()
         {
@@ -25,7 +27,9 @@
         */
         public void HoverOff()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            view.OnHoverOff();
+            Debug.Log(this + " called hoverOff");
         }
 
         /**
@@ -35,7 +39,9 @@
         */
         public void HoverOn()
         {
-            Debug.LogError("The requested method is not implemented");
+            view.OnHoverOn();
+            Debug.Log(this + " called hoverOn");
+            //Debug.LogError("The requested method is not implemented");
         }
 
         /**
@@ -46,7 +52,9 @@
         */
         public void PrimaryMouseDown()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            view.OnPrimaryMouseDown();
+            model.pickUp();
         }
 
         /**
@@ -57,7 +65,8 @@
         */
         public void PrimaryMouseDownRevert()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            view.OnPrimaryMouseDownRevert();
         }
 
         /**
@@ -67,7 +76,8 @@
         */
         public void PriamryMouseUp()
         {
-            Debug.LogError("The requested method is not implemented");
+            //Debug.LogError("The requested method is not implemented");
+            view.OnPrimaryMouseUp();
         }
 
         void Start()

@@ -9,6 +9,11 @@
 
         public MouseStatusData mouseInput;
 
+        /**
+        *<summary>
+        *The current mouse position in pixel coordinates
+        *</summary>
+        */
         public Vector3 mousePosition;
 
         public NodePosition nodePos;
