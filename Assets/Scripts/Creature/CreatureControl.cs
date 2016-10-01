@@ -54,7 +54,7 @@
         {
             //Debug.LogError("The requested method is not implemented");
             view.OnPrimaryMouseDown();
-            model.pickUp();
+            //model.pickUp();
         }
 
         /**
