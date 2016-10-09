@@ -16,14 +16,19 @@
         [SerializeField]
         int[] _creatureAmounts;
 
+        [SerializeField]
         NodePosition nodePos;
 
         [SerializeField]
-        bool _roadEnabled;
+        bool _roadEnabled, _deletable;
 
         public bool roadEnabled
         {
             get { return _roadEnabled; }
+        }
+        public bool deletable
+        {
+            get { return _deletable; }
         }
 
         public int[] creatureAmounts
@@ -78,9 +83,10 @@
         *Initializes the NodeModel's <see cref="NodePosition"/> field and <see cref="int[]"/> field to given parameters
         *</summary>
         */
-        public void init(NodePosition nodePos, int[] initCreatureAmounts)
+        public void init(NodePosition nodePos, int[] initCreatureAmounts, bool deletable)
         {
             this.nodePos = nodePos;
+            _deletable = deletable;
 
             if (initCreatureAmounts.Length != 10)
             {

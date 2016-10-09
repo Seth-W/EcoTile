@@ -19,9 +19,14 @@
         public static NodePosition activeNode;
 
         [SerializeField]
+        VegetationDensity vegDensity;
+
+        [SerializeField]
         GameObject nodePrefab;
 
         public NodeModel[,] nodes;
+
+        public bool genMap;
 
 
         void OnEnable()
@@ -50,6 +55,10 @@
         void OnInputEvent(InputEventData inputData)
         {
             NodePosition nodePos = inputData.nodePos;
+            if(!nodePos.inRange)
+            {
+                return;
+            }
 
             //On left clicks spawns a node
             if (inputData.mouseInput.mouse0)
@@ -71,7 +80,8 @@
                     activeNodeUpdateEvent(activeNode);
                 }
             }
-            //
+
+            //Toggle the road condition on the active node
             if(inputData.mouseInput.mouse0down)
             {
                 if(Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.LeftControl))
@@ -81,6 +91,7 @@
                 }
             }
 
+            //Delete the selected node
             if(Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace))
             {
                 deleteNode(activeNode);
@@ -106,6 +117,8 @@
         */
         public static NodeModel getNode(int xIndex, int zIndex)
         {
+            if (xIndex < 0 || xIndex > MapWidth - 1 || zIndex < 0 || zIndex > MapLength - 1)
+                return null;
             return nodeMaster.nodes[xIndex, zIndex];
         }
 
@@ -116,6 +129,8 @@
         */
         public static NodeModel getNode(NodePosition nodePos)
         {
+            if (!nodePos.inRange)
+                return null;
             return nodeMaster.nodes[nodePos.xIndex, nodePos.zIndex];
         }
 
@@ -149,7 +164,7 @@
                 //Puts the new node's NodeModel in the node array
                 //and updates activeNode
                 nodes[nodePos.xIndex, nodePos.zIndex] = newNodeModel;
-                newNodeModel.init(nodePos, new int[10]);
+                newNodeModel.init(nodePos, new int[10], true);
                 activeNode = nodePos;
                 activeNodeUpdateEvent(activeNode);
             }
@@ -164,6 +179,13 @@
         {
             //Exit if there is no node at the given index
             if(getNode(nodePos) == null)
+            {
+                return;
+            }
+
+            //Exit if the node has been locked
+            //(Initial level placement for instance)
+            if(!getNode(nodePos).deletable)
             {
                 return;
             }
@@ -196,6 +218,53 @@
             _mapWidth = MapWidth;
 
             nodes = new NodeModel[_mapWidth, _mapLength];
+            if(genMap)
+                pregenMap();
+        }
+
+        void pregenMap()
+        {
+            int area = _mapWidth * _mapLength;
+            int totalTiles = Random.Range(area / 10, area / 5);
+            int totalVeg = (int)((int)vegDensity * totalTiles * Random.Range(0.75f, 1f) );
+            int vegPerTile = totalVeg / totalTiles;
+
+            int i = 0;
+
+            Debug.Log("Area: " + area + "\nTotal Tiles: " + totalTiles + "\n Total Veg: " + totalVeg + "\nVegetation Per Tile: " + vegPerTile);
+
+            while(i < totalTiles)
+            {
+                int xPos = Random.Range(0, _mapWidth - 1);
+                int zPos = Random.Range(0, _mapLength - 1);
+
+                NodePosition nodePos = new NodePosition(xPos, zPos);
+
+                if(nodes[xPos, zPos] == null)
+                {
+                    i++;
+                    GameObject newNode = Instantiate(nodePrefab, nodePos.position, Quaternion.identity) as GameObject;
+                    NodeModel newNodeModel = newNode.GetComponent<NodeModel>();
+
+                    //Null test
+                    //Should only pop if the Prefabs get messed up
+                    if (newNodeModel == null)
+                    {
+                        Debug.LogError("The nodePrefab does not have a nodeModel component");
+                        Destroy(newNode);
+                        return;
+                    }
+                    //Puts the new node's NodeModel in the node array
+                    //and updates activeNode
+                    nodes[nodePos.xIndex, nodePos.zIndex] = newNodeModel;
+                    newNodeModel.init(nodePos, new int[10], false);
+                    activeNode = nodePos;
+                    //activeNodeUpdateEvent(activeNode);
+
+                    //Update the vegetation
+                    newNodeModel.updateCreatureAmount(0, (int) Mathf.Clamp(vegPerTile * Random.Range(0.5f, 1.5f), 0 , 10));
+                }
+            }
         }
 
     }

@@ -2,6 +2,7 @@
 {
     using UnityEngine;
 
+    [System.Serializable]
     public struct NodePosition
     {
         public Vector3 position;
@@ -33,6 +34,18 @@
             //Debug.Log("Coordinates are: (" + xIndex + "," + zIndex + ")");
             //Debug.Log("NodePosition is: " + position);
             //Debug.Log(inRange.ToString());
+        }
+
+        public NodePosition(int xInt, int zInt)
+        {
+            xIndex = xInt;
+            zIndex = zInt;
+
+            inRange = (xIndex > -1 && xIndex < NodeManager.MapWidth) && (zIndex > -1 && zIndex < NodeManager.MapLength);
+
+            position.x = 2 * xIndex - (NodeManager.MapWidth - 1);
+            position.z = 2 * zIndex - (NodeManager.MapLength - 1);
+            position.y = -0.62f;
         }
 
         public override string ToString()

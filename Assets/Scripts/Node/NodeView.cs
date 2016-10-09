@@ -14,6 +14,12 @@
         TileRoadType type;
         [SerializeField]
         GameObject tile;
+        [SerializeField]
+        GameObject[] vegetation;
+
+        int prevVegNumber;
+        VegetationLevel vegLevel;
+
 
         void Start()
         {
@@ -117,6 +123,72 @@
         private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
         {
             Debug.LogWarning("The requested method is a stub");
+            if(prevVegNumber != updatedAmounts[0])
+            {
+                updateVegetation(updatedAmounts[0]);
+            }
+        }
+
+        private void updateVegetation(int v)
+        {
+            prevVegNumber = v;
+            VegetationLevel temp = vegLevel;
+
+            if (prevVegNumber == 0)
+                vegLevel = VegetationLevel.None;
+            else if (prevVegNumber <= (int)VegetationLevel.VeryLow)
+                vegLevel = VegetationLevel.VeryLow;
+            else if (prevVegNumber <= (int)VegetationLevel.Low)
+                vegLevel = VegetationLevel.Low;
+            else if (prevVegNumber <= (int)VegetationLevel.Medium)
+                vegLevel = VegetationLevel.Medium;
+            else if (prevVegNumber <= (int)VegetationLevel.High)
+                vegLevel = VegetationLevel.High;
+
+
+            if (temp != vegLevel)
+            {
+                drawVeg();
+            }
+        }
+
+        void drawVeg()
+        {
+            if(vegLevel == VegetationLevel.None)
+            {
+                vegetation[0].SetActive(false);
+                vegetation[1].SetActive(false);
+                vegetation[2].SetActive(false);
+                vegetation[3].SetActive(false);
+            }
+            if (vegLevel == VegetationLevel.VeryLow)
+            {
+                vegetation[0].SetActive(true);
+                vegetation[1].SetActive(false);
+                vegetation[2].SetActive(false);
+                vegetation[3].SetActive(false);
+            }
+            if (vegLevel == VegetationLevel.Low)
+            {
+                vegetation[0].SetActive(true);
+                vegetation[1].SetActive(true);
+                vegetation[2].SetActive(false);
+                vegetation[3].SetActive(false);
+            }
+            if (vegLevel == VegetationLevel.Medium)
+            {
+                vegetation[0].SetActive(true);
+                vegetation[1].SetActive(true);
+                vegetation[2].SetActive(true);
+                vegetation[3].SetActive(false);
+            }
+            if (vegLevel == VegetationLevel.High)
+            {
+                vegetation[0].SetActive(true);
+                vegetation[1].SetActive(true);
+                vegetation[2].SetActive(true);
+                vegetation[3].SetActive(true);
+            }
         }
 
         /**
@@ -175,7 +247,7 @@
                 }
             }
 
-            Debug.Log(newNeighborWithRoadCount);
+            //Debug.Log(newNeighborWithRoadCount);
 
             type = assignTileRoadType(newNeighborWithRoadCount, nNeighborEnabled, sNeighborEnabled, eNeighborEnabled, wNeighborEnabled);
             updateTile(type);
@@ -194,6 +266,7 @@
             tile.transform.SetParent(transform);
             tile.transform.localPosition = new Vector3(0, 0.5f, 0);
         }
+
 
         /**
         *<summary>
