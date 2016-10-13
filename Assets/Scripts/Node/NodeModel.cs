@@ -3,6 +3,7 @@
     using UnityEngine;
     using System.Collections;
     using System;
+    using System.Collections.Generic;
 
     class NodeModel : ObjectModel 
     {
@@ -15,6 +16,8 @@
 
         [SerializeField]
         int[] _creatureAmounts;
+        [SerializeField]
+        int creatureType;
 
         [SerializeField]
         NodePosition nodePos;
@@ -35,6 +38,11 @@
         {
             get { return _creatureAmounts.Clone() as int[]; }
         }
+
+        bool visitedThisTickUpdatePass;
+
+        [SerializeField]
+        CreatureLookupTable table;
 
         void OnEnable()
         {
@@ -87,6 +95,7 @@
         {
             this.nodePos = nodePos;
             _deletable = deletable;
+            visitedThisTickUpdatePass = false;
 
             if (initCreatureAmounts.Length != 10)
             {
@@ -203,6 +212,127 @@
         void redrawRoads2ndGen()
         {
             view.redrawRoads(nodePos);
+        }
+
+        public int queryNeighbors()
+        {
+            int[] retValue = new int[10];
+
+            Stack<NodeModel> frontier = new Stack<NodeModel>();
+
+            populateFrontier(frontier, this);
+
+            NodeModel workingModel;
+            int[] workingArray;
+
+            while (frontier.Count > 0)
+            {
+                workingModel = frontier.Pop();
+                workingArray = workingModel.creatureAmounts;
+                workingModel.visitedThisTickUpdatePass = false;
+                for(int i = 0; i < workingArray.Length; i++)
+                {
+                    retValue[i] += workingArray[i];
+                }
+            }
+            CreatureFeedingValue feedingValues = table.table[creatureType];
+
+            for(int i = 0; i < 10; i++ )
+            {
+
+            }
+            return _creatureAmounts[0];            
+        }
+
+        void populateFrontier(Stack<NodeModel> stack, NodeModel node)
+        {
+            NodeModel workingModel = NodeManager.getNode(node.nodePos.xIndex + 1, node.nodePos.zIndex);
+            if(workingModel != null)
+            {
+                stack.Push(workingModel);
+                workingModel.visitedThisTickUpdatePass = true;
+                addNeighbors(stack, workingModel);
+            }
+
+            workingModel = NodeManager.getNode(node.nodePos.xIndex - 1, node.nodePos.zIndex);
+            if(workingModel != null)
+            {
+                stack.Push(workingModel);
+                workingModel.visitedThisTickUpdatePass = true;
+                addNeighbors(stack, workingModel);
+            }
+
+            workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex + 1);
+            if(workingModel != null)
+            {
+                stack.Push(workingModel);
+                workingModel.visitedThisTickUpdatePass = true;
+                addNeighbors(stack, workingModel);
+            }
+
+            workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex - 1);
+            if(workingModel != null)
+            {
+                stack.Push(workingModel);
+                workingModel.visitedThisTickUpdatePass = true;
+                addNeighbors(stack, workingModel);
+            }
+        }
+
+        void addNeighbors(Stack<NodeModel> stack, NodeModel node)
+        {
+            if(node.roadEnabled)
+            {
+                NodeModel workingModel;
+                
+                workingModel = NodeManager.getNode(node.nodePos.xIndex + 1, node.nodePos.zIndex);
+                if(workingModel != null)
+                {
+                    if(!workingModel.visitedThisTickUpdatePass)
+                    {
+                        stack.Push(workingModel);
+                        workingModel.visitedThisTickUpdatePass = true;
+                    
+                        addNeighbors(stack, workingModel);
+                    }
+                }
+
+                workingModel = NodeManager.getNode(node.nodePos.xIndex - 1, node.nodePos.zIndex);
+                if(workingModel != null)
+                {
+                    if(!workingModel.visitedThisTickUpdatePass)
+                    {
+                        stack.Push(workingModel);
+                        workingModel.visitedThisTickUpdatePass = true;
+                    
+                        addNeighbors(stack, workingModel);
+                    }
+                }    
+                
+                workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex - 1);
+                if(workingModel != null)
+                {
+                    if(!workingModel.visitedThisTickUpdatePass)
+                    {
+                        stack.Push(workingModel);
+                        workingModel.visitedThisTickUpdatePass = true;
+                    
+                        addNeighbors(stack, workingModel);
+                    }
+                }
+
+                workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex + 1);
+                if(workingModel != null)
+                {
+                    if(!workingModel.visitedThisTickUpdatePass)
+                    {
+                        stack.Push(workingModel);
+                        workingModel.visitedThisTickUpdatePass = true;
+                    
+                        addNeighbors(stack, workingModel);
+                    }
+                }
+            }
         }
 
     }
