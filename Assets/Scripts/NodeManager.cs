@@ -222,6 +222,11 @@
                 pregenMap();
         }
 
+        /**
+        *<summary>
+        *Randomly assigns a veryLow/low/medium/high/veryHigh amount of vegetation to a randomly determined amount of nodes for initial map generation 
+        *</summary>
+        */
         void pregenMap()
         {
             int area = _mapWidth * _mapLength;

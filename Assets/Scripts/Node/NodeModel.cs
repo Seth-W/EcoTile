@@ -48,11 +48,23 @@
         {
             control = GetComponent<NodeControl>();
             view = GetComponent<NodeView>();
+
+            TickManager.TickUpdateEvent += OnTickUpdateEvent;
         }
 
         void OnDisable()
         {
+            TickManager.TickUpdateEvent -= OnTickUpdateEvent;
+        }
 
+        /**
+        *<summary>
+        *Responds to <see cref"TickManager.TickUpdateEvent"/>.
+        *</summary>
+        */
+        void OnTickUpdateEvent(Tick updateData)
+        {
+            Debug.Log(updateData.getNodeData(nodePos.xIndex, nodePos.zIndex).ToString());
         }
 
         /**
@@ -214,6 +226,12 @@
             view.redrawRoads(nodePos);
         }
 
+        /**
+        *<summary>
+        *Returns the difference between the number of creatures on this node and the amount of creatures that can be supported by neighboring tiles.
+        *A positive number is a surplus of resources, a negative is a deficit and 0 means they are balanced. 
+        *</summary>
+        */
         public int queryNeighbors()
         {
             int[] retValue = new int[10];
@@ -237,13 +255,23 @@
             }
             CreatureFeedingValue feedingValues = table.table[creatureType];
 
-            for(int i = 0; i < 10; i++ )
-            {
+            int creaturesFed = 0;
 
+            for(int i = 0; i < feedingValues.feedingEnabled.Length; i++ )
+            {
+                if(feedingValues.feedingEnabled[i])
+                {
+                    creaturesFed += retValue[i] / feedingValues.amountsOfEachToFeed[i];
+                }
             }
-            return _creatureAmounts[0];            
+            return creaturesFed - _creatureAmounts[creatureType];            
         }
 
+        /**
+        *<summary>
+        *Adds all direct neighbors of a node to a stack and as well as any node connected to the node by roads
+        *</summary>
+        */
         void populateFrontier(Stack<NodeModel> stack, NodeModel node)
         {
             NodeModel workingModel = NodeManager.getNode(node.nodePos.xIndex + 1, node.nodePos.zIndex);
@@ -279,6 +307,11 @@
             }
         }
 
+        /**
+        *<summary>
+        *Pushes all tiles connected by roads to a given Stack
+        *</summary>
+        */
         void addNeighbors(Stack<NodeModel> stack, NodeModel node)
         {
             if(node.roadEnabled)
@@ -288,7 +321,7 @@
                 workingModel = NodeManager.getNode(node.nodePos.xIndex + 1, node.nodePos.zIndex);
                 if(workingModel != null)
                 {
-                    if(!workingModel.visitedThisTickUpdatePass)
+                    if(!workingModel.visitedThisTickUpdatePass && workingModel.roadEnabled)
                     {
                         stack.Push(workingModel);
                         workingModel.visitedThisTickUpdatePass = true;
@@ -300,7 +333,7 @@
                 workingModel = NodeManager.getNode(node.nodePos.xIndex - 1, node.nodePos.zIndex);
                 if(workingModel != null)
                 {
-                    if(!workingModel.visitedThisTickUpdatePass)
+                    if(!workingModel.visitedThisTickUpdatePass && workingModel.roadEnabled)
                     {
                         stack.Push(workingModel);
                         workingModel.visitedThisTickUpdatePass = true;
@@ -312,7 +345,7 @@
                 workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex - 1);
                 if(workingModel != null)
                 {
-                    if(!workingModel.visitedThisTickUpdatePass)
+                    if(!workingModel.visitedThisTickUpdatePass && workingModel.roadEnabled)
                     {
                         stack.Push(workingModel);
                         workingModel.visitedThisTickUpdatePass = true;
@@ -324,7 +357,7 @@
                 workingModel = NodeManager.getNode(node.nodePos.xIndex, node.nodePos.zIndex + 1);
                 if(workingModel != null)
                 {
-                    if(!workingModel.visitedThisTickUpdatePass)
+                    if(!workingModel.visitedThisTickUpdatePass && workingModel.roadEnabled)
                     {
                         stack.Push(workingModel);
                         workingModel.visitedThisTickUpdatePass = true;

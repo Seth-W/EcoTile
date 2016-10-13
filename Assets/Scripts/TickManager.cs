@@ -8,17 +8,28 @@
         public static TickEvent TickUpdateEvent;
 
 
-        void Update()
+        void OnEnable()
         {
-            if(Input.GetKeyDown(KeyCode.L))
+            InputManager.FrameInputEvent += OnFrameInput;
+        }
+        void OnDisable()
+        {
+            InputManager.FrameInputEvent -= OnFrameInput;
+        }
+
+        void OnFrameInput(InputEventData data)
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
             {
-                if(Input.GetKey(KeyCode.K))
-                {
-                    getNextTick();
-                }
+                TickUpdateEvent(getNextTick());
             }
         }
 
+        /**
+        *<summary>
+        *Surveys the game state and returns a <see cref="Tick"/> to be sent in <see cref"TickUpdateEvent"/>
+        *</summary>
+        */
         Tick getNextTick()
         {
             int[,] tickData = new int[NodeManager.MapWidth, NodeManager.MapLength];
@@ -29,11 +40,11 @@
                     NodeModel workingNode = NodeManager.getNode(i, j);
                     if(workingNode != null)
                     {
-
+                        tickData[i,j] = workingNode.queryNeighbors();
                     }
                 }
             }
-            return default(Tick);
+            return new Tick(tickData);
         } 
     }
 }
