@@ -23,12 +23,15 @@
             //Subscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdate;
             NodeManager.nodeDeleteEvent += OnNodeDelete;
+            NodeModel.NodeModelRefreshActiveNodeEvent += OnRefreshActiveNodeEvent;
+
         }
         void OnDisable()
         {
             //Unsubscribe to NodeManager events
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdate;
             NodeManager.nodeDeleteEvent -= OnNodeDelete;
+            NodeModel.NodeModelRefreshActiveNodeEvent -= OnRefreshActiveNodeEvent;
         }
         
         /**
@@ -105,6 +108,17 @@
         {
             control.controlEnabled = false;
             setSliderValue(0);
+        }
+
+        /**
+        *<summary>
+        *Refreshes the slider value for the active node on a tick update event
+        *</summary>
+        */
+        void OnRefreshActiveNodeEvent(int[] creatureAmounts)
+        {
+            Debug.LogWarning("OnTickUpdateEvent called for SlidersModel");
+            setSliderValue(creatureAmounts[statIndex]);
         }
     }
 }

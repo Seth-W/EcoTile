@@ -8,8 +8,10 @@
     class NodeModel : ObjectModel 
     {
         public delegate void creatureAmountsUpdate(int[] updatedAmounts);
+        public delegate void refreshActiveNode(int[] updatedAmounts);
 
         public creatureAmountsUpdate NodeModelCreatureAmountsUpdateEvent;
+        public static refreshActiveNode NodeModelRefreshActiveNodeEvent;
 
         NodeControl control;
         NodeView view;
@@ -20,7 +22,7 @@
         int creatureType;
 
         [SerializeField]
-        NodePosition nodePos;
+        public NodePosition nodePos;
 
         [SerializeField]
         bool _roadEnabled, _deletable;
@@ -64,7 +66,33 @@
         */
         void OnTickUpdateEvent(Tick updateData)
         {
-            Debug.Log(updateData.getNodeData(nodePos.xIndex, nodePos.zIndex).ToString());
+            Debug.Log(nodePos + " tick update event: " + updateData.getNodeData(nodePos));
+
+            if(creatureType == 0)
+            {
+            } 
+            else
+            {
+                int creatureUpdateAmount = updateData.getNodeData(nodePos);
+                //If update data returned a negative number for this tile, there was a deficit so creature amount shrinks
+                if (creatureUpdateAmount <= 0)
+                {
+                    //If creature amount is already 0 do nothing
+                    if(_creatureAmounts[creatureType] > 0)
+                        incrementCreatureAmount(creatureType, -1);
+                }
+                //If update data returned a positive number for this tile, there was a surplus so creature amount grows 
+                else if (creatureUpdateAmount > 0)
+                {
+                    incrementCreatureAmount(creatureType, 1);
+                }
+            }
+            
+            if(NodeManager.activeNode.Equals(nodePos))
+            {
+                NodeModelRefreshActiveNodeEvent(creatureAmounts);
+            }
+
         }
 
         /**
@@ -150,6 +178,17 @@
         {
             _creatureAmounts = newAmounts;
             NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+        }
+
+        /**
+        *<summary>
+        *Increments the creature amount at a given index by a given increment
+        *</summary>
+        */
+        public void incrementCreatureAmount(int index, int increment)
+        {
+            _creatureAmounts[index] += increment;
+            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]); 
         }
 
         /**
