@@ -12,11 +12,21 @@
         void OnEnable()
         {
             NodeManager.activeNodeUpdateEvent += OnActiveNodeUpdateEvent;
+            //CameraView.cameraInZoomEvent += OnZoomBeginEvent;
+            //CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
         }
         void OnDisable()
         {
             NodeManager.activeNodeUpdateEvent -= OnActiveNodeUpdateEvent;
+            //CameraView.cameraInZoomEvent -= OnZoomBeginEvent;
+            //CameraView.CameraZoomFinishEvent -= OnZoomEndEvent;
         }
+        
+        void OnZoomBeginEvent()
+        {
+
+        }
+
 
         /**
         *<summary>

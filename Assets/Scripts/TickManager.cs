@@ -9,6 +9,8 @@
 
         [SerializeField]
         float timePerTick;
+        [SerializeField]
+        bool tickAutomatically;
 
         float timeSinceLastTick;
 
@@ -24,18 +26,22 @@
 
         void Update()
         {
-            //if(Input.GetKeyDown(KeyCode.Tab))
-            //{
-            //    TickUpdateEvent(getNextTick());
-            //}
-
-//            TickUpdateEvent(getNextTick());
-
-            timeSinceLastTick += Time.deltaTime;
-            if(timeSinceLastTick >= timePerTick)
+            if(!tickAutomatically)
             {
-                TickUpdateEvent(getNextTick());
-                timeSinceLastTick = 0f;
+                if(Input.GetKeyDown(KeyCode.Tab))
+                {
+                    TickUpdateEvent(getNextTick());
+                }
+            }
+            
+            else
+            {
+                timeSinceLastTick += Time.deltaTime;
+                if(timeSinceLastTick >= timePerTick)
+                {
+                    TickUpdateEvent(getNextTick());
+                    timeSinceLastTick = 0f;
+                }
             }
         }
 

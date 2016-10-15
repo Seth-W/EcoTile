@@ -3,11 +3,15 @@
     using UnityEngine;
     using System.Collections;
     using System;
+    using System.Collections.Generic;
 
     class NodeView : MonoBehaviour, IObjectView
     {
         NodeModel model;
 
+        [SerializeField]
+        float creatureYOffset;
+        
         [SerializeField]
         TileRoadLookupTable roadLookupTable;
 
@@ -30,6 +34,8 @@
 
         int creatureType;
 
+        Stack<GameObject> creaturesOnTile;
+
         void Start()
         {
 
@@ -40,6 +46,7 @@
             //Debug.Log("The NodeView OnEnable was called");
             //Init the properties
             model = GetComponent<NodeModel>();
+            creaturesOnTile = new Stack<GameObject>();
 
             //Subscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent += OnNodeModelCreatureAmountsUpdate;
@@ -123,9 +130,24 @@
             Debug.LogError("The requested method is not implemented");
         }
 
+        /**
+        *<summary>
+        *Initializes the property representing the creature type 
+        *</summary>
+        */
         public void setCreatureType(int t)
         {
             creatureType = t;
+        }
+
+        /**
+        *<summary>
+        *Returns the property representing the creature type 
+        *</summary>
+        */
+        public int getCreatureType()
+        {
+            return creatureType;
         }
 
         /**
@@ -141,18 +163,86 @@
             {
                 updateVegetation(updatedAmounts[0]);
             }
-
-            if(prevCreatureNumber != updatedAmounts[creatureType])
+            if(creatureType != 0 && creatureType != updatedAmounts.Length - 1)
             {
-                updateCreatureAmounts(updatedAmounts[creatureType]);
+                if(prevCreatureNumber != updatedAmounts[creatureType])
+                {
+                    updateCreatureAmounts(updatedAmounts[creatureType]);
+                }
             }
         }
 
-        private void updateCreatureAmounts(int c)
+        private void updateCreatureAmounts(int newCreatureAmount)
         {
-
+            if(newCreatureAmount == prevCreatureNumber)
+                return;
+            else if(newCreatureAmount > prevCreatureNumber)
+            {
+                while(prevCreatureNumber < newCreatureAmount)
+                {
+                    creaturesOnTile.Push(Instantiate(creatureLookupTable.CreatureModels[creatureType] as GameObject));
+                    prevCreatureNumber += 1;
+                    if(creaturesOnTile.Peek() == null)
+                    {
+                        Debug.LogError("A gameobject was not properly instantiated");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                while(prevCreatureNumber > newCreatureAmount)
+                {
+                    Destroy(creaturesOnTile.Pop());
+                    prevCreatureNumber -= 1;
+                }
+            }
+            positionCharacters();
         }
 
+        /**
+        *<summary>
+        *Positions the creatures on this tile around a subdivided circle
+        *</summary>
+        */
+        private void positionCharacters()
+        {
+            Debug.Log("Positioning characters for " + model.nodePos);
+            
+            GameObject[] creaturesTempArray = new GameObject[creaturesOnTile.Count];
+            creaturesOnTile.CopyTo(creaturesTempArray, 0);
+            int subdivisions = creaturesTempArray.Length;
+            float subdivisionsInRadians = 2 * Mathf.PI / (subdivisions);
+            Vector3 newPos = new Vector3();
+            
+            if(subdivisions == 1)
+            {
+                newPos = new Vector3(0, creatureYOffset, 0);
+                creaturesTempArray[0].transform.SetParent(transform);
+                creaturesTempArray[0].transform.localPosition = newPos;
+            }
+            else
+            {
+                for (int i = 1; i <= subdivisions; i++)
+                {
+                    newPos.y = 0;
+                    newPos.x = Mathf.Cos(subdivisionsInRadians * i);
+                    newPos.z = Mathf.Sin(subdivisionsInRadians * i);
+
+                    newPos *= .75f;
+                    newPos.y = creatureYOffset;
+                    creaturesTempArray[i - 1].transform.SetParent(transform);
+                    creaturesTempArray[i - 1].transform.localPosition = newPos;
+                }
+            }
+        }
+
+        /**
+        *<summary>
+        *Calculates the new vegetation level from a given integer and if there is a change calls
+        *<see cref="drawVeg"/> to change the visual appearance of the vegetation
+        *</summary>
+        */
         private void updateVegetation(int v)
         {
             prevVegNumber = v;

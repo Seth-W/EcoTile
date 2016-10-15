@@ -125,7 +125,10 @@
 
         void Update()
         {
-
+            if(creatureType != view.getCreatureType())
+            {
+                view.setCreatureType(creatureType);
+            }
         }
 
         /**
