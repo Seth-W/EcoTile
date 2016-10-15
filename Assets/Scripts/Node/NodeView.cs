@@ -10,16 +10,25 @@
 
         [SerializeField]
         TileRoadLookupTable roadLookupTable;
+
+        [SerializeField]
+        CreatureLookupTable creatureLookupTable;
+
         [SerializeField]
         TileRoadType type;
+        
         [SerializeField]
         GameObject tile;
+        
         [SerializeField]
         GameObject[] vegetation;
 
         int prevVegNumber;
         VegetationLevel vegLevel;
 
+        int prevCreatureNumber;
+
+        int creatureType;
 
         void Start()
         {
@@ -114,6 +123,11 @@
             Debug.LogError("The requested method is not implemented");
         }
 
+        public void setCreatureType(int t)
+        {
+            creatureType = t;
+        }
+
         /**
         *<summary>
         *Called by NodeModel when the creature amounts array is updated
@@ -122,11 +136,21 @@
         */
         private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
         {
-            Debug.LogWarning("The requested method is a stub");
+            //Debug.LogWarning("The requested method is a stub");
             if(prevVegNumber != updatedAmounts[0])
             {
                 updateVegetation(updatedAmounts[0]);
             }
+
+            if(prevCreatureNumber != updatedAmounts[creatureType])
+            {
+                updateCreatureAmounts(updatedAmounts[creatureType]);
+            }
+        }
+
+        private void updateCreatureAmounts(int c)
+        {
+
         }
 
         private void updateVegetation(int v)

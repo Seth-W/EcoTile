@@ -52,6 +52,8 @@
             view = GetComponent<NodeView>();
 
             TickManager.TickUpdateEvent += OnTickUpdateEvent;
+
+            view.setCreatureType(creatureType);
         }
 
         void OnDisable()
@@ -87,7 +89,7 @@
                     incrementCreatureAmount(creatureType, 1);
                 }
             }
-            
+
             if(NodeManager.activeNode.Equals(nodePos))
             {
                 NodeModelRefreshActiveNodeEvent(creatureAmounts);

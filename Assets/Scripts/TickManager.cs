@@ -7,21 +7,35 @@
         public delegate void TickEvent(Tick newTick);
         public static TickEvent TickUpdateEvent;
 
+        [SerializeField]
+        float timePerTick;
+
+        float timeSinceLastTick;
 
         void OnEnable()
         {
-            InputManager.FrameInputEvent += OnFrameInput;
+//            InputManager.FrameInputEvent += OnFrameInput;
+            timeSinceLastTick = 0f;
         }
         void OnDisable()
         {
-            InputManager.FrameInputEvent -= OnFrameInput;
+//            InputManager.FrameInputEvent -= OnFrameInput;
         }
 
-        void OnFrameInput(InputEventData data)
+        void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Tab))
+            //if(Input.GetKeyDown(KeyCode.Tab))
+            //{
+            //    TickUpdateEvent(getNextTick());
+            //}
+
+//            TickUpdateEvent(getNextTick());
+
+            timeSinceLastTick += Time.deltaTime;
+            if(timeSinceLastTick >= timePerTick)
             {
                 TickUpdateEvent(getNextTick());
+                timeSinceLastTick = 0f;
             }
         }
 

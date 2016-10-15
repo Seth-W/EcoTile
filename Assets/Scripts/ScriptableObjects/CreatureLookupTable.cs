@@ -6,6 +6,8 @@
     class CreatureLookupTable : ScriptableObject
     {
         [SerializeField]
-        public CreatureFeedingValue[] table; 
+        public CreatureFeedingValue[] table;
+
+        public GameObject[] CreatureModels;
     }
 }
