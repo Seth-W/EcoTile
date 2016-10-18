@@ -1,14 +1,39 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
+    using Splines;
 
     class CreatureView : MonoBehaviour, IObjectView 
     {
+        [SerializeField]
+        bool moveEnabled;
+        bool didPathingResetLastFrame;
+        
         Renderer rend;
+
+        [SerializeField]
+        Vector2[] pathKeyPoints;
+        
+        Vector3 nextFramePathPoint;
+        Transform parentTransform;
+        
+        [SerializeField]
+        int pathingIndex;
+        float lastFrameInterpolator;
+        float timeAtLastIndexUpdate;
+
+        float yOffset;
 
         void OnEnable()
         {
             rend = GetComponent<Renderer>();
+            parentTransform = transform.parent;
+         
+            yOffset = parentTransform.position.y;
+            //populatePathKeyPoints();
+            lastFrameInterpolator = 0.0f;
+            nextFramePathPoint = parentTransform.position;
+            timeAtLastIndexUpdate = (int)Time.time;
 
             CameraView.cameraInZoomEvent += OnZoomBeginEvent;
             CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
@@ -30,7 +55,21 @@
             setOutlineThickness(.001f);
         }
 
+        void Update()
+        {
+            if(moveEnabled)
+                move();
+        }
 
+
+        void OnDrawGizmos()
+        {
+            for (int i = 0; i < pathKeyPoints.Length; i++)
+            {
+                Vector3 pos = new Vector3 (pathKeyPoints[i].x, .567f, pathKeyPoints[i].y);
+                UnityEngine.Gizmos.DrawSphere(pos, 0.1f);
+            }
+        }
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true
@@ -136,6 +175,111 @@
         public void setOutlineThickness(float newThickness)
         {
             rend.material.SetFloat("_Outline", Mathf.Clamp(newThickness, 0, 10));
+        }
+
+        void move()
+        {
+            Vector3 newPathValue = findNextPlaceOnPath();
+            //Debug.Log(nextFramePathPoint);
+            parentTransform.localPosition = nextFramePathPoint;
+            nextFramePathPoint = newPathValue;
+            //parentTransform.LookAt(parentTransform.TransformPoint(nextFramePathPoint));
+        }
+
+        Vector3 findNextPlaceOnPath()
+        {
+            float interpolator = Time.time - timeAtLastIndexUpdate;
+            //Debug.Log(interpolator);
+            if(didPathingResetLastFrame)
+            {
+                interpolator = 0;
+                didPathingResetLastFrame = false;
+            }
+            if(interpolator >= 1)
+            {
+                interpolator = 1;
+                timeAtLastIndexUpdate = (int)Time.time;
+            }
+            
+            /*float time = Time.time;
+            
+            float interpolator = (Mathf.Sin(Time.time) + 1) / 2;
+
+            if(interpolator - lastFrameInterpolator > .5f)
+            {
+                incrementPathingIndex();
+            }*/
+            
+            int index0, index1, index2, index3;
+
+            if(pathingIndex == 0)
+            {
+                index0 = pathKeyPoints.Length - 1;
+                index1 = pathingIndex;
+                index2 = pathingIndex + 1;
+                index3 = pathingIndex + 2;
+            }
+            else if (pathingIndex == pathKeyPoints.Length - 2)
+            {
+                index0 = pathingIndex - 1;
+                index1 = pathingIndex;
+                index2 = pathingIndex + 1;
+                index3 = 0;
+            }
+            else if (pathingIndex == pathKeyPoints.Length - 1)
+            {
+                index0 = pathingIndex - 1;
+                index1 = pathingIndex;
+                index2 = 0;
+                index3 = 1;
+            }
+            else
+            {
+                index0 = pathingIndex - 1;
+                index1 = pathingIndex;
+                index2 = pathingIndex + 1;
+                index3 = pathingIndex + 2;
+            }
+
+
+            Vector2 nextPos = CatmullRom.interpolatedPosition (pathKeyPoints[index3], pathKeyPoints[index2], pathKeyPoints[index1], pathKeyPoints[index0], interpolator);
+            Debug.Log(index0 +  "," + index1 + "," + index2 + "," + index3);
+            lastFrameInterpolator = interpolator;
+            Vector3 retValue =  new Vector3(nextPos.x, yOffset, nextPos.y);
+            if(interpolator >= 1)
+            {
+                incrementPathingIndex();
+            }
+            //Debug.Log(retValue);
+            return retValue;
+        }
+
+        void incrementPathingIndex()
+        {
+            if(pathingIndex >= pathKeyPoints.Length - 1)
+            {
+                pathingIndex = 0;
+            }
+            else
+            {
+                pathingIndex += 1;
+            }
+            didPathingResetLastFrame = true;
+        }
+
+        void populatePathKeyPoints()
+        {
+            int size = (int)(UnityEngine.Random.value * 10 + 1);
+
+            if(size < 5)
+                size = 5;
+
+            pathKeyPoints = new Vector2[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                pathKeyPoints[i] = new Vector2(UnityEngine.Random.value, UnityEngine.Random.value);
+            }
         }
     }
 }
