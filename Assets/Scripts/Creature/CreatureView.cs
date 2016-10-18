@@ -19,6 +19,9 @@
         
         [SerializeField]
         int pathingIndex;
+
+        [SerializeField]
+        float speedMultiplier;
         float lastFrameInterpolator;
         float timeAtLastIndexUpdate;
 
@@ -30,7 +33,7 @@
             parentTransform = transform.parent;
          
             yOffset = parentTransform.position.y;
-            //populatePathKeyPoints();
+            populatePathKeyPoints();
             lastFrameInterpolator = 0.0f;
             nextFramePathPoint = parentTransform.position;
             timeAtLastIndexUpdate = (int)Time.time;
@@ -184,32 +187,28 @@
             parentTransform.localPosition = nextFramePathPoint;
             nextFramePathPoint = newPathValue;
             //parentTransform.LookAt(parentTransform.TransformPoint(nextFramePathPoint));
+            parentTransform.LookAt(nextFramePathPoint);
         }
 
         Vector3 findNextPlaceOnPath()
         {
             float interpolator = Time.time - timeAtLastIndexUpdate;
-            //Debug.Log(interpolator);
-            if(didPathingResetLastFrame)
+
+            //Ensures a that interpolating b/w two points starts at 0
+            if (didPathingResetLastFrame)
             {
                 interpolator = 0;
                 didPathingResetLastFrame = false;
             }
-            if(interpolator >= 1)
+
+            //Ensures a that interpolating b/w two points ends at 1
+            if (interpolator >= 1)
             {
                 interpolator = 1;
                 timeAtLastIndexUpdate = (int)Time.time;
             }
-            
-            /*float time = Time.time;
-            
-            float interpolator = (Mathf.Sin(Time.time) + 1) / 2;
-
-            if(interpolator - lastFrameInterpolator > .5f)
-            {
-                incrementPathingIndex();
-            }*/
-            
+           
+            //Loops the index values around the ends of the array
             int index0, index1, index2, index3;
 
             if(pathingIndex == 0)
@@ -242,15 +241,18 @@
             }
 
 
-            Vector2 nextPos = CatmullRom.interpolatedPosition (pathKeyPoints[index3], pathKeyPoints[index2], pathKeyPoints[index1], pathKeyPoints[index0], interpolator);
-            Debug.Log(index0 +  "," + index1 + "," + index2 + "," + index3);
+
+
+            Vector2 nextPos = CatmullRom.returnCatmullRom(interpolator, pathKeyPoints[index0], pathKeyPoints[index1], pathKeyPoints[index2], pathKeyPoints[index3]);
+
             lastFrameInterpolator = interpolator;
             Vector3 retValue =  new Vector3(nextPos.x, yOffset, nextPos.y);
-            if(interpolator >= 1)
+
+            if (interpolator >= 1)
             {
                 incrementPathingIndex();
             }
-            //Debug.Log(retValue);
+
             return retValue;
         }
 

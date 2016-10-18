@@ -41,6 +41,35 @@ namespace EcoTile.Splines
             return 0.5f * (a + b + c + d);
         }
 
+        public static Vector3 returnCatmullRom(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+        {
+            Vector3 a = 0.5f * (2f * p1);
+            Vector3 b = 0.5f * (p2 - p0);
+            Vector3 c = 0.5f * (2f * p0 - 5f * p1 + 4f * p2 - p3);
+            Vector3 d = 0.5f * (-p0 + 3f * p1 - 3f * p2 + p3);
+
+            Vector3 pos = a + (b * t) + (c * t * t) + (d * t * t * t);
+
+            return pos;
+        }
+
+        public static Vector2 returnCatmullRom(float t, Vector2 n0, Vector2 n1, Vector2 n2, Vector2 n3)
+        {
+            Vector3 p0 = new Vector3(n0.x, 0, n0.y);
+            Vector3 p1 = new Vector3(n1.x, 0, n1.y);
+            Vector3 p2 = new Vector3(n2.x, 0, n2.y);
+            Vector3 p3 = new Vector3(n3.x, 0, n3.y);
+
+            Vector3 a = 0.5f * (2f * p1);
+            Vector3 b = 0.5f * (p2 - p0);
+            Vector3 c = 0.5f * (2f * p0 - 5f * p1 + 4f * p2 - p3);
+            Vector3 d = 0.5f * (-p0 + 3f * p1 - 3f * p2 + p3);
+
+            Vector3 pos = a + (b * t) + (c * t * t) + (d * t * t * t);
+
+            return new Vector2(pos.x, pos.z);
+        }
+
         static float GetT(float t, Vector2 p0, Vector2 p1)
         {
             float a = Mathf.Pow((p1.x - p0.x), 2.0f) + Mathf.Pow((p1.y - p0.y), 2.0f);
