@@ -6,37 +6,36 @@
     class CreatureView : MonoBehaviour, IObjectView 
     {
         [SerializeField]
+        NodePosition nodePos;
+
+        [SerializeField]
         bool moveEnabled;
         bool didPathingResetLastFrame;
         
         Renderer rend;
-
-        [SerializeField]
-        Vector2[] pathKeyPoints;
-        
-        Vector3 nextFramePathPoint;
         Transform parentTransform;
-        
-        [SerializeField]
+
+        Vector2[] pathKeyPoints;        
+        Vector3 nextFramePathPoint;
         int pathingIndex;
 
         [SerializeField]
         float speedMultiplier;
+        [SerializeField]
+        float yOffset;
+        [SerializeField, Range(0, 2)]
+        float lookYOffset;
+
         float lastFrameInterpolator;
         float timeAtLastIndexUpdate;
 
-        float yOffset;
 
         void OnEnable()
         {
             rend = GetComponent<Renderer>();
             parentTransform = transform.parent;
-         
-            yOffset = parentTransform.position.y;
-            populatePathKeyPoints();
-            lastFrameInterpolator = 0.0f;
-            nextFramePathPoint = parentTransform.position;
-            timeAtLastIndexUpdate = (int)Time.time;
+
+            //init();
 
             CameraView.cameraInZoomEvent += OnZoomBeginEvent;
             CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
@@ -67,12 +66,10 @@
 
         void OnDrawGizmos()
         {
-            for (int i = 0; i < pathKeyPoints.Length; i++)
-            {
-                Vector3 pos = new Vector3 (pathKeyPoints[i].x, .567f, pathKeyPoints[i].y);
-                UnityEngine.Gizmos.DrawSphere(pos, 0.1f);
-            }
+            UnityEngine.Gizmos.color = Color.green;
+            UnityEngine.Gizmos.DrawSphere(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z), 0.1f);
         }
+
         /**
         *<summary>
         *Called by and ObjectModel when the objectModel Enabled property is set to true
@@ -183,11 +180,12 @@
         void move()
         {
             Vector3 newPathValue = findNextPlaceOnPath();
-            //Debug.Log(nextFramePathPoint);
             parentTransform.localPosition = nextFramePathPoint;
             nextFramePathPoint = newPathValue;
             //parentTransform.LookAt(parentTransform.TransformPoint(nextFramePathPoint));
-            parentTransform.LookAt(nextFramePathPoint);
+            parentTransform.LookAt(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
+            Debug.Log(nextFramePathPoint);
+            Debug.Log(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
         }
 
         Vector3 findNextPlaceOnPath()
@@ -247,7 +245,7 @@
 
             lastFrameInterpolator = interpolator;
             Vector3 retValue =  new Vector3(nextPos.x, yOffset, nextPos.y);
-
+            //Debug.Log(retValue);
             if (interpolator >= 1)
             {
                 incrementPathingIndex();
@@ -271,7 +269,7 @@
 
         void populatePathKeyPoints()
         {
-            int size = (int)(UnityEngine.Random.value * 10 + 1);
+            int size = (int)(Random.value * 10 + 1);
 
             if(size < 5)
                 size = 5;
@@ -280,8 +278,18 @@
 
             for (int i = 0; i < size; i++)
             {
-                pathKeyPoints[i] = new Vector2(UnityEngine.Random.value, UnityEngine.Random.value);
+                pathKeyPoints[i] = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
             }
+        }
+
+        public void init(float yOffset, NodePosition nodePos)
+        {
+            this.yOffset = yOffset;
+            populatePathKeyPoints();
+            lastFrameInterpolator = 0.0f;
+            nextFramePathPoint = parentTransform.position;
+            timeAtLastIndexUpdate = (int)Time.time;
+            this.nodePos = nodePos;
         }
     }
 }

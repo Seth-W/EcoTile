@@ -187,6 +187,7 @@
                         Debug.LogError("A gameobject was not properly instantiated");
                         return;
                     }
+                    creaturesOnTile.Peek().GetComponentInChildren<CreatureView>().init(creatureYOffset, model.nodePos);
                 }
             }
             else
