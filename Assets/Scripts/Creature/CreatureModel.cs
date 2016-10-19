@@ -84,7 +84,9 @@
         {
             InputManager.FrameInputEvent -= OnFrameInput;
 
-            transform.parent.transform.position = Input.mousePosition.MousePickToXZPlane();
+            Vector3 finalPos = transform.parent.transform.position;
+            finalPos.y = initialPosition.y;
+            transform.parent.transform.position = finalPos;
             pickedUp = false;
             //Destroy(rb);
             //Destroy(hinge.gameObject);
@@ -92,13 +94,18 @@
 
         void OnFrameInput(InputEventData data)
         {
-            //hinge.transform.position = mousePickAgainstPlane(planeOfMovement);
+            //hinge.transform.position = data.mousePosition.MousePickToXZPlane(1.5f);
             transform.parent.transform.position = data.mousePosition.MousePickToXZPlane(0.1f);
         }
 
         void OnDrawGizmos()
         {
-            //UnityEngine.Gizmos.DrawSphere(Input.mousePosition.MousePickToXZPlane(0.1f), 0.1f);
+            if (pickedUp)
+            {
+                Vector3 finalPos = transform.parent.transform.position;
+                finalPos.y = initialPosition.y;
+                UnityEngine.Gizmos.DrawSphere(finalPos, 0.1f);
+            }
         }
 
         /**

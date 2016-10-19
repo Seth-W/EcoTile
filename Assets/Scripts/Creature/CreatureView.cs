@@ -31,8 +31,6 @@
         [SerializeField, Range(0, 0.25f)]
         float lookYOffset;
 
-        float pathingInterpolator;
-        float pathingInterpolatorAtLastIndexUpdate;
         float heuristicIteratorIncrement;
         float interpolator;
 
@@ -154,8 +152,7 @@
         {
             //Debug.LogError("The requested method is not implemented");
             setOutlineColor(Color.green);
-            moveEnabled = true;
-            //setDown();
+            setDown();
         }
 
         /**
@@ -208,9 +205,6 @@
         */
         Vector3 findNextPlaceOnPath()
         {
-            //float interpolator = Time.time - timeAtLastIndexUpdate;
-            pathingInterpolator += Time.deltaTime * speedMultiplier;
-            //float interpolator = pathingInterpolator - pathingInterpolatorAtLastIndexUpdate;
             interpolator += Time.deltaTime * heuristicIteratorIncrement;
 
             //Ensures a that interpolating b/w two points starts at 0
@@ -223,9 +217,7 @@
             //Ensures a that interpolating b/w two points ends at 1
             if (interpolator >= 1)
             {
-                //timeAtLastIndexUpdate = (int)Time.time;
                 interpolator = 1;
-                //pathingInterpolatorAtLastIndexUpdate += 1;
             }           
 
             //Calculate the position along the spline
@@ -336,12 +328,12 @@
 
             pathKeyPoints = new Vector2[size];
 
-            pathKeyPoints[0] = new Vector2(position.x, position.z);
-
-            for (int i = 1; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 pathKeyPoints[i] = new Vector2(Random.value * 1.6f - 0.8f, Random.value * 1.6f - 0.8f);
             }
+
+            pathKeyPoints[0] = new Vector2(Mathf.Clamp(position.x, -0.8f, 0.8f), Mathf.Clamp(position.z, -0.8f, 0.8f));
         }
 
         /**
@@ -364,13 +356,13 @@
             this.nodePos = nodePos;
 
             nextFramePathPoint = parentTransform.position;
+            pathingIndex = 0;
+            interpolator = 0;
 
             populatePathKeyPoints();
             assignIndexValues();
             heuristicIteratorIncrement = calculateHeuristicIncrementValue();
 
-            pathingInterpolator = 0;
-            pathingInterpolatorAtLastIndexUpdate = 0;
             if(moveEnabled)
                 move();
         }
@@ -382,11 +374,15 @@
         */
         public void setDown()
         {
-            populatePathKeyPoints(Input.mousePosition.MousePickToXZPlane());
+            nextFramePathPoint = parentTransform.position;
+            pathingIndex = 0;
+            interpolator = 0;
+
+            populatePathKeyPoints(parentTransform.localPosition);
             assignIndexValues();
             heuristicIteratorIncrement = calculateHeuristicIncrementValue();
-            pathingInterpolator = 0;
-            pathingInterpolatorAtLastIndexUpdate = 0;
+
+            moveEnabled = true;
             if (moveEnabled)
                 move();
         }
