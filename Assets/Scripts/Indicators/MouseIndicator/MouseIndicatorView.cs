@@ -1,8 +1,7 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using System.Collections;
-    using System;
+    using ExtensionMethods;
 
     class MouseIndicatorView : MonoBehaviour, IObjectView 
     {
@@ -27,6 +26,7 @@
         void OnFrameInputEvent(InputEventData data)
         {
             setIndicatorPosition(data.mouseXZProjection);
+            //transform.position = data.mousePosition.MousePickToXZPlane(0.1f);
         }
 
         /**

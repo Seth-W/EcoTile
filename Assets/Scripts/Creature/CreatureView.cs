@@ -2,14 +2,14 @@
 {
     using UnityEngine;
     using Splines;
+    using ExtensionMethods;
 
     class CreatureView : MonoBehaviour, IObjectView 
     {
         [SerializeField]
         NodePosition nodePos;
 
-        [SerializeField]
-        bool moveEnabled;
+        public bool moveEnabled;
         bool didPathingResetLastFrame;
         
         Renderer rend;
@@ -32,7 +32,6 @@
         float lookYOffset;
 
         float pathingInterpolator;
-        float timeAtLastIndexUpdate;
         float pathingInterpolatorAtLastIndexUpdate;
         float heuristicIteratorIncrement;
         float interpolator;
@@ -72,11 +71,11 @@
         }
 
 
-        void OnDrawGizmos()
+        /*void OnDrawGizmos()
         {
             UnityEngine.Gizmos.color = Color.green;
             UnityEngine.Gizmos.DrawSphere(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z), 0.1f);
-        }
+        }*/
 
         /**
         *<summary>
@@ -130,6 +129,7 @@
         {
             //Debug.LogError("The requested method is not implemented");
             setOutlineColor(Color.cyan);
+            moveEnabled = false;
         }
 
         /**
@@ -154,6 +154,8 @@
         {
             //Debug.LogError("The requested method is not implemented");
             setOutlineColor(Color.green);
+            moveEnabled = true;
+            //setDown();
         }
 
         /**
@@ -321,6 +323,29 @@
 
         /**
         *<summary>
+        *Generates a random list of Vector2's ranging from -1 to 1 for X and Z coordinates
+        *The first item will be the x and z coordinate of the passed vector3
+        *</summary>
+        */
+        void populatePathKeyPoints(Vector3 position)
+        {
+            int size = (int)(Random.value * 10 + 1);
+
+            if (size < 5)
+                size = 5;
+
+            pathKeyPoints = new Vector2[size];
+
+            pathKeyPoints[0] = new Vector2(position.x, position.z);
+
+            for (int i = 1; i < size; i++)
+            {
+                pathKeyPoints[i] = new Vector2(Random.value * 1.6f - 0.8f, Random.value * 1.6f - 0.8f);
+            }
+        }
+
+        /**
+        *<summary>
         *Estimates a distance between two points then determines how often the
         *object will need to step through the interpolator to span that distance 
         *</summary>
@@ -328,7 +353,6 @@
         float calculateHeuristicIncrementValue()
         {
             float distance = Vector3.Distance(pathKeyPoints[1], pathKeyPoints[2]);
-            Debug.Log(distance);
             if (distance >= 0.45f)
                 distance = 0.45f;
             return unitsPerSecond / (distance * 2);
@@ -345,10 +369,25 @@
             assignIndexValues();
             heuristicIteratorIncrement = calculateHeuristicIncrementValue();
 
-            timeAtLastIndexUpdate = (int)Time.time;
             pathingInterpolator = 0;
             pathingInterpolatorAtLastIndexUpdate = 0;
             if(moveEnabled)
+                move();
+        }
+
+        /**
+        *<summary>
+        *Called on <see cref="IObjectControl.PriamryMouseUp"/> restarts the movement algorithm from the XZ position of a mousepick
+        *</summary>
+        */
+        public void setDown()
+        {
+            populatePathKeyPoints(Input.mousePosition.MousePickToXZPlane());
+            assignIndexValues();
+            heuristicIteratorIncrement = calculateHeuristicIncrementValue();
+            pathingInterpolator = 0;
+            pathingInterpolatorAtLastIndexUpdate = 0;
+            if (moveEnabled)
                 move();
         }
     }

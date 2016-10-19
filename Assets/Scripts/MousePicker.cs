@@ -24,7 +24,7 @@ class MousePicker
         {
             if (callHoverOff())
                 Debug.Log(this + " is calling HoverOff for " + pickedLastFrame);
-            callMouseDownRevert();
+            //callMouseDownRevert();
             callMouseUp();
             callMouseDown();
             callHoverOn();
