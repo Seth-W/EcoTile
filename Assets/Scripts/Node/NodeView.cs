@@ -172,6 +172,11 @@
             }
         }
 
+        /**
+        *<summary>
+        *Changes the amount of creature objects displayed on this node to reflect a given amount
+        *</summary>
+        */
         private void updateCreatureAmounts(int newCreatureAmount)
         {
             if(newCreatureAmount == prevCreatureNumber)
@@ -267,6 +272,11 @@
             }
         }
 
+        /**
+        *<summary>
+        *Changes the display/active properties of this tiles vegetation based on the <see cref="vegLevel"/> property
+        *</summary>
+        */
         void drawVeg()
         {
             if(vegLevel == VegetationLevel.None)

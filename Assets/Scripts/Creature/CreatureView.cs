@@ -17,17 +17,25 @@
 
         Vector2[] pathKeyPoints;        
         Vector3 nextFramePathPoint;
+
         int pathingIndex;
+        int index0, index1, index2, index3;
+
 
         [SerializeField]
         float speedMultiplier;
+        [SerializeField]
+        float unitsPerSecond;
         [SerializeField]
         float yOffset;
         [SerializeField, Range(0, 2)]
         float lookYOffset;
 
-        float lastFrameInterpolator;
+        float pathingInterpolator;
         float timeAtLastIndexUpdate;
+        float pathingInterpolatorAtLastIndexUpdate;
+        float heuristicIteratorIncrement;
+        float interpolator;
 
 
         void OnEnable()
@@ -177,6 +185,11 @@
             rend.material.SetFloat("_Outline", Mathf.Clamp(newThickness, 0, 10));
         }
 
+        /**
+        *<summary>
+        *Translates and Rotates the parent object based on Catmull-Rom spline calculations from <see cref="findNextPlaceOnPath"/>
+        *</summary>
+        */
         void move()
         {
             Vector3 newPathValue = findNextPlaceOnPath();
@@ -184,13 +197,19 @@
             nextFramePathPoint = newPathValue;
             //parentTransform.LookAt(parentTransform.TransformPoint(nextFramePathPoint));
             parentTransform.LookAt(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
-            Debug.Log(nextFramePathPoint);
-            Debug.Log(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
         }
 
+        /**
+        *<summary>
+        *Calculates an interpolation value and returns the interpolated point along a Catmull-Rom spline defined by four points
+        *</summary>
+        */
         Vector3 findNextPlaceOnPath()
         {
-            float interpolator = Time.time - timeAtLastIndexUpdate;
+            //float interpolator = Time.time - timeAtLastIndexUpdate;
+            pathingInterpolator += Time.deltaTime * speedMultiplier;
+            //float interpolator = pathingInterpolator - pathingInterpolatorAtLastIndexUpdate;
+            interpolator += Time.deltaTime * heuristicIteratorIncrement;
 
             //Ensures a that interpolating b/w two points starts at 0
             if (didPathingResetLastFrame)
@@ -202,14 +221,55 @@
             //Ensures a that interpolating b/w two points ends at 1
             if (interpolator >= 1)
             {
+                //timeAtLastIndexUpdate = (int)Time.time;
                 interpolator = 1;
-                timeAtLastIndexUpdate = (int)Time.time;
-            }
-           
-            //Loops the index values around the ends of the array
-            int index0, index1, index2, index3;
+                //pathingInterpolatorAtLastIndexUpdate += 1;
+            }           
 
-            if(pathingIndex == 0)
+            //Calculate the position along the spline
+            Vector2 nextPos = CatmullRom.returnCatmullRom(interpolator, pathKeyPoints[index0], pathKeyPoints[index1], pathKeyPoints[index2], pathKeyPoints[index3]);
+
+            //Update the pathing indices when interpolator finishes a 0-1 cycle
+            if (interpolator >= 1)
+            {
+                incrementPathingIndex();
+            }
+
+            return new Vector3(nextPos.x, yOffset, nextPos.y);
+        }
+
+        /**
+        *<summary>
+        *Updates the values for <see cref="pathingIndex"/> and <see cref="index0"/> through <see cref="index3"/>
+        *</summary>
+        */
+        void incrementPathingIndex()
+        {
+            if(pathingIndex >= pathKeyPoints.Length - 1)
+            {
+                pathingIndex = 0;
+            }
+            else
+            {
+                pathingIndex += 1;
+            }
+
+            assignIndexValues();
+            didPathingResetLastFrame = true;
+            heuristicIteratorIncrement = calculateHeuristicIncrementValue();
+            interpolator = 0;
+        }
+
+        /**
+        *<summary>
+        *Updates the values for <see cref="index0"/> through <see cref="index3"/>
+        *</summary>
+        */
+        void assignIndexValues()
+        {
+            //Loops the index values around the ends of the array
+
+            if (pathingIndex == 0)
             {
                 index0 = pathKeyPoints.Length - 1;
                 index1 = pathingIndex;
@@ -237,36 +297,13 @@
                 index2 = pathingIndex + 1;
                 index3 = pathingIndex + 2;
             }
-
-
-
-
-            Vector2 nextPos = CatmullRom.returnCatmullRom(interpolator, pathKeyPoints[index0], pathKeyPoints[index1], pathKeyPoints[index2], pathKeyPoints[index3]);
-
-            lastFrameInterpolator = interpolator;
-            Vector3 retValue =  new Vector3(nextPos.x, yOffset, nextPos.y);
-            //Debug.Log(retValue);
-            if (interpolator >= 1)
-            {
-                incrementPathingIndex();
-            }
-
-            return retValue;
         }
 
-        void incrementPathingIndex()
-        {
-            if(pathingIndex >= pathKeyPoints.Length - 1)
-            {
-                pathingIndex = 0;
-            }
-            else
-            {
-                pathingIndex += 1;
-            }
-            didPathingResetLastFrame = true;
-        }
-
+        /**
+        *<summary>
+        *Generates a random list of Vector2's ranging from -1 to 1 for X and Z coordinates
+        *</summary>
+        */
         void populatePathKeyPoints()
         {
             int size = (int)(Random.value * 10 + 1);
@@ -278,18 +315,41 @@
 
             for (int i = 0; i < size; i++)
             {
-                pathKeyPoints[i] = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
+                pathKeyPoints[i] = new Vector2(Random.value * 1.6f - 0.8f, Random.value * 1.6f - 0.8f);
             }
+        }
+
+        /**
+        *<summary>
+        *Estimates a distance between two points then determines how often the
+        *object will need to step through the interpolator to span that distance 
+        *</summary>
+        */
+        float calculateHeuristicIncrementValue()
+        {
+            float distance = Vector3.Distance(pathKeyPoints[1], pathKeyPoints[2]);
+            Debug.Log(distance);
+            if (distance >= 0.45f)
+                distance = 0.45f;
+            return unitsPerSecond / (distance * 2);
         }
 
         public void init(float yOffset, NodePosition nodePos)
         {
             this.yOffset = yOffset;
-            populatePathKeyPoints();
-            lastFrameInterpolator = 0.0f;
-            nextFramePathPoint = parentTransform.position;
-            timeAtLastIndexUpdate = (int)Time.time;
             this.nodePos = nodePos;
+
+            nextFramePathPoint = parentTransform.position;
+
+            populatePathKeyPoints();
+            assignIndexValues();
+            heuristicIteratorIncrement = calculateHeuristicIncrementValue();
+
+            timeAtLastIndexUpdate = (int)Time.time;
+            pathingInterpolator = 0;
+            pathingInterpolatorAtLastIndexUpdate = 0;
+            if(moveEnabled)
+                move();
         }
     }
 }
