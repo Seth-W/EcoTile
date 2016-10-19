@@ -50,12 +50,56 @@
 
             //Subscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent += OnNodeModelCreatureAmountsUpdate;
+            CameraView.cameraInZoomEvent += OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
         }
 
         void OnDisable()
         {
             //Unsubscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent -= OnNodeModelCreatureAmountsUpdate;
+            CameraView.cameraInZoomEvent -= OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent -= OnZoomEndEvent;
+        }
+
+        /**
+        *<summary>
+        *Called by NodeModel when the creature amounts array is updated
+        *Updates the visual feedback of the node 
+        *</summary>
+        */
+        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
+        {
+            //Debug.LogWarning("The requested method is a stub");
+            if (prevVegNumber != updatedAmounts[0])
+            {
+                updateVegetation(updatedAmounts[0]);
+            }
+            if (creatureType != 0 && creatureType != updatedAmounts.Length - 1)
+            {
+                if (prevCreatureNumber != updatedAmounts[creatureType])
+                {
+                    updateCreatureAmounts(updatedAmounts[creatureType]);
+                }
+            }
+        }
+
+        /**
+        *<summary>
+        *This is a stub
+        *</summary>
+        */
+        private void OnZoomBeginEvent(bool zoomingIn)
+        {
+        }
+
+        /**
+        *<summary>
+        *This is a stub
+        *</summary>
+        */
+        private void OnZoomEndEvent(bool zoomingIn)
+        {
         }
 
         /**
@@ -148,28 +192,6 @@
         public int getCreatureType()
         {
             return creatureType;
-        }
-
-        /**
-        *<summary>
-        *Called by NodeModel when the creature amounts array is updated
-        *Updates the visual feedback of the node 
-        *</summary>
-        */
-        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
-        {
-            //Debug.LogWarning("The requested method is a stub");
-            if(prevVegNumber != updatedAmounts[0])
-            {
-                updateVegetation(updatedAmounts[0]);
-            }
-            if(creatureType != 0 && creatureType != updatedAmounts.Length - 1)
-            {
-                if(prevCreatureNumber != updatedAmounts[creatureType])
-                {
-                    updateCreatureAmounts(updatedAmounts[creatureType]);
-                }
-            }
         }
 
         /**
