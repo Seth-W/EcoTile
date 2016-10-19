@@ -117,7 +117,7 @@
         */
         void OnRefreshActiveNodeEvent(int[] creatureAmounts)
         {
-            Debug.LogWarning("OnTickUpdateEvent called for SlidersModel");
+            //Debug.LogWarning("OnTickUpdateEvent called for SlidersModel");
             setSliderValue(creatureAmounts[statIndex]);
         }
     }

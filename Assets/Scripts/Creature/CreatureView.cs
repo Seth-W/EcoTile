@@ -13,7 +13,6 @@
         bool didPathingResetLastFrame;
         
         Renderer rend;
-        Transform parentTransform;
 
         Vector2[] pathKeyPoints;        
         Vector3 nextFramePathPoint;
@@ -21,7 +20,8 @@
         int pathingIndex;
         int index0, index1, index2, index3;
 
-
+        [SerializeField]
+        bool inverseLookAt;
         [SerializeField]
         float speedMultiplier;
         [SerializeField]
@@ -38,7 +38,6 @@
         void OnEnable()
         {
             rend = GetComponent<Renderer>();
-            parentTransform = transform.parent;
 
             //init();
 
@@ -192,10 +191,17 @@
         void move()
         {
             Vector3 newPathValue = findNextPlaceOnPath();
-            parentTransform.localPosition = nextFramePathPoint;
+            transform.parent.localPosition = nextFramePathPoint;
             nextFramePathPoint = newPathValue;
             //parentTransform.LookAt(parentTransform.TransformPoint(nextFramePathPoint));
-            parentTransform.LookAt(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
+            if (inverseLookAt)
+            {
+                Vector3 difference = new Vector3(nodePos.position.x + nextFramePathPoint.x, transform.parent.position.y, nodePos.position.z + nextFramePathPoint.z);
+                difference -= transform.parent.position;
+                transform.parent.LookAt(transform.parent.position - difference);
+            }
+            else
+                transform.parent.LookAt(new Vector3(nodePos.position.x + nextFramePathPoint.x, -lookYOffset, nodePos.position.z + nextFramePathPoint.z));
         }
 
         /**
@@ -355,7 +361,7 @@
             this.yOffset = yOffset;
             this.nodePos = nodePos;
 
-            nextFramePathPoint = parentTransform.position;
+            nextFramePathPoint = transform.parent.position;
             pathingIndex = 0;
             interpolator = 0;
 
@@ -374,11 +380,11 @@
         */
         public void setDown()
         {
-            nextFramePathPoint = parentTransform.position;
+            nextFramePathPoint = transform.parent.position;
             pathingIndex = 0;
             interpolator = 0;
 
-            populatePathKeyPoints(parentTransform.localPosition);
+            populatePathKeyPoints(transform.parent.localPosition);
             assignIndexValues();
             heuristicIteratorIncrement = calculateHeuristicIncrementValue();
 
