@@ -28,7 +28,7 @@
         float unitsPerSecond;
         [SerializeField]
         float yOffset;
-        [SerializeField, Range(0, 2)]
+        [SerializeField, Range(0, 0.25f)]
         float lookYOffset;
 
         float pathingInterpolator;
