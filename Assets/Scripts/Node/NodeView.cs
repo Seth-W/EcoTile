@@ -50,12 +50,56 @@
 
             //Subscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent += OnNodeModelCreatureAmountsUpdate;
+            CameraView.cameraInZoomEvent += OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
         }
 
         void OnDisable()
         {
             //Unsubscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent -= OnNodeModelCreatureAmountsUpdate;
+            CameraView.cameraInZoomEvent -= OnZoomBeginEvent;
+            CameraView.CameraZoomFinishEvent -= OnZoomEndEvent;
+        }
+
+        /**
+        *<summary>
+        *Called by NodeModel when the creature amounts array is updated
+        *Updates the visual feedback of the node 
+        *</summary>
+        */
+        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
+        {
+            //Debug.LogWarning("The requested method is a stub");
+            if (prevVegNumber != updatedAmounts[0])
+            {
+                updateVegetation(updatedAmounts[0]);
+            }
+            if (creatureType != 0 && creatureType != updatedAmounts.Length - 1)
+            {
+                if (prevCreatureNumber != updatedAmounts[creatureType])
+                {
+                    updateCreatureAmounts(updatedAmounts[creatureType]);
+                }
+            }
+        }
+
+        /**
+        *<summary>
+        *This is a stub
+        *</summary>
+        */
+        private void OnZoomBeginEvent(bool zoomingIn)
+        {
+        }
+
+        /**
+        *<summary>
+        *This is a stub
+        *</summary>
+        */
+        private void OnZoomEndEvent(bool zoomingIn)
+        {
         }
 
         /**
@@ -152,26 +196,9 @@
 
         /**
         *<summary>
-        *Called by NodeModel when the creature amounts array is updated
-        *Updates the visual feedback of the node 
+        *Changes the amount of creature objects displayed on this node to reflect a given amount
         *</summary>
         */
-        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
-        {
-            //Debug.LogWarning("The requested method is a stub");
-            if(prevVegNumber != updatedAmounts[0])
-            {
-                updateVegetation(updatedAmounts[0]);
-            }
-            if(creatureType != 0 && creatureType != updatedAmounts.Length - 1)
-            {
-                if(prevCreatureNumber != updatedAmounts[creatureType])
-                {
-                    updateCreatureAmounts(updatedAmounts[creatureType]);
-                }
-            }
-        }
-
         private void updateCreatureAmounts(int newCreatureAmount)
         {
             if(newCreatureAmount == prevCreatureNumber)
@@ -187,6 +214,7 @@
                         Debug.LogError("A gameobject was not properly instantiated");
                         return;
                     }
+                    creaturesOnTile.Peek().GetComponentInChildren<CreatureView>().init(creatureYOffset, model.nodePos);
                 }
             }
             else
@@ -266,6 +294,11 @@
             }
         }
 
+        /**
+        *<summary>
+        *Changes the display/active properties of this tiles vegetation based on the <see cref="vegLevel"/> property
+        *</summary>
+        */
         void drawVeg()
         {
             if(vegLevel == VegetationLevel.None)

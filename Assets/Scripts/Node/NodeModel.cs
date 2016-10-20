@@ -68,7 +68,7 @@
         */
         void OnTickUpdateEvent(Tick updateData)
         {
-            Debug.Log(nodePos + " tick update event: " + updateData.getNodeData(nodePos));
+            //Debug.Log(nodePos + " tick update event: " + updateData.getNodeData(nodePos));
 
             if(creatureType == 0)
             {

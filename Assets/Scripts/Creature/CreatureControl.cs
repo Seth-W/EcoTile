@@ -53,8 +53,8 @@
         public void PrimaryMouseDown()
         {
             //Debug.LogError("The requested method is not implemented");
+            model.pickUp();
             view.OnPrimaryMouseDown();
-            //model.pickUp();
         }
 
         /**
@@ -77,6 +77,7 @@
         public void PriamryMouseUp()
         {
             //Debug.LogError("The requested method is not implemented");
+            model.setDown();
             view.OnPrimaryMouseUp();
         }
 

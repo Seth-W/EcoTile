@@ -19,6 +19,14 @@
             return ray.origin + vectorAmplitude * ray.direction;
         }
 
+        public static Vector3 MousePickToXZPlane(this Vector3 input, float yOffset)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(input);
+
+            float vectorAmplitude = -(ray.origin.y - yOffset) / ray.direction.y;
+            return ray.origin + vectorAmplitude * ray.direction;
+        }
+
         /**
         *<summary>
         *Extension method to <see cref="Vector3"/> types.

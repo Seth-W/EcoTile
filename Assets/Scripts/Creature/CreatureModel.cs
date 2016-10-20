@@ -7,19 +7,29 @@
     {
         CreatureType _type;
         public CreatureType type
-        {
-            get { return _type; }
-        }
+        { get { return _type; } }
 
         bool pickedUp;
+
         Vector3 initialPosition;
-        GameObject parent;
         Rigidbody rb;
-        Vector3 lastFrameMousePos;
+        HingeJoint hinge;
         Ray planeOfMovement;
+
         [SerializeField]
-        float liftFactor;
+        Vector3 hingeOffset;
+        [SerializeField]
+        GameObject hingePrefab;
+
         
+        void OnEnable()
+        {
+            //InputManager.FrameInputEvent += OnFrameInput;
+        }
+        void OnDisable()
+        {
+            InputManager.FrameInputEvent -= OnFrameInput;
+        }
 
         /**
         *<summary>
@@ -57,31 +67,45 @@
         public void pickUp()
         {
             pickedUp = true;
-            initialPosition = transform.position;
-            rb = transform.parent.gameObject.AddComponent<Rigidbody>();
-            rb.useGravity = false;
-            Debug.Log(findOrthogonalPlane());
             InputManager.FrameInputEvent += OnFrameInput;
-            lastFrameMousePos = Input.mousePosition.ToNormalizeScreenSpace();
-            planeOfMovement = findOrthogonalPlane();
+
+            initialPosition = transform.parent.transform.position;
+
+            //rb = transform.parent.gameObject.AddComponent<Rigidbody>();
+
+            //hinge = (Instantiate(hingePrefab, transform.position, Quaternion.identity) as GameObject).GetComponent<HingeJoint>();
+            //hinge.connectedBody = rb;
+            //hinge.transform.Translate(hingeOffset);
+
+            //planeOfMovement = findOrthogonalPlane();
         }
 
         public void setDown()
         {
-            transform.position = initialPosition;
-            pickedUp = false;
-            Destroy(rb);
             InputManager.FrameInputEvent -= OnFrameInput;
+
+            Vector3 finalPos = transform.parent.transform.position;
+            finalPos.y = initialPosition.y;
+            transform.parent.transform.position = finalPos;
+            pickedUp = false;
+            //Destroy(rb);
+            //Destroy(hinge.gameObject);
         }
 
         void OnFrameInput(InputEventData data)
         {
-            Vector3 newMousePos = data.mousePosition.ToNormalizeScreenSpace();
-            Vector2 difference = new Vector2(newMousePos.x - lastFrameMousePos.x, newMousePos.y - lastFrameMousePos.y);
-            lastFrameMousePos = newMousePos;
-            rb.AddForce(difference.y * Vector3.up * liftFactor);
-            rb.AddForce(difference.x * planeOfMovement.direction * liftFactor);
-            Debug.Log(difference);
+            //hinge.transform.position = data.mousePosition.MousePickToXZPlane(1.5f);
+            transform.parent.transform.position = data.mousePosition.MousePickToXZPlane(0.1f);
+        }
+
+        void OnDrawGizmos()
+        {
+            if (pickedUp)
+            {
+                Vector3 finalPos = transform.parent.transform.position;
+                finalPos.y = initialPosition.y;
+                UnityEngine.Gizmos.DrawSphere(finalPos, 0.1f);
+            }
         }
 
         /**
@@ -107,7 +131,7 @@
         *from the mouse position crosses the plane
         *</summary>
         */
-        Vector3 rayToPlane(Ray plane)
+        Vector3 mousePickAgainstPlane(Ray plane)
         {
             Ray mousePoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
