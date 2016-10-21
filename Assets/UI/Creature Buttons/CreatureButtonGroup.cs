@@ -2,9 +2,9 @@
 using UnityEngine;
 using System.Collections;
 
-namespace EcoTile
+namespace EcoTile.UI
 {
-	public class CreatureButtonGroup : MonoBehaviour
+	class CreatureButtonGroup : MonoBehaviour
 	{
 
 		public CreatureButton buttonPrefab;

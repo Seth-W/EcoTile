@@ -2,9 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace EcoTile
+namespace EcoTile.UI
 {
-	public class CreatureButton : MonoBehaviour
+	class CreatureButton : MonoBehaviour
 	{
 
 		public int lookupId;

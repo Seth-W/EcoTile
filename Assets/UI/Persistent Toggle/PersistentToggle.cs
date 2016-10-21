@@ -1,90 +1,97 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using System.Collections;
+﻿namespace EcoTile.UI
+{
 
-public class PersistentToggle : MonoBehaviour {
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.UI;
+    using System.Collections;
 
-	public Sprite overSprite;
-	public Sprite selectedSprite;
+    class PersistentToggle : MonoBehaviour
+    {
+        public ToolBoxEnum toolType;
 
-	public bool startSelected;
+        public Sprite overSprite;
+        public Sprite selectedSprite;
 
-	public UnityEvent changed;
+        public bool startSelected;
 
-	public UnityEvent useTool;
+        public UnityEvent changed;
 
-	private Image _image;
-	private Sprite _normalSprite;
+        public UnityEvent useTool;
 
-	private bool _over;
-	private bool _selected;
+        private Image _image;
+        private Sprite _normalSprite;
 
-	private PersistentToggleGroup _group;
+        private bool _over;
+        private bool _selected;
 
-	public bool selected
-	{
-		get
-		{
-			return _selected;
-		}
-		set
-		{
-			_selected = value;
-			UpdateSprite();
-			changed.Invoke();
-		}
-	}
+        private PersistentToggleGroup _group;
 
-	// Use this for initialization
-	void Awake () {
-		_image = GetComponent<Image>();
-		_normalSprite = _image.sprite;
-	}
+        public bool selected
+        {
+            get
+            {
+                return _selected;
+            }
+            set
+            {
+                _selected = value;
+                UpdateSprite();
+                changed.Invoke();
+            }
+        }
 
-	void Start ()
-	{
-		_group = GetComponentInParent<PersistentToggleGroup>();
+        // Use this for initialization
+        void Awake()
+        {
+            _image = GetComponent<Image>();
+            _normalSprite = _image.sprite;
+        }
 
-		_group.RegisterToggle( this );
+        void Start()
+        {
+            _group = GetComponentInParent<PersistentToggleGroup>();
 
-		if ( startSelected )
-		{
-			OnPointerClick();
-		}
-	}
+            _group.RegisterToggle(this);
 
-	public void OnPointerEnter ()
-	{
-		_over = true;
-		UpdateSprite();
-	}
+            if (startSelected)
+            {
+                OnPointerClick();
+            }
+        }
 
-	public void OnPointerExit ()
-	{
-		_over = false;
-		UpdateSprite();
-	}
+        public void OnPointerEnter()
+        {
+            _over = true;
+            UpdateSprite();
+        }
 
-	public void OnPointerClick ()
-	{
-		_group.ClickToggle( this );
-	}
+        public void OnPointerExit()
+        {
+            _over = false;
+            UpdateSprite();
+        }
 
-	private void UpdateSprite ()
-	{
-		if ( selected )
-		{
-			_image.sprite = selectedSprite;
-		}
-		else if ( _over )
-		{
-			_image.sprite = overSprite;
-		}
-		else
-		{
-			_image.sprite = _normalSprite;
-		}
-	}
+        public void OnPointerClick()
+        {
+            _group.ClickToggle(this);
+        }
 
+        private void UpdateSprite()
+        {
+            if (selected)
+            {
+                _image.sprite = selectedSprite;
+            }
+            else if (_over)
+            {
+                _image.sprite = overSprite;
+            }
+            else
+            {
+                _image.sprite = _normalSprite;
+            }
+        }
+
+    }
 }
