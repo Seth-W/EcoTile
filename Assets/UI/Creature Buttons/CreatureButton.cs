@@ -10,6 +10,9 @@ namespace EcoTile.UI
 		public int lookupId;
 		public PersistentToggle toggle;
 		public CreatureFeedingSlider feedingSliderPrefab;
+		public Image portraitImage;
+
+		public Text nameLabel;
 
 		[HideInInspector]
 		[System.NonSerialized]
@@ -18,6 +21,19 @@ namespace EcoTile.UI
 		private CreaturePopup _popup;
 
 		private CreatureLookupTable _table;
+
+		private string GetCreatureName ( int argIndex )
+		{
+			GameObject prefab = _table.table [ argIndex ].creaturePrefab;
+			if ( prefab != null )
+			{
+				return prefab.name.Replace( "_", "" );
+			}
+			else
+			{
+				return "";
+			}
+		}
 
 		public CreatureLookupTable table
 		{
@@ -31,9 +47,14 @@ namespace EcoTile.UI
 					{
 						CreatureFeedingSlider slider = GameObject.Instantiate( feedingSliderPrefab );
 						slider.transform.SetParent( popup.sliderGroup.transform, false );
+						slider.nameLabel.text = GetCreatureName( i );
 						popup.sliderGroup.RegisterSlider( slider.groupedSlider );
 					}
 				}
+
+				nameLabel.text = GetCreatureName( lookupId );
+
+				portraitImage.sprite = _table.table [ lookupId ].sprite;
 			}
 			get
 			{

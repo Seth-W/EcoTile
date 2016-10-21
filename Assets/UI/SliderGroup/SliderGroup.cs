@@ -23,13 +23,16 @@ public class SliderGroup : MonoBehaviour {
 	public void RegisterSlider ( GroupedSlider argSlider )
 	{
 		sliders.Add( argSlider );
-		//argSlider.slider.onValueChanged.AddListener( delegate { OnSliderValueChanged( argSlider ); } );
-		Normalize( null );
+		argSlider.slider.onValueChanged.AddListener( delegate { OnSliderValueChanged( argSlider ); } );
+		Normalize( argSlider );
 	}
 
 	private void OnSliderValueChanged ( GroupedSlider argSlider )
 	{
-		Normalize( argSlider );
+		if ( !argSlider.changing )
+		{
+			Normalize( argSlider );
+		}
 	}
 
 	private void Normalize ( GroupedSlider argFixed )
@@ -41,6 +44,8 @@ public class SliderGroup : MonoBehaviour {
 
 		foreach ( GroupedSlider slider in sliders )
 		{
+			slider.changing = true;
+
 			total += slider.slider.value;
 			if ( slider != argFixed )
 			{
@@ -50,26 +55,28 @@ public class SliderGroup : MonoBehaviour {
 
 		if ( total != desiredTotal )
 		{
+
+			float totalLeftForNonFixed = desiredTotal - argFixed.slider.value;
+
 			foreach ( GroupedSlider slider in sliders )
 			{
-				if ( nonFixedTotal == 0 )
+				if ( slider != argFixed )
 				{
-				}
-				else
-				{
-					if ( argFixed == null )
+					if ( nonFixedTotal == 0 )
 					{
-						slider.slider.value = slider.slider.value * desiredTotal / total;
+						slider.slider.value = totalLeftForNonFixed / (float) ( sliders.Count - 1 );
 					}
 					else
 					{
-						if ( slider != argFixed )
-						{
-							slider.slider.value = slider.slider.value * desiredTotal / nonFixedTotal;
-						}
+						slider.slider.value = slider.slider.value * totalLeftForNonFixed / nonFixedTotal;
 					}
 				}
 			}
+		}
+
+		foreach ( GroupedSlider slider in sliders )
+		{
+			slider.changing = false;
 		}
 	}
 }

@@ -4,6 +4,10 @@ using System.Collections;
 
 public class GroupedSlider : MonoBehaviour {
 
+	[HideInInspector]
+	[System.NonSerialized]
+	public bool changing;
+
 	private Slider _slider;
 
 	public Slider slider
