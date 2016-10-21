@@ -23,6 +23,7 @@ namespace EcoTile.UI
 				CreatureButton button = GameObject.Instantiate( buttonPrefab );
 				button.group = this;
 				button.lookupId = i;
+				button.table = table;
 
 				button.transform.SetParent( transform, false );
 

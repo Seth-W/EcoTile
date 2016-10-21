@@ -6,6 +6,7 @@ namespace EcoTile.UI
 	class CreaturePopup : MonoBehaviour
 	{
 		public RectTransform border;
+		public SliderGroup sliderGroup;
 
 		[HideInInspector]
 		[System.NonSerialized]
