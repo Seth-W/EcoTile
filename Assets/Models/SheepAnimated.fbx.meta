@@ -1,52 +1,50 @@
 fileFormatVersion: 2
-guid: e551b14cc5e07904aadde45ad5849194
-timeCreated: 1474949516
+guid: 4a58ce39d0265e94b83a9c60d87d2d1c
+timeCreated: 1477070188
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: Armature
-    100002: Cube
-    100004: End
-    100006: End_end
-    100008: Head
-    100010: Head_end
-    100012: Heart
-    100014: L_Eye
-    100016: L_Eye_end
-    100018: L_EyeTail1
-    100020: L_EyeTail2
-    100022: L_EyeTail3
-    100024: R_Eye
-    100026: R_Eye_end
-    100028: R_EyeTail1
-    100030: R_EyeTail2
-    100032: R_EyeTail3
-    100034: Roll
-    100036: //RootNode
+    100002: Bone
+    100004: Bone.001
+    100006: Bone.001_end
+    100008: Cube
+    100010: L_BackFoot
+    100012: L_BackFoot_end
+    100014: L_BackLeg
+    100016: L_FrontFoot
+    100018: L_FrontFoot_end
+    100020: L_FrontLeg
+    100022: R_BackFoot
+    100024: R_BackFoot_end
+    100026: R_BackLeg
+    100028: R_FrontFoot
+    100030: R_FrontFoot_end
+    100032: R_FrontLeg
+    100034: //RootNode
     400000: Armature
-    400002: Cube
-    400004: End
-    400006: End_end
-    400008: Head
-    400010: Head_end
-    400012: Heart
-    400014: L_Eye
-    400016: L_Eye_end
-    400018: L_EyeTail1
-    400020: L_EyeTail2
-    400022: L_EyeTail3
-    400024: R_Eye
-    400026: R_Eye_end
-    400028: R_EyeTail1
-    400030: R_EyeTail2
-    400032: R_EyeTail3
-    400034: Roll
-    400036: //RootNode
+    400002: Bone
+    400004: Bone.001
+    400006: Bone.001_end
+    400008: Cube
+    400010: L_BackFoot
+    400012: L_BackFoot_end
+    400014: L_BackLeg
+    400016: L_FrontFoot
+    400018: L_FrontFoot_end
+    400020: L_FrontLeg
+    400022: R_BackFoot
+    400024: R_BackFoot_end
+    400026: R_BackLeg
+    400028: R_FrontFoot
+    400030: R_FrontFoot_end
+    400032: R_FrontLeg
+    400034: //RootNode
     4300000: Cube
-    7400000: Slug_Walk
-    7400002: Slug_Run
-    7400004: Slug_Idel
+    7400000: Sheep_Walk
+    7400002: Sheep_Run
+    7400004: Sheep_Idle
     9500000: //RootNode
     13700000: Cube
   materials:
@@ -71,10 +69,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Slug_Walk
+      name: Sheep_Walk
       takeName: Armature|ArmatureAction
-      firstFrame: 2
-      lastFrame: 24
+      firstFrame: 25
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -99,37 +97,35 @@ ModelImporter:
         weight: 1
       - path: Armature
         weight: 1
-      - path: Armature/Head
+      - path: Armature/Bone
         weight: 1
-      - path: Armature/Head/Head_end
+      - path: Armature/Bone/Bone.001
         weight: 1
-      - path: Armature/Heart
+      - path: Armature/Bone/Bone.001/Bone.001_end
         weight: 1
-      - path: Armature/Heart/Roll
+      - path: Armature/L_BackLeg
         weight: 1
-      - path: Armature/Heart/Roll/End
+      - path: Armature/L_BackLeg/L_BackFoot
         weight: 1
-      - path: Armature/Heart/Roll/End/End_end
+      - path: Armature/L_BackLeg/L_BackFoot/L_BackFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3
+      - path: Armature/L_FrontLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2
+      - path: Armature/L_FrontLeg/L_FrontFoot
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1
+      - path: Armature/L_FrontLeg/L_FrontFoot/L_FrontFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye
+      - path: Armature/R_BackLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye/L_Eye_end
+      - path: Armature/R_BackLeg/R_BackFoot
         weight: 1
-      - path: Armature/R_EyeTail3
+      - path: Armature/R_BackLeg/R_BackFoot/R_BackFoot_end
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2
+      - path: Armature/R_FrontLeg
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1
+      - path: Armature/R_FrontLeg/R_FrontFoot
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye
-        weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye/R_Eye_end
+      - path: Armature/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
         weight: 1
       - path: Cube
         weight: 1
@@ -137,10 +133,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Slug_Run
+      name: Sheep_Run
       takeName: Armature|ArmatureAction
-      firstFrame: 26
-      lastFrame: 39
+      firstFrame: 49
+      lastFrame: 63
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -165,37 +161,35 @@ ModelImporter:
         weight: 1
       - path: Armature
         weight: 1
-      - path: Armature/Head
+      - path: Armature/Bone
         weight: 1
-      - path: Armature/Head/Head_end
+      - path: Armature/Bone/Bone.001
         weight: 1
-      - path: Armature/Heart
+      - path: Armature/Bone/Bone.001/Bone.001_end
         weight: 1
-      - path: Armature/Heart/Roll
+      - path: Armature/L_BackLeg
         weight: 1
-      - path: Armature/Heart/Roll/End
+      - path: Armature/L_BackLeg/L_BackFoot
         weight: 1
-      - path: Armature/Heart/Roll/End/End_end
+      - path: Armature/L_BackLeg/L_BackFoot/L_BackFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3
+      - path: Armature/L_FrontLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2
+      - path: Armature/L_FrontLeg/L_FrontFoot
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1
+      - path: Armature/L_FrontLeg/L_FrontFoot/L_FrontFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye
+      - path: Armature/R_BackLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye/L_Eye_end
+      - path: Armature/R_BackLeg/R_BackFoot
         weight: 1
-      - path: Armature/R_EyeTail3
+      - path: Armature/R_BackLeg/R_BackFoot/R_BackFoot_end
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2
+      - path: Armature/R_FrontLeg
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1
+      - path: Armature/R_FrontLeg/R_FrontFoot
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye
-        weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye/R_Eye_end
+      - path: Armature/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
         weight: 1
       - path: Cube
         weight: 1
@@ -203,10 +197,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Slug_Idel
+      name: Sheep_Idle
       takeName: Armature|ArmatureAction
-      firstFrame: 66
-      lastFrame: 89
+      firstFrame: 0
+      lastFrame: 119
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -231,37 +225,35 @@ ModelImporter:
         weight: 1
       - path: Armature
         weight: 1
-      - path: Armature/Head
+      - path: Armature/Bone
         weight: 1
-      - path: Armature/Head/Head_end
+      - path: Armature/Bone/Bone.001
         weight: 1
-      - path: Armature/Heart
+      - path: Armature/Bone/Bone.001/Bone.001_end
         weight: 1
-      - path: Armature/Heart/Roll
+      - path: Armature/L_BackLeg
         weight: 1
-      - path: Armature/Heart/Roll/End
+      - path: Armature/L_BackLeg/L_BackFoot
         weight: 1
-      - path: Armature/Heart/Roll/End/End_end
+      - path: Armature/L_BackLeg/L_BackFoot/L_BackFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3
+      - path: Armature/L_FrontLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2
+      - path: Armature/L_FrontLeg/L_FrontFoot
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1
+      - path: Armature/L_FrontLeg/L_FrontFoot/L_FrontFoot_end
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye
+      - path: Armature/R_BackLeg
         weight: 1
-      - path: Armature/L_EyeTail3/L_EyeTail2/L_EyeTail1/L_Eye/L_Eye_end
+      - path: Armature/R_BackLeg/R_BackFoot
         weight: 1
-      - path: Armature/R_EyeTail3
+      - path: Armature/R_BackLeg/R_BackFoot/R_BackFoot_end
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2
+      - path: Armature/R_FrontLeg
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1
+      - path: Armature/R_FrontLeg/R_FrontFoot
         weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye
-        weight: 1
-      - path: Armature/R_EyeTail3/R_EyeTail2/R_EyeTail1/R_Eye/R_Eye_end
+      - path: Armature/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
         weight: 1
       - path: Cube
         weight: 1
@@ -271,7 +263,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.025
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
