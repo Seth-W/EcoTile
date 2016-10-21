@@ -2,6 +2,6 @@
 {
     enum CreatureType
     {
-        TOKU, MONSTER
+        TOKU, FROG, BOAR 
     }
 }

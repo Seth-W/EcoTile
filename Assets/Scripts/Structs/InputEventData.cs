@@ -9,6 +9,8 @@
 
         public MouseStatusData mouseInput;
 
+        public ToolBoxEnum toolType;
+
         /**
         *<summary>
         *The current mouse position in pixel coordinates
@@ -20,7 +22,7 @@
 
         public Vector3 mouseXZProjection, mouseXZProjectionStepwise;
         
-        public InputEventData(string s)
+        public InputEventData(ToolBoxEnum type)
         {
             touchesThisFrame = new Touch[Input.touchCount];
             for (int i = 0; i < Input.touchCount; i++)
@@ -37,6 +39,8 @@
             mouseXZProjectionStepwise = mousePosition.MousePickToXZPlaneStepWise();
 
             nodePos = mouseXZProjectionStepwise.ToNodePosition();
+
+            toolType = type;
         }
     }
 }

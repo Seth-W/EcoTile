@@ -64,27 +64,28 @@
             if (inputData.mouseInput.mouse0)
             {
                 //Early dev measure to Stopgap not having a Fire State Machine
-                if (Input.GetKey(KeyCode.LeftControl) && ! Input.GetKey(KeyCode.LeftAlt))
+                if (inputData.toolType == ToolBoxEnum.CREATE)
                 {
                     Debug.LogWarning("This should be removed in place of a Fire State machine");
                     spawnNode(nodePos);
                 }
-            }
-            //Update the activeNode on RightClicks
-            if(inputData.mouseInput.mouse1up && !inputData.mouseInput.mouse0)
-            {
-                //If there is a node at the given position update the active node
-                if (getNode(nodePos) != null)
+
+                //Update the activeNode
+                if (inputData.toolType == ToolBoxEnum.SELECT)
                 {
-                    activeNode = nodePos;
-                    activeNodeUpdateEvent(activeNode);
+                    //If there is a node at the given position update the active node
+                    if (getNode(nodePos) != null)
+                    {
+                        activeNode = nodePos;
+                        activeNodeUpdateEvent(activeNode);
+                    }
                 }
             }
 
             //Toggle the road condition on the active node
             if(inputData.mouseInput.mouse0down)
             {
-                if(Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.LeftControl))
+                if(inputData.toolType == ToolBoxEnum.ADD_ROAD)
                 {
                     Debug.LogWarning("This should be removed in place of a Fire State machine");
                     getNode(nodePos).toggleRoadEnabled();
@@ -92,9 +93,9 @@
             }
 
             //Delete the selected node
-            if(Input.GetKeyUp(KeyCode.Delete) || Input.GetKeyUp(KeyCode.Backspace))
+            if(inputData.mouseInput.mouse0down && inputData.toolType == ToolBoxEnum.DELETE)
             {
-                deleteNode(activeNode);
+                deleteNode(inputData.nodePos);
             }
         }
 

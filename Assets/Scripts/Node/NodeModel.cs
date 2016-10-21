@@ -297,7 +297,7 @@
                     retValue[i] += workingArray[i];
                 }
             }
-            CreatureFeedingValue feedingValues = table.table[creatureType];
+            CreatureData feedingValues = table.table[creatureType];
 
             int creaturesFed = 0;
 

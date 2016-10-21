@@ -207,7 +207,7 @@
             {
                 while(prevCreatureNumber < newCreatureAmount)
                 {
-                    creaturesOnTile.Push(Instantiate(creatureLookupTable.CreatureModels[creatureType] as GameObject));
+                    creaturesOnTile.Push(Instantiate(creatureLookupTable.table[creatureType].creaturePrefab as GameObject));
                     prevCreatureNumber += 1;
                     if(creaturesOnTile.Peek() == null)
                     {

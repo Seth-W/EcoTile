@@ -3,7 +3,7 @@
     using UnityEngine;
     using System.Collections;
 
-    class CameraView : MonoBehaviour, IObjectView 
+    class CameraView : MonoBehaviour, IObjectView
     {
         public delegate void CameraInZoom(bool zoomingIn);
         public delegate void CameraZoomFinish(bool zoomingIn);
@@ -21,27 +21,25 @@
 
         bool _inTransition = false;
         bool _zoomedIn = false;
-        
+
         void OnEnable()
         {
             projectionBlender = new OrthoPerspectiveMatrixBlender(fov, far, near, orthoSize);
+
+            InputManager.FrameInputEvent += OnFrameInput;
         }
 
         void OnDisable()
         {
-
+            InputManager.FrameInputEvent -= OnFrameInput;
         }
 
-        void Update()
+        void OnFrameInput(InputEventData data)
         {
-            if(Input.GetKeyUp(KeyCode.Space))
-            {
-                changeZoomState();
-            }
-            if(Input.GetKeyUp(KeyCode.R))
-            {
-                mainCamera.ResetProjectionMatrix();
-            }
+            if (data.toolType == ToolBoxEnum.ZOOM_IN)
+                zoomIn();
+            if (data.toolType == ToolBoxEnum.ZOOM_OUT)
+                zoomOut();
         }
 
         /**

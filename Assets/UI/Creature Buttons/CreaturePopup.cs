@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace EcoTile
+namespace EcoTile.UI
 {
-	public class CreaturePopup : MonoBehaviour
+	class CreaturePopup : MonoBehaviour
 	{
 		public RectTransform border;
 

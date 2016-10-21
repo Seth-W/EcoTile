@@ -1,0 +1,414 @@
+fileFormatVersion: 2
+guid: dfd79f1eabb48634d8e496a2c5fe3c40
+timeCreated: 1477010160
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Armature
+    100002: BackTail
+    100004: BackTail_end
+    100006: //RootNode
+    100008: Bone.016
+    100010: Bone.017
+    100012: butt
+    100014: butt_end
+    100016: Camera
+    100018: Cube
+    100020: FrontTail
+    100022: Head
+    100024: Head_end
+    100026: heart
+    100028: L_BackBotomLeg
+    100030: L_BackFoot
+    100032: L_BackFoot_end
+    100034: L_BackTopLeg
+    100036: L_Ear
+    100038: L_Ear_end
+    100040: L_FrontBottomLeg
+    100042: L_FrontFoot
+    100044: L_FrontFoot_end
+    100046: L_FrontTopLeg
+    100048: L_Wing1
+    100050: L_Wing2
+    100052: L_Wing2_end
+    100054: Lamp
+    100056: Lamp.001
+    100058: Lamp.002
+    100060: Lamp.003
+    100062: Lamp.004
+    100064: Lamp.005
+    100066: Lamp.006
+    100068: MiddleTail
+    100070: R_BackBottomLeg
+    100072: R_BackFront
+    100074: R_BackFront_end
+    100076: R_BackTopLeg
+    100078: R_Ear
+    100080: R_Ear_end
+    100082: R_FrontFoot
+    100084: R_FrontFoot_end
+    100086: R_Wing1
+    100088: R_Wing2
+    100090: R_Wing2_end
+    100092: stomach
+    400000: Armature
+    400002: BackTail
+    400004: BackTail_end
+    400006: //RootNode
+    400008: Bone.016
+    400010: Bone.017
+    400012: butt
+    400014: butt_end
+    400016: Camera
+    400018: Cube
+    400020: FrontTail
+    400022: Head
+    400024: Head_end
+    400026: heart
+    400028: L_BackBotomLeg
+    400030: L_BackFoot
+    400032: L_BackFoot_end
+    400034: L_BackTopLeg
+    400036: L_Ear
+    400038: L_Ear_end
+    400040: L_FrontBottomLeg
+    400042: L_FrontFoot
+    400044: L_FrontFoot_end
+    400046: L_FrontTopLeg
+    400048: L_Wing1
+    400050: L_Wing2
+    400052: L_Wing2_end
+    400054: Lamp
+    400056: Lamp.001
+    400058: Lamp.002
+    400060: Lamp.003
+    400062: Lamp.004
+    400064: Lamp.005
+    400066: Lamp.006
+    400068: MiddleTail
+    400070: R_BackBottomLeg
+    400072: R_BackFront
+    400074: R_BackFront_end
+    400076: R_BackTopLeg
+    400078: R_Ear
+    400080: R_Ear_end
+    400082: R_FrontFoot
+    400084: R_FrontFoot_end
+    400086: R_Wing1
+    400088: R_Wing2
+    400090: R_Wing2_end
+    400092: stomach
+    4300000: Cube
+    7400000: Boar_Idle
+    7400002: Boar_Walk
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Boar_Idle
+      takeName: Armature|ArmatureAction
+      firstFrame: 1
+      lastFrame: 23
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone.016
+        weight: 1
+      - path: Armature/Bone.016/Bone.017
+        weight: 1
+      - path: Armature/Bone.016/Bone.017/R_FrontFoot
+        weight: 1
+      - path: Armature/Bone.016/Bone.017/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/FrontTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail/BackTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail/BackTail/BackTail_end
+        weight: 1
+      - path: Armature/Head
+        weight: 1
+      - path: Armature/Head/Head_end
+        weight: 1
+      - path: Armature/heart
+        weight: 1
+      - path: Armature/heart/stomach
+        weight: 1
+      - path: Armature/heart/stomach/butt
+        weight: 1
+      - path: Armature/heart/stomach/butt/butt_end
+        weight: 1
+      - path: Armature/L_BackTopLeg
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_Ear
+        weight: 1
+      - path: Armature/L_Ear/L_Ear_end
+        weight: 1
+      - path: Armature/L_FrontTopLeg
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg/L_FrontFoot
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/L_Wing1
+        weight: 1
+      - path: Armature/L_Wing1/L_Wing2
+        weight: 1
+      - path: Armature/L_Wing1/L_Wing2/L_Wing2_end
+        weight: 1
+      - path: Armature/R_BackTopLeg
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg/R_BackFront
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg/R_BackFront/R_BackFront_end
+        weight: 1
+      - path: Armature/R_Ear
+        weight: 1
+      - path: Armature/R_Ear/R_Ear_end
+        weight: 1
+      - path: Armature/R_Wing1
+        weight: 1
+      - path: Armature/R_Wing1/R_Wing2
+        weight: 1
+      - path: Armature/R_Wing1/R_Wing2/R_Wing2_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Lamp.003
+        weight: 1
+      - path: Lamp.004
+        weight: 1
+      - path: Lamp.005
+        weight: 1
+      - path: Lamp.006
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Boar_Walk
+      takeName: Armature|ArmatureAction
+      firstFrame: 25
+      lastFrame: 47
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone.016
+        weight: 1
+      - path: Armature/Bone.016/Bone.017
+        weight: 1
+      - path: Armature/Bone.016/Bone.017/R_FrontFoot
+        weight: 1
+      - path: Armature/Bone.016/Bone.017/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/FrontTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail/BackTail
+        weight: 1
+      - path: Armature/FrontTail/MiddleTail/BackTail/BackTail_end
+        weight: 1
+      - path: Armature/Head
+        weight: 1
+      - path: Armature/Head/Head_end
+        weight: 1
+      - path: Armature/heart
+        weight: 1
+      - path: Armature/heart/stomach
+        weight: 1
+      - path: Armature/heart/stomach/butt
+        weight: 1
+      - path: Armature/heart/stomach/butt/butt_end
+        weight: 1
+      - path: Armature/L_BackTopLeg
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackTopLeg/L_BackBotomLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_Ear
+        weight: 1
+      - path: Armature/L_Ear/L_Ear_end
+        weight: 1
+      - path: Armature/L_FrontTopLeg
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg/L_FrontFoot
+        weight: 1
+      - path: Armature/L_FrontTopLeg/L_FrontBottomLeg/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/L_Wing1
+        weight: 1
+      - path: Armature/L_Wing1/L_Wing2
+        weight: 1
+      - path: Armature/L_Wing1/L_Wing2/L_Wing2_end
+        weight: 1
+      - path: Armature/R_BackTopLeg
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg/R_BackFront
+        weight: 1
+      - path: Armature/R_BackTopLeg/R_BackBottomLeg/R_BackFront/R_BackFront_end
+        weight: 1
+      - path: Armature/R_Ear
+        weight: 1
+      - path: Armature/R_Ear/R_Ear_end
+        weight: 1
+      - path: Armature/R_Wing1
+        weight: 1
+      - path: Armature/R_Wing1/R_Wing2
+        weight: 1
+      - path: Armature/R_Wing1/R_Wing2/R_Wing2_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Lamp.003
+        weight: 1
+      - path: Lamp.004
+        weight: 1
+      - path: Lamp.005
+        weight: 1
+      - path: Lamp.006
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
