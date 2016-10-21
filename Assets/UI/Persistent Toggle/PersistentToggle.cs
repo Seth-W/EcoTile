@@ -8,6 +8,7 @@
 
     class PersistentToggle : MonoBehaviour
     {
+
         public ToolBoxEnum toolType;
 
         public Sprite overSprite;
@@ -41,7 +42,7 @@
             }
         }
 
-        // Use this for initialization
+
         void Awake()
         {
             _image = GetComponent<Image>();
@@ -77,7 +78,7 @@
             _group.ClickToggle(this);
         }
 
-        private void UpdateSprite()
+        protected void UpdateSprite()
         {
             if (selected)
             {
@@ -92,6 +93,5 @@
                 _image.sprite = _normalSprite;
             }
         }
-
     }
 }

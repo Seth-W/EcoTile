@@ -1,8 +1,7 @@
 ﻿namespace EcoTile.UI
 {
     using UnityEngine;
-    using UnityEngine.UI;
-    using System.Collections;
+    using EcoTile;
     using System.Collections.Generic;
 
     class PersistentToggleGroup : MonoBehaviour
@@ -25,6 +24,31 @@
                     _toggles = new List<PersistentToggle>();
                 }
                 return _toggles;
+            }
+        }
+
+
+
+        void OnEnable()
+        {
+            CameraView.CameraZoomFinishEvent += OnZoomEndEvent;
+        }
+        void OnDisable()
+        {
+            CameraView.CameraZoomFinishEvent -= OnZoomEndEvent;
+        }
+
+
+        void OnZoomEndEvent(bool zoomIn)
+        {
+            if (!zoomIn)
+            {
+                ToolUpdateEvent(ToolBoxEnum.SELECT);
+                for (int i = 0; i < toggles.Count; i++)
+                {
+                    if (_toggles[i].toolType == ToolBoxEnum.SELECT)
+                        ClickToggle(_toggles[i]);
+                }
             }
         }
 
