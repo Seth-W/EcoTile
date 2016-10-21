@@ -3,6 +3,7 @@
     using UnityEngine;
     using EcoTile.ExtensionMethods;
     using UnityEngine.UI;
+    using UI;
 
     class InputManager : MonoBehaviour
     {
@@ -11,17 +12,21 @@
 
         bool zoomedInState;
         MousePicker picker;
+        ToolBoxEnum toolType;
 
 
         void OnEnable()
         {
-            CameraView.CameraZoomFinishEvent += OnCameraZoomFinish;
             picker = new MousePicker();
+
+            CameraView.CameraZoomFinishEvent += OnCameraZoomFinish;
+            PersistentToggleGroup.ToolUpdateEvent += OnToolUpdate;
         }
 
         void OnDisable()
         {
             CameraView.CameraZoomFinishEvent -= OnCameraZoomFinish;
+            PersistentToggleGroup.ToolUpdateEvent -= OnToolUpdate;
         }
 
 
@@ -41,12 +46,26 @@
 
         InputEventData getFrameInputData()
         {
-            return new InputEventData("This doesn't do anything");
+            return new InputEventData(toolType);
         }
 
         void OnCameraZoomFinish(bool zoomedIn)
         {
             zoomedInState = zoomedIn;
         }
+
+        void OnToolUpdate(ToolBoxEnum type)
+        {
+            setToolType(type);
+        }
+
+        public void setToolType(ToolBoxEnum type)
+        {
+            if (toolType != type)
+            {
+                toolType = type;
+            }
+        }
+
     }
 }
