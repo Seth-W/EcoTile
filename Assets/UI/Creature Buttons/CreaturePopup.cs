@@ -5,6 +5,9 @@ namespace EcoTile.UI
 {
 	class CreaturePopup : MonoBehaviour
 	{
+		public delegate void ToolUpdate ( ToolBoxEnum type );
+		public static ToolUpdate ToolUpdateEvent;
+
 		public RectTransform border;
 		public SliderGroup sliderGroup;
 
@@ -21,16 +24,16 @@ namespace EcoTile.UI
 		// Update is called once per frame
 		void Update ()
 		{
-
-			if ( Input.GetMouseButtonDown( 0 ) )
+			bool inWindow = 
+				RectTransformUtility.RectangleContainsScreenPoint( border, Input.mousePosition ) ||
+				RectTransformUtility.RectangleContainsScreenPoint( (RectTransform)transform.parent.transform, Input.mousePosition ); 
+			if ( !inWindow )
 			{
-				if ( !RectTransformUtility.RectangleContainsScreenPoint( border, Input.mousePosition ) )
-				{
-					gameObject.SetActive( false );
-					button.toggle.selected = false;
-				}
-			}
+				gameObject.SetActive( false );
+				button.toggle.selected = false;
+				ToolUpdateEvent( ToolBoxEnum.SELECT );
 
+			}
 		}
 	}
 }

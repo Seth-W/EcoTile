@@ -21,13 +21,15 @@
 
             CameraView.CameraZoomFinishEvent += OnCameraZoomFinish;
             PersistentToggleGroup.ToolUpdateEvent += OnToolUpdate;
+			CreaturePopup.ToolUpdateEvent += OnToolUpdate;
         }
 
         void OnDisable()
         {
             CameraView.CameraZoomFinishEvent -= OnCameraZoomFinish;
             PersistentToggleGroup.ToolUpdateEvent -= OnToolUpdate;
-        }
+			CreaturePopup.ToolUpdateEvent -= OnToolUpdate;
+		}
 
 
         void Start()
