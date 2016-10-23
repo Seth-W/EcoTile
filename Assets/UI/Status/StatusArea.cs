@@ -52,17 +52,4 @@ public class StatusArea : MonoBehaviour {
 		_pollution--;
 		pollutionText.text = _pollution.ToString();
 	}
-
-	public void Update ()
-	{
-		if ( Input.GetKeyDown( KeyCode.P ) )
-		{
-			DecrementPollution();
-		}
-
-		if ( Input.GetKeyDown( KeyCode.E ) )
-		{
-			DecrementEnergy();
-		}
-	}
 }
