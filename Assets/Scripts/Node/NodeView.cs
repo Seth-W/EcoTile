@@ -75,7 +75,7 @@
             {
                 updateVegetation(updatedAmounts[0]);
             }
-            if (creatureType != 0 && creatureType != updatedAmounts.Length - 1)
+            if (creatureType != 0 /*&& creatureType != updatedAmounts.Length - 1*/)
             {
                 if (prevCreatureNumber != updatedAmounts[creatureType])
                 {
