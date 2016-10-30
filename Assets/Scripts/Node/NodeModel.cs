@@ -9,9 +9,11 @@
     {
         public delegate void creatureAmountsUpdate(int[] updatedAmounts);
         public delegate void refreshActiveNode(int[] updatedAmounts);
+        public delegate void creaturePopulationIncrement(CreatureType type, int incrementValue);
 
         public creatureAmountsUpdate NodeModelCreatureAmountsUpdateEvent;
         public static refreshActiveNode NodeModelRefreshActiveNodeEvent;
+        public static creaturePopulationIncrement CreaturePopulationIncrementEvent;
 
         NodeControl control;
         NodeView view;
@@ -19,7 +21,8 @@
         [SerializeField]
         int[] _creatureAmounts;
         [SerializeField]
-        int creatureType;
+        CreatureType _type;
+        int creatureType { get { return (int)_type; } }
 
         [SerializeField]
         public NodePosition nodePos;
@@ -39,6 +42,19 @@
         public int[] creatureAmounts
         {
             get { return _creatureAmounts.Clone() as int[]; }
+        }
+
+        public CreatureType type
+        {
+            get { return _type; }
+            set
+            {
+                if (_type != value)
+                {
+                    updateCreatureAmount(creatureType, 0);
+                    _type = value;
+                }
+            }                
         }
 
         bool visitedThisTickUpdatePass;
@@ -88,12 +104,13 @@
                 {
                     incrementCreatureAmount(creatureType, 1);
                 }
+                Debug.Log(creatureUpdateAmount);
             }
 
-            if(NodeManager.activeNode.Equals(nodePos))
-            {
-                NodeModelRefreshActiveNodeEvent(creatureAmounts);
-            }
+            //if(NodeManager.activeNode.Equals(nodePos))
+            //{
+            //    NodeModelRefreshActiveNodeEvent(creatureAmounts);
+            //}
 
         }
 
@@ -170,19 +187,10 @@
         */
         public void updateCreatureAmount(int index, int n)
         {
+            int difference = n - _creatureAmounts[index];
             _creatureAmounts[index] = n;
             NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
-        }
-
-        /**
-        *<summary>
-        *Takes an array of integers and updates the whole creature index
-        *</summary>
-        */
-        public void updateCreatureAmount(int[] newAmounts)
-        {
-            _creatureAmounts = newAmounts;
-            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+            CreaturePopulationIncrementEvent(type, difference);
         }
 
         /**
@@ -193,7 +201,8 @@
         public void incrementCreatureAmount(int index, int increment)
         {
             _creatureAmounts[index] += increment;
-            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]); 
+            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+            CreaturePopulationIncrementEvent(type, increment);
         }
 
         /**
@@ -276,9 +285,11 @@
         *A positive number is a surplus of resources, a negative is a deficit and 0 means they are balanced. 
         *</summary>
         */
-        public int queryNeighbors()
+        public NodeTickInputData getNodeTickData()
         {
             int[] retValue = new int[10];
+            int[,,] retArray = new int[NodeManager.MapWidth, NodeManager.MapLength, 10];
+            Stack<NodePosition> retStack = new Stack<NodePosition>();
 
             Stack<NodeModel> frontier = new Stack<NodeModel>();
 
@@ -295,20 +306,13 @@
                 for(int i = 0; i < workingArray.Length; i++)
                 {
                     retValue[i] += workingArray[i];
+                    retArray[workingModel.nodePos.xIndex, workingModel.nodePos.zIndex, i] = workingArray[i];
+                    retStack.Push(workingModel.nodePos);
                 }
             }
-            CreatureData feedingValues = table.table[creatureType];
+            CreatureData feedingValues = table.creatureData[creatureType];
 
-            int creaturesFed = 0;
-
-            for(int i = 0; i < feedingValues.feedingEnabled.Length; i++ )
-            {
-                if(feedingValues.feedingEnabled[i])
-                {
-                    creaturesFed += retValue[i] / feedingValues.amountsOfEachToFeed[i];
-                }
-            }
-            return creaturesFed - _creatureAmounts[creatureType];            
+            return new NodeTickInputData(_type, creatureAmounts[creatureType], retArray, retStack);            
         }
 
         /**

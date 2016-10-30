@@ -8,7 +8,15 @@ public class MessageButton : MonoBehaviour {
 	public Text messageTextBox;
 	public float messageDuration;
 
-	public void SetMessageText ( string argText )
+    public void DisplayMessage(string message, float duration)
+    {
+        popup.SetActive(true);
+        messageTextBox.text = message;
+
+        Invoke("HidePopup", duration);
+    }
+
+    public void SetMessageText ( string argText )
 	{
 		messageTextBox.text = argText;
 	}

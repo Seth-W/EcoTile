@@ -1,8 +1,6 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using System.Collections;
-    using System;
     using System.Collections.Generic;
 
     class NodeView : MonoBehaviour, IObjectView
@@ -207,7 +205,7 @@
             {
                 while(prevCreatureNumber < newCreatureAmount)
                 {
-                    creaturesOnTile.Push(Instantiate(creatureLookupTable.table[creatureType].creaturePrefab as GameObject));
+                    creaturesOnTile.Push(Instantiate(creatureLookupTable.creatureData[creatureType].creaturePrefab as GameObject));
                     prevCreatureNumber += 1;
                     if(creaturesOnTile.Peek() == null)
                     {

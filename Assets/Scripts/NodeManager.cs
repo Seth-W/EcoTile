@@ -1,15 +1,19 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
-    using EcoTile.ExtensionMethods;
+    using EcoTile.UI;
 
     class NodeManager : MonoBehaviour
     {
         public delegate void activeNodeUpdate(NodePosition nodePos);
         public delegate void nodeDelete(NodePosition nodePos);
+        public delegate void nodeCreate(NodePosition nodePos, int energyCost);
+        public delegate void roadToggle(bool roadEnabled, int roadCost);
 
         public static activeNodeUpdate activeNodeUpdateEvent;
         public static nodeDelete nodeDeleteEvent;
+        public static nodeCreate nodeCreateEvent;
+        public static roadToggle roadToggleEvent;
 
         [SerializeField]
         int _mapWidth, _mapLength;
@@ -22,7 +26,12 @@
         VegetationDensity vegDensity;
 
         [SerializeField]
+        int energyCostPerTile, energyCostPerRoad;
+
+        [SerializeField]
         GameObject nodePrefab;
+        [SerializeField]
+        MessageButton messageInterface;
 
         public NodeModel[,] nodes;
 
@@ -33,11 +42,13 @@
         {
             InputManager.FrameInputEvent += OnInputEvent;
             SlidersControl.SliderValueUpdateEvent += OnSliderValueUpdateEvent;
+            CreatureButton.CreatureButtonClickEvent += OnCreatureButtonClickEvent;
         }
         void OnDisable()
         {
             InputManager.FrameInputEvent -= OnInputEvent;
             SlidersControl.SliderValueUpdateEvent -= OnSliderValueUpdateEvent;
+            CreatureButton.CreatureButtonClickEvent -= OnCreatureButtonClickEvent;
         }
 
 
@@ -87,8 +98,7 @@
             {
                 if(inputData.toolType == ToolBoxEnum.ADD_ROAD)
                 {
-                    Debug.LogWarning("This should be removed in place of a Fire State machine");
-                    getNode(nodePos).toggleRoadEnabled();
+                    ToggleRoad(getNode(nodePos));
                 }
             }
 
@@ -109,6 +119,12 @@
         {
             NodeModel activeNodeModel = getNode(activeNode);
             activeNodeModel.updateCreatureAmount(index, value);
+        }
+
+        void OnCreatureButtonClickEvent(CreatureType typeSelected)
+        {
+            if(getNode(activeNode) != null && getNode(activeNode).deletable)
+                getNode(activeNode).type = typeSelected;
         }
 
         /**
@@ -150,6 +166,15 @@
                 {
                     return;
                 }
+
+                //Exits if the player doesn't have enough energy to spawn a node
+                if(EnergyPollutionManager.energyValue < energyCostPerTile)
+                {
+                    messageInterface.DisplayMessage("Not enough energy. Try growing your population to increase energy!", 4f);
+                    return;
+                }
+
+                nodeCreateEvent(nodePos, energyCostPerTile);
 
                 GameObject newNode = Instantiate(nodePrefab, nodePos.position, Quaternion.identity) as GameObject;
                 NodeModel newNodeModel = newNode.GetComponent<NodeModel>();
@@ -194,6 +219,22 @@
             getNode(nodePos).deleteNode();
             nodeDeleteEvent(nodePos);
             nodes[nodePos.xIndex, nodePos.zIndex] = null;
+        }
+
+        void ToggleRoad(NodeModel nodeMod)
+        {
+            if (!nodeMod.roadEnabled)
+            {
+                if (EnergyPollutionManager.energyValue >= energyCostPerRoad)
+                {
+                    nodeMod.toggleRoadEnabled();
+                }
+            }
+            else
+            {
+                nodeMod.toggleRoadEnabled();
+            }
+            roadToggleEvent(nodeMod.roadEnabled, energyCostPerRoad);
         }
 
         /**

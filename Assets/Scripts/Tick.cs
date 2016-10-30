@@ -1,14 +1,17 @@
 ﻿namespace EcoTile
 {
     using UnityEngine;
+    using System.Collections.Generic;
 
     class Tick
     {
-        int[,] nodeUpdateData;
+        public int[,] tickData;
 
-        public Tick(int[,] nodeUpdateData)
+
+
+        public Tick(NodeTickInputData[,] nodeUpdateData, Queue<NodePosition>[] tilesByCreatureQueue)
         {
-            this.nodeUpdateData = nodeUpdateData;
+            tickData = calculateSurplusValues(nodeUpdateData, tilesByCreatureQueue);
         }
         
         /**
@@ -19,7 +22,7 @@
         */
         public int getNodeData(int xIndex, int zIndex)
         {
-            return nodeUpdateData[xIndex, zIndex];
+            return tickData[xIndex, zIndex];
         }
         
         /**
@@ -30,7 +33,158 @@
         */
         public int getNodeData(NodePosition nodePos)
         {
-            return nodeUpdateData[nodePos.xIndex, nodePos.zIndex];
+            return tickData[nodePos.xIndex, nodePos.zIndex];
+        }
+
+        /**
+        *<summary>
+        *Retuns a 2D array of integers representing whether a tile had a surplus or deficit of food for this tick
+        *</summary>
+        */
+        int[,] calculateSurplusValues(NodeTickInputData[,] tickInputData, Queue<NodePosition>[] nodePosQueue)
+        {
+            int[,] retValue = new int[NodeManager.MapWidth, NodeManager.MapLength];
+
+            for (int i = 1; i < DataManager.amountOfCreatures - 1; i++)
+            {
+                NodePosition workingNode;
+                while (nodePosQueue[i].Count > 0)
+                {
+                    workingNode = nodePosQueue[i].Dequeue();
+                    retValue[workingNode.xIndex, workingNode.zIndex] = calculateTileSurplus(getCurrentCreatureAmountsByTile(), tickInputData[workingNode.xIndex, workingNode.zIndex]);
+                }
+            }
+            return retValue;
+        }
+
+        /**
+        *<summary>
+        *Returns a 3D array of integers capturing the current amount of resources (read: creatures) available for tiles to feed off of this tick
+        *</summary>
+        */
+        int[,,] getCurrentCreatureAmountsByTile()
+        {
+            int[,,] retValue = new int[NodeManager.MapWidth, NodeManager.MapLength, DataManager.amountOfCreatures];
+
+            NodeModel workingModel;
+
+            for (int i = 0; i < NodeManager.MapWidth; i++)
+            {
+                for (int j = 0; j < NodeManager.MapLength; j++)
+                {
+                    for (int k = 0; k < DataManager.amountOfCreatures; k++)
+                    {
+                        workingModel = NodeManager.getNode(i, j);
+                        if(workingModel != null)
+                            retValue[i, j, k] = workingModel.getCreatureAmount(k);
+                        
+                        //Debug.Log(i + "," + j + "\n" + retValue[i, j, k]);
+                    }
+                }
+            }
+
+            return retValue;
+        }
+
+        /**
+        *<summary>
+        *Returns an int representing the surplus/deficit for a given Tile based on its <see cref="NodeTickInputData"/> and the current resources available for feeding
+        *</summary>
+        */
+        int calculateTileSurplus(int[,,] creatureAmountsByTile, NodeTickInputData currentTileInputData)
+        {
+            int retValue = 0;
+            
+            int[] amountNeeded = getAmountOfResourcesNeeded(currentTileInputData);
+            int[] surplus = new int[DataManager.amountOfCreatures];
+
+            int deficit = DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].energyCostPerTick * currentTileInputData.amountOfCreaturesOnTile;
+
+
+            NodePosition nodePos;
+
+            //Loop through the tiles stack of neighbors until fed
+            while (currentTileInputData.neighborStack.Count > 0 || !checkIfFed(amountNeeded))
+            {
+                nodePos = currentTileInputData.neighborStack.Pop();
+                
+                for (int i = 0; i < DataManager.amountOfCreatures; i++)
+                {
+                    if (DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].feedingEnabled[i])
+                    {
+                        int foodOfTypeOnTile = creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i];
+                        //Debug.Log("Food of type on tile: "+ foodOfTypeOnTile);
+
+                        //If there is enough food on the tile to satisfy the remaining needs, set needs to 0 rather than a negative
+                        if (foodOfTypeOnTile >= amountNeeded[i])
+                        {
+                            creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] -= amountNeeded[i];
+                            surplus[i] += foodOfTypeOnTile - amountNeeded[i];
+                            amountNeeded[i] = 0;
+                            deficit -= foodOfTypeOnTile - amountNeeded[i];
+                        }
+                        else
+                        {
+                            creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] = 0;
+                            amountNeeded[i] -= foodOfTypeOnTile;
+                            deficit -= foodOfTypeOnTile;
+                        }
+                    }
+                }
+            }
+
+            //Tally the total surplus/Deficit numbers
+            for (int i = 0; i < DataManager.amountOfCreatures; i++)
+            {
+                retValue += surplus[i];
+                retValue += amountNeeded[i];
+                //Debug.Log("Surplus: " + surplus[i]);
+                //Debug.Log("Deficit: " + amountNeeded[i]);
+            }
+            //Debug.Log(retValue);
+            return -deficit;
+        }
+
+        /**
+        *<summary>
+        *Returns an array of integers representing the amount of each type of creature the given tile will need to be fully satisfied
+        *</summary>
+        */
+        int[] getAmountOfResourcesNeeded(NodeTickInputData currentTileInputData)
+        {
+            int[] retValue = new int[DataManager.amountOfCreatures];
+            DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].amountsOfEachToFeed.CopyTo(retValue, 0);
+
+            for (int i = 0; i < DataManager.amountOfCreatures; i++)
+            {
+                if (DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].feedingEnabled[i])
+                {
+                    retValue[i] *= currentTileInputData.amountOfCreaturesOnTile;
+                }
+                else
+                {
+                    retValue[i] = 0;
+                }
+            }
+            return retValue;
+        }
+
+        /**
+        *<summary>
+        *Returns true when all values in the given array are less than or equal to zero
+        *</summary>
+        */
+        bool checkIfFed(int[] amountStillNeeded)
+        {
+            bool[] amountSatisfied = new bool[DataManager.amountOfCreatures];
+            bool retValue = true;
+            amountSatisfied[0] = amountStillNeeded[0] <= 0;
+            for (int i = 1; i < amountStillNeeded.Length; i++)
+            {
+                amountSatisfied[i] = amountStillNeeded[i] >= 0;
+                retValue = retValue && amountSatisfied[i - 1];
+            }
+            return retValue;
         }
     }
 }

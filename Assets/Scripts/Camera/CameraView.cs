@@ -178,7 +178,7 @@
                 i = (Time.time - startTime) / duration;
 
                 transform.position = Vector3.Lerp(Vector3.zero, cameraHolderEndPos, i);
-                mainCamera.transform.localPosition = Vector3.Lerp(new Vector3(-30, 25, -30), new Vector3(-2.5f, 2.5f, -2.5f), i);
+                mainCamera.transform.localPosition = Vector3.Lerp(new Vector3(-30, 25, -30), new Vector3(-2.5f, 2.5f, -2.5f), Mathf.Clamp(i * 2, 0, 1));
                 mainCamera.orthographicSize = Mathf.Lerp(10, 0.5f, i);
                 Debug.Log(Time.time - startTime);
                 yield return 1;
@@ -207,7 +207,7 @@
                 i = (Time.time - startTime) / duration;
 
                 transform.position = Vector3.Lerp(cameraHolderStartPos, Vector3.zero, i);
-                mainCamera.transform.localPosition = Vector3.Lerp(new Vector3(-2.5f, 2.5f, -2.5f), new Vector3(-30, 25, -30), i);
+                mainCamera.transform.localPosition = Vector3.Lerp(new Vector3(-2.5f, 2.5f, -2.5f), new Vector3(-30, 25, -30), Mathf.Clamp(i * 2, 0, 1));
                 mainCamera.orthographicSize = Mathf.Lerp(0.5f, 10, i);
                 Debug.Log(Time.time - startTime);
                 yield return 1;

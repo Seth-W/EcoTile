@@ -8,6 +8,7 @@ namespace EcoTile
     {
 		public Sprite sprite;
         public GameObject creaturePrefab;
+        public int energyCostPerTick;
         public bool[] feedingEnabled;
         public int[] amountsOfEachToFeed;
     }

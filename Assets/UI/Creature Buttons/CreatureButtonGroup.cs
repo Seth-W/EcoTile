@@ -18,10 +18,10 @@ namespace EcoTile.UI
 		// Use this for initialization
 		void Awake ()
 		{
-			_buttons = new CreatureButton [ table.table.Length ];
-			for ( int i = 0; i < table.table.Length; i++ )
+			_buttons = new CreatureButton [ table.creatureData.Length ];
+			for ( int i = 0; i < table.creatureData.Length; i++ )
 			{
-				if ( i == 0 || i == table.table.Length - 1 )
+				if ( i == 0 || i == table.creatureData.Length - 1 )
 				{
 					// insert spacer
 

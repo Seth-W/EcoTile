@@ -1,7 +1,7 @@
 ﻿namespace EcoTile
 {
-    enum CreatureType
+    public enum CreatureType
     {
-        TOKU, FROG, BOAR 
+        VEGETATION = 0, TOKU = 1, FROG = 2, BOAR = 3 
     }
 }

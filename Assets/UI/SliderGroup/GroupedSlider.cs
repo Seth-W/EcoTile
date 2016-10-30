@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using EcoTile;
 
 public class GroupedSlider : MonoBehaviour {
 
 	[HideInInspector]
 	[System.NonSerialized]
 	public bool changing;
+
+    private CreatureType _buttonType;
+    private CreatureType _sliderType;
+    public CreatureType buttonType { get { return _buttonType; } }
+    public CreatureType sliderType { get { return _sliderType; } }
 
 	private Slider _slider;
 
@@ -31,4 +37,15 @@ public class GroupedSlider : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void init(int maxValue, CreatureType buttonType, CreatureType sliderType)
+    {
+        slider.wholeNumbers = true;
+        slider.minValue = 0;
+        slider.maxValue = maxValue;
+        _buttonType = buttonType;
+        _sliderType = sliderType;
+        slider.value = DataManager.creatureLookupTable.creatureData[(int)_buttonType].amountsOfEachToFeed[(int)_sliderType];
+        Debug.Log(slider.value);
+    }
 }

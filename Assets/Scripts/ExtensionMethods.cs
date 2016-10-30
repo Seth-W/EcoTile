@@ -85,5 +85,22 @@
         {
             return new Vector3(pos.x / Screen.width, 0, pos.y / Screen.height);
         }
+
+        public static CreatureType CreatureIndexToEnum(this int index)
+        {
+            switch(index)
+            {
+                case 0:
+                    return CreatureType.VEGETATION;
+                case 1:
+                    return CreatureType.TOKU;
+                case 2:
+                    return CreatureType.FROG;
+                case 3:
+                    return CreatureType.BOAR;
+                default:
+                    return CreatureType.VEGETATION;
+            }
+        }
     }
 }
