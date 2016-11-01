@@ -1,0 +1,384 @@
+fileFormatVersion: 2
+guid: d48bd0a51f8ae2a4786711c76a6980e7
+timeCreated: 1477987797
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Body1
+    100004: Body2
+    100006: Body3
+    100008: Body4
+    100010: Body5
+    100012: Body6
+    100014: Body6_end
+    100016: Bone.007
+    100018: Bone.008
+    100020: Bone.008_end
+    100022: Bone.012
+    100024: Bone.016
+    100026: Cube
+    100028: //RootNode
+    100030: L_BackFoot
+    100032: L_BackFoot_end
+    100034: L_BackHip
+    100036: L_BackLeg
+    100038: L_FrontFoot
+    100040: L_FrontFoot_end
+    100042: L_Fronthip
+    100044: L_MiddleFoot
+    100046: L_MiddleFoot_end
+    100048: L_MiddleHip
+    100050: L_MiddleLEg
+    100052: R_BackFoot
+    100054: R_BackFoot_end
+    100056: R_BackHIp
+    100058: R_BackLeg
+    100060: R_FrontFoot
+    100062: R_FrontFoot_end
+    100064: R_FrontHip
+    100066: R_FrontLeg
+    100068: R_Middlefoot
+    100070: R_Middlefoot_end
+    100072: R_MiddleHip
+    100074: R_MiddleHip2
+    100076: R_MiddleLeg
+    100078: Throat2
+    100080: Throat3
+    100082: Throat4
+    400000: Armature
+    400002: Body1
+    400004: Body2
+    400006: Body3
+    400008: Body4
+    400010: Body5
+    400012: Body6
+    400014: Body6_end
+    400016: Bone.007
+    400018: Bone.008
+    400020: Bone.008_end
+    400022: Bone.012
+    400024: Bone.016
+    400026: Cube
+    400028: //RootNode
+    400030: L_BackFoot
+    400032: L_BackFoot_end
+    400034: L_BackHip
+    400036: L_BackLeg
+    400038: L_FrontFoot
+    400040: L_FrontFoot_end
+    400042: L_Fronthip
+    400044: L_MiddleFoot
+    400046: L_MiddleFoot_end
+    400048: L_MiddleHip
+    400050: L_MiddleLEg
+    400052: R_BackFoot
+    400054: R_BackFoot_end
+    400056: R_BackHIp
+    400058: R_BackLeg
+    400060: R_FrontFoot
+    400062: R_FrontFoot_end
+    400064: R_FrontHip
+    400066: R_FrontLeg
+    400068: R_Middlefoot
+    400070: R_Middlefoot_end
+    400072: R_MiddleHip
+    400074: R_MiddleHip2
+    400076: R_MiddleLeg
+    400078: Throat2
+    400080: Throat3
+    400082: Throat4
+    4300000: Cube
+    7400000: Insect_Walk
+    7400002: Insect_Idle
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Insect_Walk
+      takeName: Armature|ArmatureAction
+      firstFrame: 25
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body4
+        weight: 1
+      - path: Armature/Body4/Body3
+        weight: 1
+      - path: Armature/Body4/Body3/Body2
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007/Bone.008
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007/Bone.008/Bone.008_end
+        weight: 1
+      - path: Armature/Body5
+        weight: 1
+      - path: Armature/Body5/Body6
+        weight: 1
+      - path: Armature/Body5/Body6/Body6_end
+        weight: 1
+      - path: Armature/L_BackHip
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_Fronthip
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016/L_FrontFoot
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/L_MiddleHip
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg/L_MiddleFoot
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg/L_MiddleFoot/L_MiddleFoot_end
+        weight: 1
+      - path: Armature/R_BackHIp
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg/R_BackFoot
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg/R_BackFoot/R_BackFoot_end
+        weight: 1
+      - path: Armature/R_FrontHip
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg/R_FrontFoot
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/R_MiddleHip
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg/R_Middlefoot
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg/R_Middlefoot/R_Middlefoot_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Insect_Idle
+      takeName: Armature|ArmatureAction
+      firstFrame: 1
+      lastFrame: 23
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body4
+        weight: 1
+      - path: Armature/Body4/Body3
+        weight: 1
+      - path: Armature/Body4/Body3/Body2
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007/Bone.008
+        weight: 1
+      - path: Armature/Body4/Body3/Body2/Body1/Throat4/Throat3/Throat2/Bone.007/Bone.008/Bone.008_end
+        weight: 1
+      - path: Armature/Body5
+        weight: 1
+      - path: Armature/Body5/Body6
+        weight: 1
+      - path: Armature/Body5/Body6/Body6_end
+        weight: 1
+      - path: Armature/L_BackHip
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackHip/L_BackLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_Fronthip
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016/L_FrontFoot
+        weight: 1
+      - path: Armature/L_Fronthip/Bone.016/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/L_MiddleHip
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg/L_MiddleFoot
+        weight: 1
+      - path: Armature/L_MiddleHip/Bone.012/L_MiddleLEg/L_MiddleFoot/L_MiddleFoot_end
+        weight: 1
+      - path: Armature/R_BackHIp
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg/R_BackFoot
+        weight: 1
+      - path: Armature/R_BackHIp/R_BackLeg/R_BackFoot/R_BackFoot_end
+        weight: 1
+      - path: Armature/R_FrontHip
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg/R_FrontFoot
+        weight: 1
+      - path: Armature/R_FrontHip/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/R_MiddleHip
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg/R_Middlefoot
+        weight: 1
+      - path: Armature/R_MiddleHip/R_MiddleHip2/R_MiddleLeg/R_Middlefoot/R_Middlefoot_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
