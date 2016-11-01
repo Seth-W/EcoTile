@@ -90,12 +90,6 @@ namespace EcoTile.UI
 
 		public void OnToggleChanged ()
 		{
-            if(lookupId == DataManager.amountOfCreatures - 1)
-            {
-
-                return;
-            }
-
             if ( toggle.selected )
 			{
 				popup.gameObject.SetActive( true );

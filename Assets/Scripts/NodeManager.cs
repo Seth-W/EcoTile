@@ -79,7 +79,6 @@
                 //Early dev measure to Stopgap not having a Fire State Machine
                 if (inputData.toolType == ToolBoxEnum.CREATE)
                 {
-                    Debug.LogWarning("This should be removed in place of a Fire State machine");
                     spawnNode(nodePos);
                 }
 
