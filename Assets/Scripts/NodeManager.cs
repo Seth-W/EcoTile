@@ -130,7 +130,7 @@
                 if (EnergyPollutionManager.energyValue > 50)
                 {
                     getNode(activeNode).incrementCreatureAmount((int)CreatureType.SLUG, 1);
-                    creatureCreateEvent(50);
+                    creatureCreateEvent(DataManager.creatureLookupTable.creatureData[(int)CreatureType.SLUG].energyCostPerSpawn);
                     return;
                 }
             }
