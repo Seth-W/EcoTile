@@ -46,6 +46,5 @@ public class GroupedSlider : MonoBehaviour {
         _buttonType = buttonType;
         _sliderType = sliderType;
         slider.value = DataManager.creatureLookupTable.creatureData[(int)_buttonType].amountsOfEachToFeed[(int)_sliderType];
-        Debug.Log(slider.value);
     }
 }

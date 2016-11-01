@@ -84,34 +84,8 @@
         */
         void OnTickUpdateEvent(Tick updateData)
         {
-            //Debug.Log(nodePos + " tick update event: " + updateData.getNodeData(nodePos));
-
-            if(creatureType == 0)
-            {
-            } 
-            else
-            {
-                int creatureUpdateAmount = updateData.getNodeData(nodePos);
-                //If update data returned a negative number for this tile, there was a deficit so creature amount shrinks
-                if (creatureUpdateAmount <= 0)
-                {
-                    //If creature amount is already 0 do nothing
-                    if(_creatureAmounts[creatureType] > 0)
-                        incrementCreatureAmount(creatureType, -1);
-                }
-                //If update data returned a positive number for this tile, there was a surplus so creature amount grows 
-                else if (creatureUpdateAmount > 0)
-                {
-                    incrementCreatureAmount(creatureType, 1);
-                }
-                Debug.Log(creatureUpdateAmount);
-            }
-
-            //if(NodeManager.activeNode.Equals(nodePos))
-            //{
-            //    NodeModelRefreshActiveNodeEvent(creatureAmounts);
-            //}
-
+            updateCreatureAmountsOnTick(updateData);
+            updateDecomposerAmountsOnTick(updateData);
         }
 
         /**
@@ -413,6 +387,47 @@
                         addNeighbors(stack, workingModel);
                     }
                 }
+            }
+        }
+
+        /**
+        *<summary>
+        *Increment the creatures on this tile by the appropriate amount based on whether there was a surplus or not this tick
+        *</summary>
+        */
+        void updateCreatureAmountsOnTick(Tick tickData)
+        {
+            if (creatureType == 0)
+            {
+            }
+            else
+            {
+                int creatureUpdateAmount = tickData.getNodeData(nodePos);
+                ///If update data returned a negative number for this tile, there was a deficit so creature amount shrinks
+                if (creatureUpdateAmount <= 0)
+                {
+                    //If creature amount is already 0 do nothing
+                    if (_creatureAmounts[creatureType] > 0)
+                        incrementCreatureAmount(creatureType, -1);
+                }
+                ///If update data returned a positive number for this tile, there was a surplus so creature amount grows 
+                else if (creatureUpdateAmount > 0)
+                {
+                    incrementCreatureAmount(creatureType, 1);
+                }
+            }
+        }
+
+        /**
+        *<summary>
+        *If there is a negative amount of pollution this tick, decrement the decomposers by one
+        *</summary>
+        */
+        void updateDecomposerAmountsOnTick(Tick tickData)
+        {
+            if(tickData.getNodePollutionData(nodePos) < 0)
+            {
+                incrementCreatureAmount(DataManager.amountOfCreatures - 1, -1);
             }
         }
 

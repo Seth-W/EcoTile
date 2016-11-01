@@ -5,13 +5,15 @@
 
     class Tick
     {
-        public int[,] tickData;
+        int[,] tickData;
+        int[,] pollutionData;
 
 
 
         public Tick(NodeTickInputData[,] nodeUpdateData, Queue<NodePosition>[] tilesByCreatureQueue)
         {
             tickData = calculateSurplusValues(nodeUpdateData, tilesByCreatureQueue);
+            pollutionData = calculatePollutionValue(tickData);
         }
         
         /**
@@ -34,6 +36,26 @@
         public int getNodeData(NodePosition nodePos)
         {
             return tickData[nodePos.xIndex, nodePos.zIndex];
+        }
+
+        /**
+        *<summary>
+        *Returns an integer representing how many characters will go unfed and 'die' this tick for a given <see cref="NodePosition"/>
+        *</summary>
+        */
+        public int getNodePollutionData(NodePosition nodePos)
+        {
+            return pollutionData[nodePos.xIndex, nodePos.zIndex];
+        }
+
+        /**
+        *<summary>
+        *Returns an integer representing how many characters will go unfed and 'die' this tick for a given index
+        *</summary>
+        */
+        public int getNodePollutionData(int xIndex, int zIndex)
+        {
+            return pollutionData[xIndex, zIndex];
         }
 
         /**
@@ -185,6 +207,43 @@
                 retValue = retValue && amountSatisfied[i - 1];
             }
             return retValue;
+        }
+
+        /**
+        *<summary>
+        *Returns an integer representing the total amount of pollution (Before a coefficient is applied) to be gained this tick
+        *Calculates the number of creatures above the sustainable amount the population is on the tile and returns that number minus the number
+        *of decomposers on the tile
+        *</summary>
+        */
+        int[,] calculatePollutionValue(int[,] tickData)
+        {
+            int[,] retValue = new int[NodeManager.MapWidth, NodeManager.MapLength];
+
+            for (int i = 0; i < NodeManager.MapWidth; i++)
+            {
+                for (int j = 0; j < NodeManager.MapLength; j++)
+                {
+                    if (tickData[i, j] < 0)
+                        retValue[i,j] = calculateTilePollutionValue(i, j);
+                }
+            }
+
+            return retValue;
+        }
+
+        /**
+        *<summary>
+        *Returns Difference between the actual population on the tile and the amount of creatures the pop can support minus the number of decomposers on the tile
+        *</summary>
+        */
+        int calculateTilePollutionValue(int xIndex, int zIndex)
+        {
+            NodeModel workingNode = NodeManager.getNode(xIndex, zIndex);
+
+            int energyCostPerCreature = DataManager.creatureLookupTable.creatureData[(int)workingNode.type].energyCostPerTick;
+
+            return tickData[xIndex, zIndex] / energyCostPerCreature - workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1);
         }
     }
 }

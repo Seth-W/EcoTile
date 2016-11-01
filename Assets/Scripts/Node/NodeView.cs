@@ -233,7 +233,6 @@
         */
         private void positionCharacters()
         {
-            Debug.Log("Positioning characters for " + model.nodePos);
             
             GameObject[] creaturesTempArray = new GameObject[creaturesOnTile.Count];
             creaturesOnTile.CopyTo(creaturesTempArray, 0);
