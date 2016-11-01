@@ -9,12 +9,14 @@
         public delegate void nodeDelete(NodePosition nodePos);
         public delegate void nodeCreate(NodePosition nodePos, int energyCost);
         public delegate void roadToggle(bool roadEnabled, int roadCost);
+        public delegate void creatureCreate(int creatureCost);
 
         public static activeNodeUpdate activeNodeUpdateEvent;
         public static nodeDelete nodeDeleteEvent;
         public static nodeCreate nodeCreateEvent;
         public static roadToggle roadToggleEvent;
-
+        public static creatureCreate creatureCreateEvent;
+        
         [SerializeField]
         int _mapWidth, _mapLength;
         public static int MapWidth, MapLength;
@@ -123,7 +125,17 @@
 
         void OnCreatureButtonClickEvent(CreatureType typeSelected)
         {
-            if(getNode(activeNode) != null && getNode(activeNode).deletable)
+            if (typeSelected == CreatureType.SLUG)
+            {
+                if (EnergyPollutionManager.energyValue > 50)
+                {
+                    getNode(activeNode).incrementCreatureAmount((int)CreatureType.SLUG, 1);
+                    creatureCreateEvent(50);
+                    return;
+                }
+            }
+
+            if (getNode(activeNode) != null && getNode(activeNode).deletable)
                 getNode(activeNode).type = typeSelected;
         }
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using EcoTile.ExtensionMethods;
+using EcoTile;
 
 namespace EcoTile.UI
 {
@@ -89,7 +90,13 @@ namespace EcoTile.UI
 
 		public void OnToggleChanged ()
 		{
-			if ( toggle.selected )
+            if(lookupId == DataManager.amountOfCreatures - 1)
+            {
+
+                return;
+            }
+
+            if ( toggle.selected )
 			{
 				popup.gameObject.SetActive( true );
                 CreatureButtonClickEvent(lookupId.CreatureIndexToEnum());
