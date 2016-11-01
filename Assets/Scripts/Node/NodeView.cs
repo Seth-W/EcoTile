@@ -28,11 +28,11 @@
         int prevVegNumber;
         VegetationLevel vegLevel;
 
-        int prevCreatureNumber;
+        int prevCreatureNumber, prevSlugNumber;
 
         int creatureType;
 
-        Stack<GameObject> creaturesOnTile;
+        Stack<GameObject> creaturesOnTile, slugsOnTile;
 
         void Start()
         {
@@ -45,6 +45,7 @@
             //Init the properties
             model = GetComponent<NodeModel>();
             creaturesOnTile = new Stack<GameObject>();
+            slugsOnTile = new Stack<GameObject>();
 
             //Subscribe to corresponding NodeModel events
             model.NodeModelCreatureAmountsUpdateEvent += OnNodeModelCreatureAmountsUpdate;
@@ -198,20 +199,33 @@
 
         /**
         *<summary>
-        *Changes the amount of creature objects displayed on this node to reflect a given amount
+        *Determines whether to create a slug or a creature of <see cref="CreatureType"/>
         *</summary>
         */
         private void updateCreatureAmounts(int index, int newCreatureAmount)
         {
-            if(newCreatureAmount == prevCreatureNumber)
+            if (index == 9)
+                createCharacter(index, newCreatureAmount, ref prevSlugNumber, slugsOnTile);
+            else
+                createCharacter(index, newCreatureAmount, ref prevCreatureNumber, creaturesOnTile);
+        }
+
+        /**
+        *<summary>
+        *Changes the amount of creature objects displayed on this node to reflect a given amount
+        *</summary>
+        */
+        void createCharacter(int index, int newCreatureAmount, ref int oldCreatureAmount, Stack<GameObject> creatureStack)
+        {
+            if (newCreatureAmount == oldCreatureAmount)
                 return;
-            else if(newCreatureAmount > prevCreatureNumber)
+            else if (newCreatureAmount > oldCreatureAmount)
             {
-                while(prevCreatureNumber < newCreatureAmount)
+                while (oldCreatureAmount < newCreatureAmount)
                 {
                     creaturesOnTile.Push(Instantiate(creatureLookupTable.creatureData[index].creaturePrefab as GameObject));
-                    prevCreatureNumber += 1;
-                    if(creaturesOnTile.Peek() == null)
+                    oldCreatureAmount += 1;
+                    if (creaturesOnTile.Peek() == null)
                     {
                         Debug.LogError("A gameobject was not properly instantiated");
                         return;
@@ -221,13 +235,13 @@
             }
             else
             {
-                while(prevCreatureNumber > newCreatureAmount)
+                while (oldCreatureAmount > newCreatureAmount)
                 {
                     Destroy(creaturesOnTile.Pop());
-                    prevCreatureNumber -= 1;
+                    oldCreatureAmount -= 1;
                 }
             }
-            positionCharacters();
+            positionCharacters(creatureStack);
         }
 
         /**
@@ -235,11 +249,11 @@
         *Positions the creatures on this tile around a subdivided circle
         *</summary>
         */
-        private void positionCharacters()
+        private void positionCharacters(Stack<GameObject> creatureStack)
         {
             
-            GameObject[] creaturesTempArray = new GameObject[creaturesOnTile.Count];
-            creaturesOnTile.CopyTo(creaturesTempArray, 0);
+            GameObject[] creaturesTempArray = new GameObject[creatureStack.Count];
+            creatureStack.CopyTo(creaturesTempArray, 0);
             int subdivisions = creaturesTempArray.Length;
             float subdivisionsInRadians = 2 * Mathf.PI / (subdivisions);
             Vector3 newPos = new Vector3();

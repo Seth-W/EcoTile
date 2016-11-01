@@ -244,7 +244,6 @@
 
             if(workingNode.type == CreatureType.VEGETATION)
             {
-                Debug.Log(workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1));
                 return -workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1);
             }
             int energyCostPerCreature = DataManager.creatureLookupTable.creatureData[(int)workingNode.type].energyCostPerTick;

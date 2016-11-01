@@ -102,6 +102,12 @@
                     return CreatureType.SHEEP;
                 case 5:
                     return CreatureType.CRAB;
+                case 6:
+                    return CreatureType.LIZARD;
+                case 7:
+                    return CreatureType.DYLLO;
+                case 8:
+                    return CreatureType.INSECT;
                 case 9:
                     return CreatureType.SLUG;
                 default:

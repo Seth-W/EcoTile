@@ -31,16 +31,18 @@ namespace EcoTile.UI
 
 					spacer.transform.SetParent( transform, false );
 				}
+                if (i != 0)
+                {
 
+                    CreatureButton button = GameObject.Instantiate(buttonPrefab);
+                    button.group = this;
+                    button.lookupId = i;
+                    button.table = table;
 
-				CreatureButton button = GameObject.Instantiate( buttonPrefab );
-				button.group = this;
-				button.lookupId = i;
-				button.table = table;
+                    button.transform.SetParent(transform, false);
 
-				button.transform.SetParent( transform, false );
-
-				_buttons [ i ] = button;
+                    _buttons[i] = button;
+                }
 			}
 
 		}

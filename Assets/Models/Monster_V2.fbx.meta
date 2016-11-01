@@ -1,0 +1,276 @@
+fileFormatVersion: 2
+guid: 1d674f093a5646540b6f2dc774ba5a3a
+timeCreated: 1477989579
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Back
+    100004: Back_end
+    100006: Cube
+    100008: Face
+    100010: Face_end
+    100012: Heart
+    100014: L_BackFoot
+    100016: L_BackFoot_end
+    100018: L_BackLeg
+    100020: L_FrontFoot
+    100022: L_FrontFoot_end
+    100024: L_FrontLeg
+    100026: //RootNode
+    100028: R_BackFoot
+    100030: R_BackFoot_end
+    100032: R_BackLeg
+    100034: R_FrontFoot
+    100036: R_FrontFoot_end
+    100038: R_FrontLeg
+    100040: Stomach
+    100042: TailBack
+    100044: TailBack_end
+    100046: TailFront
+    400000: Armature
+    400002: Back
+    400004: Back_end
+    400006: Cube
+    400008: Face
+    400010: Face_end
+    400012: Heart
+    400014: L_BackFoot
+    400016: L_BackFoot_end
+    400018: L_BackLeg
+    400020: L_FrontFoot
+    400022: L_FrontFoot_end
+    400024: L_FrontLeg
+    400026: //RootNode
+    400028: R_BackFoot
+    400030: R_BackFoot_end
+    400032: R_BackLeg
+    400034: R_FrontFoot
+    400036: R_FrontFoot_end
+    400038: R_FrontLeg
+    400040: Stomach
+    400042: TailBack
+    400044: TailBack_end
+    400046: TailFront
+    4300000: Cube
+    7400000: Dyllo_Idle
+    7400002: Dyllo_Walk
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Dyllo_Idle
+      takeName: Armature|ArmatureAction
+      firstFrame: 2
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Face
+        weight: 1
+      - path: Armature/Face/Face_end
+        weight: 1
+      - path: Armature/Heart
+        weight: 1
+      - path: Armature/Heart/Stomach
+        weight: 1
+      - path: Armature/Heart/Stomach/Back
+        weight: 1
+      - path: Armature/Heart/Stomach/Back/Back_end
+        weight: 1
+      - path: Armature/L_BackLeg
+        weight: 1
+      - path: Armature/L_BackLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_FrontLeg
+        weight: 1
+      - path: Armature/L_FrontLeg/L_FrontFoot
+        weight: 1
+      - path: Armature/L_FrontLeg/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/R_BackLeg
+        weight: 1
+      - path: Armature/R_BackLeg/R_BackFoot
+        weight: 1
+      - path: Armature/R_BackLeg/R_BackFoot/R_BackFoot_end
+        weight: 1
+      - path: Armature/R_FrontLeg
+        weight: 1
+      - path: Armature/R_FrontLeg/R_FrontFoot
+        weight: 1
+      - path: Armature/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/TailFront
+        weight: 1
+      - path: Armature/TailFront/TailBack
+        weight: 1
+      - path: Armature/TailFront/TailBack/TailBack_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Dyllo_Walk
+      takeName: Armature|ArmatureAction
+      firstFrame: 39
+      lastFrame: 62
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Face
+        weight: 1
+      - path: Armature/Face/Face_end
+        weight: 1
+      - path: Armature/Heart
+        weight: 1
+      - path: Armature/Heart/Stomach
+        weight: 1
+      - path: Armature/Heart/Stomach/Back
+        weight: 1
+      - path: Armature/Heart/Stomach/Back/Back_end
+        weight: 1
+      - path: Armature/L_BackLeg
+        weight: 1
+      - path: Armature/L_BackLeg/L_BackFoot
+        weight: 1
+      - path: Armature/L_BackLeg/L_BackFoot/L_BackFoot_end
+        weight: 1
+      - path: Armature/L_FrontLeg
+        weight: 1
+      - path: Armature/L_FrontLeg/L_FrontFoot
+        weight: 1
+      - path: Armature/L_FrontLeg/L_FrontFoot/L_FrontFoot_end
+        weight: 1
+      - path: Armature/R_BackLeg
+        weight: 1
+      - path: Armature/R_BackLeg/R_BackFoot
+        weight: 1
+      - path: Armature/R_BackLeg/R_BackFoot/R_BackFoot_end
+        weight: 1
+      - path: Armature/R_FrontLeg
+        weight: 1
+      - path: Armature/R_FrontLeg/R_FrontFoot
+        weight: 1
+      - path: Armature/R_FrontLeg/R_FrontFoot/R_FrontFoot_end
+        weight: 1
+      - path: Armature/TailFront
+        weight: 1
+      - path: Armature/TailFront/TailBack
+        weight: 1
+      - path: Armature/TailFront/TailBack/TailBack_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.025
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

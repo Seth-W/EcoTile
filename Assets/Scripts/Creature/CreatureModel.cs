@@ -16,11 +16,6 @@
         HingeJoint hinge;
         Ray planeOfMovement;
 
-        [SerializeField]
-        Vector3 hingeOffset;
-        [SerializeField]
-        GameObject hingePrefab;
-
         
         void OnEnable()
         {
