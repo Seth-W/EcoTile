@@ -1,0 +1,318 @@
+fileFormatVersion: 2
+guid: f93bda335d2d383478813ae3a1aa1de0
+timeCreated: 1477983250
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bone
+    100002: Bone_end
+    100004: //RootNode
+    100006: Cube
+    100008: L_Arm1
+    100010: L_Arm1.001
+    100012: L_Arm2
+    100014: L_Arm2.001
+    100016: L_BackLeg1
+    100018: R_Arm3
+    100020: R_Arm3.001
+    100022: R_Arm3.001_end
+    100024: R_Arm3_end
+    100026: R_BackLeg
+    100028: R_BackLeg.001
+    100030: R_BackLeg2
+    100032: R_BackLeg2.001
+    100034: R_BackLeg2.001_end
+    100036: R_BackLeg2_end
+    100038: R_FrontLeg1
+    100040: R_FrontLeg1.001
+    100042: R_FrontLeg2
+    100044: R_FrontLeg2.001
+    100046: R_FrontLeg2.001_end
+    100048: R_FrontLeg2_end
+    100050: R_MiddleLeg1
+    100052: R_MiddleLeg1.001
+    100054: R_MiddleLeg2
+    100056: R_MiddleLeg2.001
+    100058: R_MiddleLeg2.001_end
+    100060: R_MiddleLeg2_end
+    400000: Bone
+    400002: Bone_end
+    400004: //RootNode
+    400006: Cube
+    400008: L_Arm1
+    400010: L_Arm1.001
+    400012: L_Arm2
+    400014: L_Arm2.001
+    400016: L_BackLeg1
+    400018: R_Arm3
+    400020: R_Arm3.001
+    400022: R_Arm3.001_end
+    400024: R_Arm3_end
+    400026: R_BackLeg
+    400028: R_BackLeg.001
+    400030: R_BackLeg2
+    400032: R_BackLeg2.001
+    400034: R_BackLeg2.001_end
+    400036: R_BackLeg2_end
+    400038: R_FrontLeg1
+    400040: R_FrontLeg1.001
+    400042: R_FrontLeg2
+    400044: R_FrontLeg2.001
+    400046: R_FrontLeg2.001_end
+    400048: R_FrontLeg2_end
+    400050: R_MiddleLeg1
+    400052: R_MiddleLeg1.001
+    400054: R_MiddleLeg2
+    400056: R_MiddleLeg2.001
+    400058: R_MiddleLeg2.001_end
+    400060: R_MiddleLeg2_end
+    4300000: Cube
+    7400000: Crab_Walk
+    7400002: Crab_Idle
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Crab_Walk
+      takeName: L_BackLeg1|L_BackLeg1Action
+      firstFrame: 25
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: L_BackLeg1
+        weight: 1
+      - path: L_BackLeg1/Bone
+        weight: 1
+      - path: L_BackLeg1/Bone/Bone_end
+        weight: 1
+      - path: L_BackLeg1/L_Arm1
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2/R_Arm3
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2/R_Arm3/R_Arm3_end
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001/R_Arm3.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001/R_Arm3.001/R_Arm3.001_end
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg/R_BackLeg2
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg/R_BackLeg2/R_BackLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001/R_BackLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001/R_BackLeg2.001/R_BackLeg2.001_end
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1/R_FrontLeg2
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1/R_FrontLeg2/R_FrontLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001/R_FrontLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001/R_FrontLeg2.001/R_FrontLeg2.001_end
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1/R_MiddleLeg2
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1/R_MiddleLeg2/R_MiddleLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001/R_MiddleLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001/R_MiddleLeg2.001/R_MiddleLeg2.001_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Crab_Idle
+      takeName: L_BackLeg1|L_BackLeg1Action
+      firstFrame: 1
+      lastFrame: 23
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: L_BackLeg1
+        weight: 1
+      - path: L_BackLeg1/Bone
+        weight: 1
+      - path: L_BackLeg1/Bone/Bone_end
+        weight: 1
+      - path: L_BackLeg1/L_Arm1
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2/R_Arm3
+        weight: 1
+      - path: L_BackLeg1/L_Arm1/L_Arm2/R_Arm3/R_Arm3_end
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001/R_Arm3.001
+        weight: 1
+      - path: L_BackLeg1/L_Arm1.001/L_Arm2.001/R_Arm3.001/R_Arm3.001_end
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg/R_BackLeg2
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg/R_BackLeg2/R_BackLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001/R_BackLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_BackLeg.001/R_BackLeg2.001/R_BackLeg2.001_end
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1/R_FrontLeg2
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1/R_FrontLeg2/R_FrontLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001/R_FrontLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_FrontLeg1.001/R_FrontLeg2.001/R_FrontLeg2.001_end
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1/R_MiddleLeg2
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1/R_MiddleLeg2/R_MiddleLeg2_end
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001/R_MiddleLeg2.001
+        weight: 1
+      - path: L_BackLeg1/R_MiddleLeg1.001/R_MiddleLeg2.001/R_MiddleLeg2.001_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.02
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
