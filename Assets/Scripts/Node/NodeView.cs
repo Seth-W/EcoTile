@@ -66,7 +66,7 @@
         *Updates the visual feedback of the node 
         *</summary>
         */
-        private void OnNodeModelCreatureAmountsUpdate(int[] updatedAmounts)
+        private void OnNodeModelCreatureAmountsUpdate(int index, int[] updatedAmounts)
         {
             //Debug.LogWarning("The requested method is a stub");
             if (prevVegNumber != updatedAmounts[0])
@@ -77,8 +77,12 @@
             {
                 if (prevCreatureNumber != updatedAmounts[creatureType])
                 {
-                    updateCreatureAmounts(updatedAmounts[creatureType]);
+                    updateCreatureAmounts(creatureType, updatedAmounts[creatureType]);
                 }
+            }
+            if(index != creatureType)
+            {
+                updateCreatureAmounts(index, updatedAmounts[index]);
             }
         }
 
@@ -197,7 +201,7 @@
         *Changes the amount of creature objects displayed on this node to reflect a given amount
         *</summary>
         */
-        private void updateCreatureAmounts(int newCreatureAmount)
+        private void updateCreatureAmounts(int index, int newCreatureAmount)
         {
             if(newCreatureAmount == prevCreatureNumber)
                 return;
@@ -205,7 +209,7 @@
             {
                 while(prevCreatureNumber < newCreatureAmount)
                 {
-                    creaturesOnTile.Push(Instantiate(creatureLookupTable.creatureData[creatureType].creaturePrefab as GameObject));
+                    creaturesOnTile.Push(Instantiate(creatureLookupTable.creatureData[index].creaturePrefab as GameObject));
                     prevCreatureNumber += 1;
                     if(creaturesOnTile.Peek() == null)
                     {

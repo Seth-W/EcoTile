@@ -224,8 +224,7 @@
             {
                 for (int j = 0; j < NodeManager.MapLength; j++)
                 {
-                    if (tickData[i, j] < 0)
-                        retValue[i,j] = calculateTilePollutionValue(i, j);
+                    retValue[i,j] = calculateTilePollutionValue(i, j);
                 }
             }
 
@@ -240,7 +239,14 @@
         int calculateTilePollutionValue(int xIndex, int zIndex)
         {
             NodeModel workingNode = NodeManager.getNode(xIndex, zIndex);
+            if (workingNode == null)
+                return 0;
 
+            if(workingNode.type == CreatureType.VEGETATION)
+            {
+                Debug.Log(workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1));
+                return -workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1);
+            }
             int energyCostPerCreature = DataManager.creatureLookupTable.creatureData[(int)workingNode.type].energyCostPerTick;
 
             return tickData[xIndex, zIndex] / energyCostPerCreature - workingNode.getCreatureAmount(DataManager.amountOfCreatures - 1);

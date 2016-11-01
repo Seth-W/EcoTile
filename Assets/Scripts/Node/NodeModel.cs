@@ -7,7 +7,7 @@
 
     class NodeModel : ObjectModel 
     {
-        public delegate void creatureAmountsUpdate(int[] updatedAmounts);
+        public delegate void creatureAmountsUpdate(int index, int[] updatedAmounts);
         public delegate void refreshActiveNode(int[] updatedAmounts);
         public delegate void creaturePopulationIncrement(CreatureType type, int incrementValue);
 
@@ -163,7 +163,7 @@
         {
             int difference = n - _creatureAmounts[index];
             _creatureAmounts[index] = n;
-            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+            NodeModelCreatureAmountsUpdateEvent(index, _creatureAmounts.Clone() as int[]);
             CreaturePopulationIncrementEvent(type, difference);
         }
 
@@ -175,7 +175,7 @@
         public void incrementCreatureAmount(int index, int increment)
         {
             _creatureAmounts[index] += increment;
-            NodeModelCreatureAmountsUpdateEvent(_creatureAmounts.Clone() as int[]);
+            NodeModelCreatureAmountsUpdateEvent(index, _creatureAmounts.Clone() as int[]);
             CreaturePopulationIncrementEvent(type, increment);
         }
 
@@ -425,7 +425,7 @@
         */
         void updateDecomposerAmountsOnTick(Tick tickData)
         {
-            if(tickData.getNodePollutionData(nodePos) < 0)
+            if (tickData.getNodePollutionData(nodePos) < 0)
             {
                 incrementCreatureAmount(DataManager.amountOfCreatures - 1, -1);
             }

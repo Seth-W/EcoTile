@@ -34,6 +34,7 @@
             TickManager.TickUpdateEvent += OnTickUpdateEvent;
             NodeManager.nodeCreateEvent += OnNodeCreateEvent;
             NodeManager.roadToggleEvent += OnRoadToggleEvent;
+            NodeManager.creatureCreateEvent += OnCreatureCreateEvent;
         }
         
         void OnDisable()
@@ -42,6 +43,12 @@
             TickManager.TickUpdateEvent -= OnTickUpdateEvent;
             NodeManager.nodeCreateEvent -= OnNodeCreateEvent;
             NodeManager.roadToggleEvent -= OnRoadToggleEvent;
+            NodeManager.creatureCreateEvent -= OnCreatureCreateEvent;
+        }
+
+        void OnCreatureCreateEvent(CreatureType type, int cost)
+        {
+            incrementEnergyValue(-cost);
         }
 
         void OnRoadToggleEvent(bool roadEnabled, int roadCost)

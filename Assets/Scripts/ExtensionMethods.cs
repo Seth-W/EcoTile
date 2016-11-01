@@ -98,6 +98,12 @@
                     return CreatureType.FROG;
                 case 3:
                     return CreatureType.BOAR;
+                case 4:
+                    return CreatureType.SHEEP;
+                case 5:
+                    return CreatureType.CRAB;
+                case 9:
+                    return CreatureType.SLUG;
                 default:
                     return CreatureType.VEGETATION;
             }

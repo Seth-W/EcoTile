@@ -9,7 +9,7 @@
         public delegate void nodeDelete(NodePosition nodePos);
         public delegate void nodeCreate(NodePosition nodePos, int energyCost);
         public delegate void roadToggle(bool roadEnabled, int roadCost);
-        public delegate void creatureCreate(int creatureCost);
+        public delegate void creatureCreate(CreatureType creatureType, int creatureCost);
 
         public static activeNodeUpdate activeNodeUpdateEvent;
         public static nodeDelete nodeDeleteEvent;
@@ -129,12 +129,13 @@
                 if (EnergyPollutionManager.energyValue > 50)
                 {
                     getNode(activeNode).incrementCreatureAmount((int)CreatureType.SLUG, 1);
-                    creatureCreateEvent(DataManager.creatureLookupTable.creatureData[(int)CreatureType.SLUG].energyCostPerSpawn);
+                    creatureCreateEvent(typeSelected , DataManager.creatureLookupTable.creatureData[(int)CreatureType.SLUG].energyCostPerSpawn);
+                    Debug.Log("Created a slug");
                     return;
                 }
             }
 
-            if (getNode(activeNode) != null && getNode(activeNode).deletable)
+            else if (getNode(activeNode) != null && getNode(activeNode).deletable)
                 getNode(activeNode).type = typeSelected;
         }
 
