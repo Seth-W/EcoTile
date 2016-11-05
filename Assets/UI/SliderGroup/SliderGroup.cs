@@ -36,7 +36,7 @@
             if (!argSlider.changing)
             {
                 //Normalize( argSlider );
-                CreatureSliderUpdateEvent(argSlider.buttonType, argSlider.buttonType, (int)argSlider.slider.value);
+                CreatureSliderUpdateEvent(argSlider.buttonType, argSlider.sliderType, (int)argSlider.slider.value);
             }
         }
 

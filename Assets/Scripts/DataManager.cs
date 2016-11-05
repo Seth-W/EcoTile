@@ -23,7 +23,7 @@
         {
             for (int i = 0; i < _creatureLookupTable.creatureData.Length; i++)
             {
-                _creatureLookupTable.creatureData[i].amountsOfEachToFeed = new int[_creatureLookupTable.creatureData.Length];
+                _creatureLookupTable.creatureData[i].percentOfResourceAvailable = new int[_creatureLookupTable.creatureData.Length];
             }
 
 
@@ -60,7 +60,7 @@
 
         void OnCreatureSliderUpdateEvent(CreatureType buttonType, CreatureType sliderType, int value)
         {
-            creatureLookupTable.creatureData[(int)buttonType].amountsOfEachToFeed[(int)sliderType] = value;
+            creatureLookupTable.creatureData[(int)buttonType].percentOfResourceAvailable[(int)sliderType] = value;
         }
 
     }

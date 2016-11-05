@@ -7,13 +7,16 @@
     {
         int[,] tickData;
         int[,] pollutionData;
+        int _weatherEffects;
+        public int weatherEffects { get { return _weatherEffects; } }
 
 
 
-        public Tick(NodeTickInputData[,] nodeUpdateData, Queue<NodePosition>[] tilesByCreatureQueue)
+        public Tick(NodeTickInputData[,] nodeUpdateData, Queue<NodePosition>[] tilesByCreatureQueue, int weatherEffectValue)
         {
             tickData = calculateSurplusValues(nodeUpdateData, tilesByCreatureQueue);
             pollutionData = calculatePollutionValue(tickData);
+            _weatherEffects = weatherEffectValue;
         }
         
         /**
@@ -73,7 +76,7 @@
                 while (nodePosQueue[i].Count > 0)
                 {
                     workingNode = nodePosQueue[i].Dequeue();
-                    retValue[workingNode.xIndex, workingNode.zIndex] = calculateTileSurplus(getCurrentCreatureAmountsByTile(), tickInputData[workingNode.xIndex, workingNode.zIndex]);
+                    retValue[workingNode.xIndex, workingNode.zIndex] = calculateTileSurplus(getCurrentCreatureAmountsByTile(NodeManager.getNode(workingNode).type), tickInputData[workingNode.xIndex, workingNode.zIndex]);
                 }
             }
             return retValue;
@@ -84,7 +87,7 @@
         *Returns a 3D array of integers capturing the current amount of resources (read: creatures) available for tiles to feed off of this tick
         *</summary>
         */
-        int[,,] getCurrentCreatureAmountsByTile()
+        int[,,] getCurrentCreatureAmountsByTile(CreatureType creatureTypeOnCurrentTile)
         {
             int[,,] retValue = new int[NodeManager.MapWidth, NodeManager.MapLength, DataManager.amountOfCreatures];
 
@@ -97,8 +100,18 @@
                     for (int k = 0; k < DataManager.amountOfCreatures; k++)
                     {
                         workingModel = NodeManager.getNode(i, j);
-                        if(workingModel != null)
-                            retValue[i, j, k] = workingModel.getCreatureAmount(k);
+                        if (workingModel != null)
+                        {
+                            if(k == 0)
+                            {
+                                Debug.Log("Creature Amounts: " + workingModel.getCreatureAmount(k));
+                                Debug.Log("Creature Percent Available: "+ DataManager.creatureLookupTable.creatureData[(int)creatureTypeOnCurrentTile].percentOfResourceAvailable[k]);
+                                Debug.Log("Multiple of Creature Amounts and Percent Available: " + (workingModel.getCreatureAmount(k) * DataManager.creatureLookupTable.creatureData[(int)creatureTypeOnCurrentTile].percentOfResourceAvailable[k]));
+                                Debug.Log("^^ Divided by 10: " + (workingModel.getCreatureAmount(k) * DataManager.creatureLookupTable.creatureData[(int)creatureTypeOnCurrentTile].percentOfResourceAvailable[k]) / 10);
+                            }
+                            retValue[i, j, k] = (workingModel.getCreatureAmount(k) * DataManager.creatureLookupTable.creatureData[(int)creatureTypeOnCurrentTile].percentOfResourceAvailable[k]) / 10;
+                            //Debug.Log("CreatureAmounts for " + i + "," + j + "," + k + " : " + retValue[i, j, k]);
+                        }
                         
                         //Debug.Log(i + "," + j + "\n" + retValue[i, j, k]);
                     }
@@ -115,55 +128,49 @@
         */
         int calculateTileSurplus(int[,,] creatureAmountsByTile, NodeTickInputData currentTileInputData)
         {
-            int retValue = 0;
-            
-            int[] amountNeeded = getAmountOfResourcesNeeded(currentTileInputData);
-            int[] surplus = new int[DataManager.amountOfCreatures];
+
+            //If there are no creatures on the tile, confirm that it has an available resource then return 1
+            if (currentTileInputData.amountOfCreaturesOnTile == 0)
+            {
+
+                int availableResources = 0;
+                int retValue = 0;
+                while(availableResources < 1 && currentTileInputData.neighborStack.Count > 0)
+                {
+
+                    NodePosition nodePos = currentTileInputData.neighborStack.Pop();
+                    for (int i = 0; i < DataManager.amountOfCreatures; i++)
+                    {
+                        if (creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] > 0)
+                            retValue = 1;
+                    }
+                }
+                if (currentTileInputData.type != CreatureType.VEGETATION)
+                    Debug.Log("Retvalue: " + retValue);
+                return retValue;
+            }
 
             int deficit = DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].energyCostPerTick * currentTileInputData.amountOfCreaturesOnTile;
 
-
-            NodePosition nodePos;
-
-            //Loop through the tiles stack of neighbors until fed
-            while (currentTileInputData.neighborStack.Count > 0 || !checkIfFed(amountNeeded))
+            //Creature is fed when deficit <= 0 or has run out of neighbors to feed off of
+            while (currentTileInputData.neighborStack.Count > 0 && deficit > 0)
             {
-                nodePos = currentTileInputData.neighborStack.Pop();
-                
+                NodePosition nodePos = currentTileInputData.neighborStack.Pop();
                 for (int i = 0; i < DataManager.amountOfCreatures; i++)
                 {
-                    if (DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].feedingEnabled[i])
+                    int amountOfResourceOnTile = creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i];
+                    if (deficit >= amountOfResourceOnTile)
                     {
-                        int foodOfTypeOnTile = creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i];
-                        //Debug.Log("Food of type on tile: "+ foodOfTypeOnTile);
-
-                        //If there is enough food on the tile to satisfy the remaining needs, set needs to 0 rather than a negative
-                        if (foodOfTypeOnTile >= amountNeeded[i])
-                        {
-                            creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] -= amountNeeded[i];
-                            surplus[i] += foodOfTypeOnTile - amountNeeded[i];
-                            amountNeeded[i] = 0;
-                            deficit -= foodOfTypeOnTile - amountNeeded[i];
-                        }
-                        else
-                        {
-                            creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] = 0;
-                            amountNeeded[i] -= foodOfTypeOnTile;
-                            deficit -= foodOfTypeOnTile;
-                        }
+                        deficit -= amountOfResourceOnTile;
+                        creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] = 0;
+                    }
+                    else
+                    {
+                        creatureAmountsByTile[nodePos.xIndex, nodePos.zIndex, i] -= deficit;
+                        deficit -= amountOfResourceOnTile;
                     }
                 }
             }
-
-            //Tally the total surplus/Deficit numbers
-            for (int i = 0; i < DataManager.amountOfCreatures; i++)
-            {
-                retValue += surplus[i];
-                retValue += amountNeeded[i];
-                //Debug.Log("Surplus: " + surplus[i]);
-                //Debug.Log("Deficit: " + amountNeeded[i]);
-            }
-            //Debug.Log(retValue);
             return -deficit;
         }
 
@@ -175,7 +182,7 @@
         int[] getAmountOfResourcesNeeded(NodeTickInputData currentTileInputData)
         {
             int[] retValue = new int[DataManager.amountOfCreatures];
-            DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].amountsOfEachToFeed.CopyTo(retValue, 0);
+            DataManager.creatureLookupTable.creatureData[(int)currentTileInputData.type].percentOfResourceAvailable.CopyTo(retValue, 0);
 
             for (int i = 0; i < DataManager.amountOfCreatures; i++)
             {

@@ -11,6 +11,6 @@ namespace EcoTile
         public int energyCostPerTick;
         public int energyCostPerSpawn;
         public bool[] feedingEnabled;
-        public int[] amountsOfEachToFeed;
+        public int[] percentOfResourceAvailable;
     }
 }

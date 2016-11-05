@@ -175,6 +175,8 @@
         public void incrementCreatureAmount(int index, int increment)
         {
             _creatureAmounts[index] += increment;
+            //Constrain creatureAmounts to positive numbers
+            _creatureAmounts[index] = _creatureAmounts[index] < 0 ? 0 : _creatureAmounts[index];
             NodeModelCreatureAmountsUpdateEvent(index, _creatureAmounts.Clone() as int[]);
             CreaturePopulationIncrementEvent(type, increment);
         }
@@ -277,11 +279,11 @@
                 workingModel = frontier.Pop();
                 workingArray = workingModel.creatureAmounts;
                 workingModel.visitedThisTickUpdatePass = false;
-                for(int i = 0; i < workingArray.Length; i++)
+                retStack.Push(workingModel.nodePos);
+                for (int i = 0; i < workingArray.Length; i++)
                 {
                     retValue[i] += workingArray[i];
                     retArray[workingModel.nodePos.xIndex, workingModel.nodePos.zIndex, i] = workingArray[i];
-                    retStack.Push(workingModel.nodePos);
                 }
             }
             CreatureData feedingValues = table.creatureData[creatureType];
@@ -399,10 +401,17 @@
         {
             if (creatureType == 0)
             {
+                if (tickData.weatherEffects > 0)
+                    incrementCreatureAmount(0, 1);
+                if (tickData.weatherEffects < 0)
+                    incrementCreatureAmount(0, -1);
             }
             else
             {
                 int creatureUpdateAmount = tickData.getNodeData(nodePos);
+
+                Debug.Log(creatureUpdateAmount);
+                
                 ///If update data returned a negative number for this tile, there was a deficit so creature amount shrinks
                 if (creatureUpdateAmount <= 0)
                 {

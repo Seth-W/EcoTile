@@ -42,9 +42,9 @@ public class GroupedSlider : MonoBehaviour {
     {
         slider.wholeNumbers = true;
         slider.minValue = 0;
-        slider.maxValue = maxValue;
+        slider.maxValue = 10;
         _buttonType = buttonType;
         _sliderType = sliderType;
-        slider.value = DataManager.creatureLookupTable.creatureData[(int)_buttonType].amountsOfEachToFeed[(int)_sliderType];
+        slider.value = DataManager.creatureLookupTable.creatureData[(int)_buttonType].percentOfResourceAvailable[(int)_sliderType];
     }
 }

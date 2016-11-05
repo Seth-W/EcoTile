@@ -13,6 +13,9 @@
         [SerializeField]
         bool tickAutomatically;
 
+        [SerializeField, Range(0,1)]
+        float chanceRain, chanceDrought;
+
         float timeSinceLastTick;
 
         int[,,] creatureAmountsByTile_ForFeeding;
@@ -77,7 +80,7 @@
                     }
                 }
             }
-            return new Tick(tickData, tilesByCreatureTypeQueue);
+            return new Tick(tickData, tilesByCreatureTypeQueue, getWeatherEffect());
         }
         
         int[,,] getCurrentCreatureAmountsByTile()
@@ -111,6 +114,18 @@
             }
 
             return new int[NodeManager.MapWidth, NodeManager.MapLength];
+        }
+
+        int getWeatherEffect()
+        {
+            float randomRoll = Random.value;
+
+            if (randomRoll < chanceRain)
+                return 1;
+            else if (randomRoll > 1 - chanceDrought)
+                return -1;
+            else
+                return 0;
         }
     }
 }
