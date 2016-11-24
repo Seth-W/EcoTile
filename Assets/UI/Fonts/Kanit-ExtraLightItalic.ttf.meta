@@ -10,7 +10,24 @@ TrueTypeFontImporter:
   characterPadding: 0
   includeFontData: 1
   fontNames: []
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2f8996324d4950849bbfac0340924ea0, type: 3}
+  - {fileID: 12800000, guid: f65e1e52f90b9b648840b7ee4596efaa, type: 3}
+  - {fileID: 12800000, guid: b051f8a2a4da32c4ea3a585263f8c8ac, type: 3}
+  - {fileID: 12800000, guid: 044f1eb3021c7864293d98b3ba88b7ba, type: 3}
+  - {fileID: 12800000, guid: 972633d4b305b054dafd6a32d2cae160, type: 3}
+  - {fileID: 12800000, guid: 5976beb6b17459d40aa8d544915b9dbb, type: 3}
+  - {fileID: 12800000, guid: b09494f736a2cf04f887865bdba29097, type: 3}
+  - {fileID: 12800000, guid: 75910528adb1c964aa7b774baf6ddd62, type: 3}
+  - {fileID: 12800000, guid: 0fe0fb385e4d99445811748258732d8b, type: 3}
+  - {fileID: 12800000, guid: f9adc1b816149f844b139224845884cc, type: 3}
+  - {fileID: 12800000, guid: c6a689c93def5d441aba3bc61f148273, type: 3}
+  - {fileID: 12800000, guid: cb0e282aac36c9e4f871de44da7a8c5e, type: 3}
+  - {fileID: 12800000, guid: a5692b2b58844d443ab927dad1b074d7, type: 3}
+  - {fileID: 12800000, guid: 9093f57c1e8654e41af5a7df149e2e9f, type: 3}
+  - {fileID: 12800000, guid: a44f17ad81796694483b758519df1e24, type: 3}
+  - {fileID: 12800000, guid: 0497332faf5c68048a0ab95acddcb1f2, type: 3}
+  - {fileID: 12800000, guid: 9af995afa7c5d2d4dadefa102602d1d3, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
