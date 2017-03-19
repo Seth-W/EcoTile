@@ -439,6 +439,12 @@
                 incrementCreatureAmount(DataManager.amountOfCreatures - 1, -1);
             }
         }
+        
+        #region xmlStorageClass
+        class nodeXML
+        {
 
+        }
+        #endregion
     }
 }
